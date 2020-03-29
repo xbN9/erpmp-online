@@ -1,0 +1,163 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="page-header">
+			<h1>
+				{{nav_name}}
+				<small>
+					<i class="ace-icon fa fa-angle-double-right"></i>
+					{{nav_sub_name}}
+				</small>
+			</h1>
+		</div>
+		<div class="row">
+			<form role="form" class="form-horizontal" id="form" method="post">
+				<div class="col-xs-12 col-md-8" style="margin-left: -12px;margin-bottom:15px;">
+					<label for="form-field-1" class="col-sm-1 control-label">标题</label>
+					<div class="col-sm-11">
+					<input type="text" id="form-field-1-1" class="form-control" name="title">
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-8" style="margin-left: -12px;margin-bottom:15px;">
+					<label for="form-field-1-2" class="col-sm-1 control-label">内容</label>
+					<div class="col-sm-7">
+						<script id="editor" type="text/plain" style="height:450px"></script>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-4" style="margin-left:12px;margin-bottom:15px;">
+					<div class="widget-box">
+						<div class="widget-header">
+							<h4 class="widget-title">分类</h4>
+						</div>
+						<div class="widget-body">
+							<div class="widget-main">
+								<select class="form-control" id="form-field-select-2" multiple="multiple" name="term_id">
+									{% for c_id in c_list %}  
+							            <option value="{{ c_id.term_id }}">{{ c_id.name }}</option> 
+									{% endfor %} 
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-4" style="margin-left:12px;margin-bottom:15px;">
+					<div class="widget-box">
+						<div class="widget-header">
+							<h4 class="widget-title">标签</h4>
+						</div>
+						<div class="widget-body">
+							<div class="widget-main">
+								<ul style="list-style:none;width:250px;">
+									<li style="float:left;width:180px;margin-right:10px">
+										<input type="text" style="width:180px;height:26px" id="form-field-3" name="slug">
+									</li>
+									<li tyle="float:left;width:40px">
+										<button type="button" class="btn btn-default btn-xs">
+											添加
+										</button>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-4" style="margin-left:12px;margin-bottom:15px;">
+					<div class="widget-box">
+						<div class="widget-header">
+							<h4 class="widget-title">发布</h4>
+						</div>
+						<div class="widget-body">
+							<div class="widget-main">
+								<div style="width:250px;height:30px;">
+									<div style="float:left;">
+										<button type="button" class="btn btn-default btn-xs" id="saved-post">
+											保存草稿
+										</button>	
+									</div>
+									<div style="float:right;"> 
+										<a href="">预览</a>
+									</div>
+								</div>
+								<hr style="margin-top: 10px;margin-bottom: 10px;border: 0;border-top: 1px solid #eee;">
+								<div style="width:250px;height:20px;">
+									<div style="float:left;">状态：</div>
+									<div style="float:left;margin-left:15px;">
+										<span>草稿</span>&nbsp;
+										<span><a href="">编辑</a></span>
+									</div>
+								</div>
+								<hr style="margin-top: 10px;margin-bottom: 5px;border: 0;border-top: 1px solid #eee;">
+								<div style="width:250px;height:20px;">
+									<div style="float:left;">公开度：</div>
+									<div style="float:left;margin-left:15px;">
+										<span>公开</span>&nbsp;
+										<span><a href="">编辑</a></span>
+									</div>
+								</div>
+								<hr style="margin-top: 10px;margin-bottom: 10px;border: 0;border-top: 1px solid #eee;">
+								<div style="width:250px;height:20px;">
+									<div style="float:left;">SEO：</div>
+									<div style="float:left;margin-left:15px;">
+										<span>优</span>&nbsp;
+										<a href="">检查</a>
+									</div>
+								</div>
+								<hr style="margin-top: 10px;margin-bottom: 10px;border: 0;border-top: 1px solid #eee;">
+								<div style="width:250px;height:30px;">
+									<div style="float:left;">
+										<a>移至回收站</a>
+									</div>
+									<div style="float:right;width:80px;">
+										<button type="button" class="btn btn-info btn-sm" id="submit">
+											发布
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/zh-cn.js"></script>
+<script type="text/javascript">
+	var ue = UE.getEditor('editor');
+	$("#submit").click(function(){
+		alert($("#form").serialize());
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,92 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	Administry.setup();
+	Administry.expandableRows();
+});
+function del(id){
+	if(confirm("是否确定删除？")){
+		$.ajax({
+			url:'/admin_user/del',
+			type:'POST',
+			data:{id:id},
+			success:function(msg)
+			{
+				msg = msg.split(':');
+				if(msg['0']=='100'){
+					alert(msg['1']);
+					window.location.reload(); 
+				}else{
+					alert(msg['1']);
+				}
+
+			}
+
+		})
+	}
+}
+function edit(id)
+{
+	if(confirm("是否确定编辑？"))
+	{
+		location.href="/admin_user/edit/id/"+id;
+	}
+}
+</script>
+	<!-- Page content -->
+	<div id="page">
+		
+		<!-- Wrapper -->
+		<div class="wrapper" >
+				<h3>管理员列表</h3>
+				<span class="subtitle">列表所有管理员</span>
+				<hr>
+				<div id="tabs" class="ui-tabs">
+					<ul class="ui-tabs-nav">
+						<li class='ui-tabs-selected'><a class="corner-tl" href="/admin_user/index">管理员列表</a></li>
+						<li><a class="corner-tr" href="/admin_user/adduser">添加管理员</a></li>
+					</ul>
+					<div id="tabs-1" class="ui-tabs-panel">
+						<div class="box" align="right" style="width:98.5%;">
+							<form action="" method="POST">
+								关键字：<input name="keyword" type="text" id="keyword" size="25" maxlength="30" class="text" value="">
+								<input name="search" type="submit" class="btn btn-green" id="search" value=" 搜索 " />
+							</form>
+						</div>                                            
+						<table id="report" class="stylized full" style="">
+							<thead>
+								<tr>
+									<th>用户名</th>
+									<th>姓名信息</th>
+									<th>前台显示昵称</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+								foreach($this->users_info as $value)
+								{
+									$status = ($value['is_del']==0)?"正常":"删除";
+								echo "<tr>".
+									"<td class='title'>".
+											"<b>".$value['username']."</b>".
+									"</td>".
+									"<td>".$value['realname']."</td>".
+									"<td>".$value['nickname']."</td>".
+									"<td>".$status."</td>".
+									"<td>".
+											"<a href='javascript:;' onclick='edit(".$value['id'].")'>编辑</a>&nbsp;<a href='javascript:;' onclick='del(".$value['id'].")' >删除</a>".
+									"</td>".
+								"</tr>";								
+							     }
+								 ?>
+							</tbody>
+						</table>
+					</div>
+					<div class="clear">&nbsp;</div>
+				</div>
+		</div>
+		<!-- End of Wrapper -->
+		
+	</div>
+<!-- End of Page content -->

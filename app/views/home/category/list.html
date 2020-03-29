@@ -1,0 +1,73 @@
+{% extends 'index/layout/layout.html' %}
+{% block content %}
+{% for k,d in data.contents %}
+<article>
+	<header class="page-header">
+		<h2 class="entry-title">
+			<a href="{{d.url}}">{{d.title}}</a>
+		</h2>
+		<div class="entry-meta">
+			<span>
+				<i class="fa fa-calendar"></i> 
+				<a href="{{d.url}}">
+					<time datetime="{{d.publish}}">{{d.publish}}</time>
+				</a>
+			</span>
+		</div>
+	</header>
+	<div class="media">
+		<div class="col-sm-4">
+			<a href="" class="thumbnail">
+				<img class="media-object" src="http://img3.imgtn.bdimg.com/it/u=1680906807,3771008147&fm=21&gp=0.jpg" alt="">
+			</a>
+		</div>
+		<div class="media-body">
+			<p>{{d.description}}[…]</p>
+			<p>
+			<a href="/p/{{d.id}}" class="btn btn-info read-more">
+				Continue reading 
+				<i class="fa fa-hand-o-right"></i>
+			</a>
+			</p>
+		</div>
+	</div>
+	<hr>
+{% endfor %}
+<ul class="pagination">
+	{%if data.current_page ==1 %}
+	<li class="disabled">
+		<a href="#">«</a>
+		{%else%}
+		<li>
+			<a href="/c/{{data.id}}/page/{{data.current_page -1}}">«</a>
+			{%endif%}
+	</li>
+	{% for p in data.pages_start..data.pages_stop %}
+		{% if p==data.current_page %}
+		<li class="active">
+			<a href="/c/{{data.id}}/page/{{p}}">{{p}}
+				<span class="sr-only">(current)</span>
+		{% elseif p<1 %}
+		<li class="disabled">
+			<a href="#">{{p}}</a>
+		{% elseif p==data.max_pages %}
+		<li class="disabled">
+		<a href="#">{{p}}</a>
+		{% else %}
+		<li>
+			<a href="/c/{{data.id}}/page/{{p}}">{{p}}
+		{% endif %}
+			</a>
+		</li>
+	{% endfor %}
+	{%if data.current_page==data.max_pages %}
+	<li class="disabled">
+		<a href="#">»</a>
+		{%else%}
+		<li>
+		<a href="/c/{{data.id}}/page/{{data.current_page+1}}">»</a>
+			{%endif%}
+		</li>
+</ul>
+</article>
+{% endblock %}

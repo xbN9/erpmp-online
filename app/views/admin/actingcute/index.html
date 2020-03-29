@@ -1,0 +1,152 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+				<div class="col-xs-12">
+					<form id="form1" action="/admin_actingcute" method="post" class="form-inline"
+					      enctype="multipart/form-data">
+						<div class="form-group">
+							<label for="starts">时间：</label>
+							<input type="text" name="start" id="starts" value="{% if start %}{{start}}{% endif %}"
+							       class="form-control laydate-icon">
+						</div>
+						<div class="form-group"> - </div>
+						<div class="form-group">
+						<input type="text" name="stop" id="end" value="{% if stop %}{{stop}}{% endif %}"
+						        class="form-control laydate-icon">
+						</div>
+						<input type="hidden" name="output" id="output">
+						<button onclick="outputf(3)" class="btn btn-xs btn-success">查询</button>
+					</form>
+				</div>
+				<div class="col-xs-12">
+					<div class="col-xs-12" style="margin-top: 15px;">
+						<h3 class="header smaller lighter green">
+							<i class="ace-icon fa fa-bullhorn"></i>
+							{{ tb_title }}
+						</h3>
+						<div class="tabbable">
+							<div class="tab-content">
+								<div id="total" class="tab-pane fade active in" style="width: 100%;">
+									<div class="input-group center" style="float:right;width:20px;height:20px;background-color:white;border-top:white;margin-bottom:5px;">
+										<button onclick="outputf(2)" class="btn btn-xs btn-success">导出</button>
+									</div>
+									<div class="row">
+										<table id="table1" class="table table-striped table-bordered table-hover">
+											<tr>
+												{% for title in tab_title %}
+												<th class="tooltip-info" title="{{ title }}">{{ title }}</th>
+												{% endfor %}
+											</tr>
+											<tr>
+												<td>总计</td>
+												<td>{{ total.主页UV }}</td>
+												<td>{{ total.发布次数 }}</td>
+												<td>{{ total.发布用户数 }}</td>
+												<td>{{ total.friends }}</td>
+												<td>{{ total.weixin }}</td>
+												<td>{{ total.微信支付 }}</td>
+												<td>{{ total.app内支付 }}</td>
+												<td>{{ total.支付金额 }}</td>
+											</tr>
+											{% for cont in tab_data %}
+											<tr>
+												<td>{{ cont.发布时间 }}</td>
+												<td>
+												{% if cont.uv %}
+													{{ cont.uv }}
+												{% else %}
+													0
+												{% endif %}
+												</td>
+												<td>{{ cont.发布次数 }}</td>
+												<td>{{ cont.发布用户数 }}</td>
+												<td>{{ cont.friends }}</td>
+												<td>{{ cont.weixin }}</td>
+												<td>
+												{% if cont.微信支付 %}		
+												{{ cont.微信支付 }}
+												{% else %}
+													0
+												{% endif %}
+												</td>
+												<td>{{ cont.app内支付 }}</td>
+												<td>{{ cont.支付金额 }}</td>
+											</tr>
+											{% endfor %}
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script src="/laydate/laydate.js"></script>
+
+<script type="text/javascript">
+	var start = {
+		elem: '#starts',
+		format: 'YYYY-MM-DD hh:mm:ss',
+		istime: true,
+		istoday: false
+	};
+
+	var end = {
+		elem: '#end',
+		format: 'YYYY-MM-DD 23:59:59',
+		istime: true,
+		istoday: false
+	};
+
+	laydate(start);
+	laydate(end);
+
+	//导出
+	function outputf(data){
+		//汇总导出
+		if(data==2){
+			document.getElementById('output').value = 1;
+			$("#form1").submit();
+		}else if(data==3){
+			document.getElementById('output').value = 0;
+			$("#form1").submit();
+		}
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+<ul class="nav nav-list">
+    {% for m in  menu_list %}
+    <li class="hsub {% if current_uri == m.uri %} active open {% endif %}">
+        <a  class="{% if m.is_sub == 1 %} dropdown-toggle {% endif %}" href="{{m.uri}}">
+            <i class="{{m.icon}}"></i>
+            <span class="menu-text">{{ m.name }}</span>
+            {% if m.is_sub == 1 %}
+            <b class="arrow fa fa-angle-down"></b>
+            {% endif %}
+        </a>
+        <b class="arrow"></b>
+        {% if m is  iterable %}
+        <ul class="submenu">
+            {% for sub in m.sub %}
+            <li class="{% if menu_uri == sub.uri %} active {% endif %}">
+                <a href="{{sub.uri}}">
+                    <i class="{{sub.icon}}"></i>
+                    {{sub.name}}
+		        </a>
+		        <b class="arrow"></b>
+	        </li>
+            {% endfor %}
+        </ul>
+        {% endif%}
+    </li>
+    {% endfor %}
+</ul>

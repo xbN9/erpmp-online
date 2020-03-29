@@ -1,0 +1,13 @@
+{% extends 'index/layout/layout.html' %}
+{% block content %}
+<div class="row" id="center_content">
+    <div id="contents">
+	<ul class="list-unstyled">
+	{% for k,v in data %}	
+		<li class="">
+			<a href="{{v.url}}" target="_blank">{{v.name}}</a>	
+		</li>
+	{% endfor %}	
+	</ul></div>
+</div>
+{% endblock %}

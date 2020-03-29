@@ -1,0 +1,130 @@
+{% extends 'index/layout/layout.html' %}
+{% block content %}
+<div class="row" id="center_content">
+    <div id="contents">
+        <div class="lists"></div> 
+    </div>
+</div>
+    <script src="/js/jquery/jquery-2.1.1.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/dropload/dropload.min.js"></script>
+    <script>
+$(function () {
+    // 页数
+    var page = 0;
+    // 每页展示10个
+    var size = {{data.page_size}};
+    // dropload
+    $('#contents').dropload({
+        scrollArea : window,
+        domUp : {
+            domClass   : 'dropload-up',
+            domRefresh : '<div class="dropload-refresh">↓下拉刷新</div>',
+            domUpdate  : '<div class="dropload-update">↑释放更新</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>'
+        },
+        domDown : {
+            domClass   : 'dropload-down',
+            domRefresh : '<div class="dropload-refresh"></div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+            domNoData  : '<div class="dropload-noData">暂无数据-自定义内容</div>'
+        },
+        loadUpFn : function(me){
+            $.ajax({
+                type: 'GET',
+                url:'{{data.sAjaxSource}}/page/'+page+'/size/'+size,
+                dataType: 'json',
+                success: function(d){
+                    var full_contents = '';
+                    var data = d.data; 
+                    if(d.code!=0){
+                        full_contents = renderStr(data);
+                    }	
+                    // 延迟1秒加载
+                    setTimeout(function(){
+                        $(".lists").html(full_contents);
+                        // 每次数据加载完，必须重置
+                        me.resetload();
+                        // 重置页数，重新获取loadDownFn的数据
+                        page = 0;
+                        // 解锁loadDownFn里锁定的情况
+                        me.unlock();
+                        me.noData(false);
+                    },500);
+                },
+                error: function(xhr, type){
+                    // 即使加载出错，也得重置
+                    me.resetload();
+                }
+            });
+        },
+        loadDownFn : function(me){
+            page++;
+            var full_contents = '';
+            $.ajax({
+                type: 'GET',
+                url:'{{data.sAjaxSource}}/page/'+page+'/size/'+size,
+                dataType: 'json',
+                success: function(d){
+                    var data = d.data;
+                    if(d.code!=0){
+                        full_contents = renderStr(data);
+                        }else{
+                        // 锁定
+                        me.lock();
+                        // 无数据
+                        me.noData();
+                    }
+                    //延迟1秒加载
+                    setTimeout(function(){
+                        // 插入数据到页面，放到最后面
+                        $(".lists").append(full_contents);
+                        // 每次数据插入，必须重置
+                        me.resetload();
+                    },500);
+                },
+                error: function(xhr, type){
+                    // 即使加载出错，也得重置
+                    me.resetload();
+                }
+            });
+        },
+        threshold : 50
+    });
+});
+function renderStr(data){
+    var full_contents = '';
+                        if(data.list.length!=0){
+                            for(k in data.list){
+                                var content='';
+                                content='<div class="list-group">'+
+                                    '<a href="'+data.list[k].url+'" class="list-group-item list-group-item-info">'+
+                                    '<span class="badge">'+data.list[k].time+'</span>'+
+                                    '<span class="badge">'+data.list[k].views+'</span>'+
+                                    '<h4 class="list-group-item-heading">'+data.list[k].title+'</h4></a>'+
+                                    '<div class="list-group-item"><a href="'+data.list[k].url+'" targe="_blank">'+data.list[k].introduce+'</a></div><div class="list-group-item"><div class="row">';
+                                var img=data.list[k].image.split(",");
+                                var img_str='';
+                                if(data.list[k].image!=''){
+                                if(img.length>1){
+                                    for( img_k in img){
+                                        img_str+='<div class="col-xs-6 col-md-4">'+
+                                            '<a href="'+data.list[k].url+'" class="thumbnail">'+
+                                            '<img src="'+img[img_k]+'"></a></div>';
+                                    }
+                                }else if(img.length==1){
+                                    img_str='<div class="col-xs-6 col-md-4">'+
+                                        '<a href="'+data.list[k].url+'" class="thumbnail">'+
+                                        '<img src="'+data.list[k].image+'"></a></div>';
+                                }
+                                }else{
+                                    img_str='';
+                                }
+                                content = content+img_str+'</div></div></div>';
+                                full_contents +=content;
+                            }	
+                    }
+    return full_contents;
+}
+    </script>
+{% endblock %}

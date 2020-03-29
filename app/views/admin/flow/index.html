@@ -1,0 +1,454 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+			<div class="col-sm-12">
+				<!--<form class="form-horizontal" id="form1">-->
+					<div class="row">
+						<div class="col-xs-9" style="">
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="url">
+									<div style="width:15px;float:right;font-weight: 800;margin-right: 5px;">url：</div>
+								</label>
+								<div class="col-sm-9">
+									<input type="text" id="url" name="url" value="" class="form-control" placeholder="">
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-3" style="height: 30px;margin-bottom: 15px;">
+							<div class="input-group input-group-sm">
+								<input type="button" value="查询" onclick="putout(1)" class="btn btn-info btn-success">
+							</div>
+						</div>
+					</div>
+					<input type="hidden" name="start" id="start">
+					<input type="hidden" name="stop" id="stop">
+					<input type="hidden" name="yester" id="yester">
+					<input type="hidden" name="output" id="output">
+					<!--<div class="row">-->
+						<!--<div class="col-xs-6" style="width: 600px;height: 30px;margin-bottom: 15px;">-->
+							<!--<div class="input-group input-group-sm" style="float:left;width: 150px;height: 30px;">-->
+								<!--<input type="text" id="start" name="start" value="{% if start %}{{start}}{% endif %}" class="form-control hasDatepicker datepicker" placeholder="{{ start }}">-->
+							<!--</div>-->
+							<!--<div class="input-group input-group-sm" style="float:left;width: 150px;height: 30px;margin-left: 20px;">-->
+								<!--<input type="text" id="stop" name="stop" value="{% if stop %}{{stop}}{% endif %}" class="form-control hasDatepicker datepicker" placeholder="{{ stop }}">-->
+							<!--</div>-->
+							<!--<div class="input-group input-group-sm" style="float:left;width: 50px;height: 30px;margin-left: 20px;">-->
+								<!--<input type="submit" value="查询" class="btn btn-info btn-success">-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</form>-->
+			</div>
+			<div class="col-xs-12">
+				<div class="col-xs-8" style="margin-left: 15%;margin-top: 15px;">
+					<h3 class="header smaller lighter green">
+						<i class="ace-icon fa fa-bullhorn"></i>
+						实时数据
+					</h3>
+					<div class="tabbable">
+						<ul class="nav nav-tabs" id="myTab">
+							<li class="active">
+								<a data-toggle="tab" href="#pv">
+									PV
+								</a>
+							</li>
+							<li class="">
+								<a data-toggle="tab" href="#uv">
+									UV
+								</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+							<div id="pv" class="tab-pane fade active in"></div>
+							<div id="uv" class="tab-pane fade"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+				<!--<div class="col-xs-12">-->
+					<!--<div class="col-xs-8" style="margin-left: 15%;margin-top: 5px;">-->
+						<!--<h3 class="header smaller lighter green">-->
+							<!--<i class="ace-icon fa fa-bullhorn"></i>-->
+							<!--历史信息-->
+						<!--</h3>-->
+						<!--<div class="tabbable">-->
+
+							<!--<ul class="nav nav-tabs" id="myTab1">-->
+								<!--<li class="active">-->
+									<!--<a data-toggle="tab" href="#norm">-->
+										<!--<div class="row">-->
+											<!--<div class="col-xs-6" style="width: 700px;">-->
+												<!--<div class="input-group input-group-sm" style="float:left;width: 150px;">-->
+													<!--<input type="button" id="yesterday" name="yesto" value="昨天" onclick="yesterday(1)">-->
+												<!--</div>-->
+												<!--<div class="input-group input-group-sm" style="float:left;width: 150px;">-->
+													<!--<input type="text" id="starts" value="{% if start %}{{start}}{% endif %}" class="form-control hasDatepicker datepicker" placeholder="{{ start }}">-->
+												<!--</div>-->
+												<!--<div class="input-group input-group-sm" style="float:left;width: 150px;margin-left: 20px;">-->
+													<!--<input type="text" id="stops" value="{% if stop %}{{stop}}{% endif %}" class="form-control hasDatepicker datepicker" placeholder="{{ stop }}">-->
+												<!--</div>-->
+												<!--<div class="input-group input-group-sm" style="float:left;width: 50px;margin-left: 20px;">-->
+													<!--<input type="button" value="查询" onclick="putout(3)" class="btn btn-info btn-success">-->
+												<!--</div>-->
+												<!--<div class="input-group input-group-sm" style="float:left;width: 50px;margin-left: 20px;">-->
+													<!--<input type="button" value="导出" onclick="putout(2)" class="btn btn-info btn-success">-->
+												<!--</div>-->
+											<!--</div>-->
+										<!--</div>-->
+									<!--</a>-->
+								<!--</li>-->
+							<!--</ul>-->
+							<!--<div class="tab-content">-->
+								<!--<div id="norm" class="tab-pane fade active in">-->
+									<!--<div class="row">-->
+										<!--&lt;!&ndash;<table id="table1" class="table table-striped table-bordered table-hover">&ndash;&gt;-->
+										<!--<table id="sample-table-1" class="table table-striped table-bordered table-hover">-->
+											<!--<thead>-->
+											<!--<tr>-->
+												<!--<th>渠道</th>-->
+												<!--<th>UV</th>-->
+												<!--<th>PV</th>-->
+												<!--<th class="hidden-480">提袋率</th>-->
+												<!--<th class="hidden-480">PV转化率</th>-->
+											<!--</tr>-->
+											<!--</thead>-->
+											<!--<tbody id="contents">-->
+											<!--&lt;!&ndash;<tr id="total">&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td id="total">总览</td>&ndash;&gt;&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td>{{total['uv']}}</td>&ndash;&gt;&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td>{{total['pv']}}</td>&ndash;&gt;&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td>{{total['uv_rate']}}%</td>&ndash;&gt;&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td>{{total['pv_rate']}}%</td>&ndash;&gt;&ndash;&gt;-->
+											<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+											<!--&lt;!&ndash;<tr id="pc">&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td>PC</td>&ndash;&gt;&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td>{{www['uv']}}</td>&ndash;&gt;&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td>{{www['pv']}}</td>&ndash;&gt;&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td>{{www['uv_rate']}}%</td>&ndash;&gt;&ndash;&gt;-->
+												<!--&lt;!&ndash;&lt;!&ndash;<td>{{www['pv_rate']}}%</td>&ndash;&gt;&ndash;&gt;-->
+											<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+											<!--&lt;!&ndash;<tr id="android">&ndash;&gt;-->
+											<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+											<!--&lt;!&ndash;<tr id="ios">&ndash;&gt;-->
+											<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+											<!--&lt;!&ndash;<tr id="wap">&ndash;&gt;-->
+											<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+											<!--&lt;!&ndash;{% for id in other %}&ndash;&gt;-->
+											<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+												<!--&lt;!&ndash;{% if id['channel'] == 'm' %}&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>WAP</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['uv']}}</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['pv']}}</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['uv_rate']}}%</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['pv_rate']}}%</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;{% elseif id['channel'] == 'ios' %}&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>IOS</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['uv']}}</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['pv']}}</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['uv_rate']}}%</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['pv_rate']}}%</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;{% elseif id['channel'] == 'android' %}&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>Android</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['uv']}}</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['pv']}}</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['uv_rate']}}%</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;<td>{{id['pv_rate']}}%</td>&ndash;&gt;-->
+												<!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
+											<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+											<!--&lt;!&ndash;{% endfor %}&ndash;&gt;-->
+											<!--</tbody>-->
+										<!--</table>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</div>-->
+			</div>
+		</div>
+	</div>
+</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+<!--<script src="/assets/js/jquery-ui.min.js"></script>-->
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script src="/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="/js/highcharts/highcharts.js"></script>
+<script src="/js/highcharts/modules/exporting.js"></script>
+
+<script type="text/javascript">
+var pv,uv;
+jQuery(function($) {
+	$("#starts").datepicker({
+		showOtherMonths: true,
+		selectOtherMonths: false,
+		format: "yyyy-mm-dd"
+	});
+
+	$("#stops").datepicker({
+		showOtherMonths: true,
+		selectOtherMonths: false,
+		format: "yyyy-mm-dd"
+	});
+
+	Highcharts.setOptions({
+		lang: {
+			downloadJPEG: "下载JPEG 图片" ,
+			downloadPNG: "下载PNG 图片"  ,
+			exportButtonTitle: "导出图片"
+		},
+		credits: {
+			enabled:false
+		}
+	});
+
+	pv = new Highcharts.Chart({
+		chart: {
+			renderTo: 'pv',
+			type: 'line',
+			//width:745
+			width:$('#pv').width()
+		},
+		title: {
+			text: 'pv'
+		},
+		xAxis: {
+			categories:[],
+			title: {
+				text:'时间'
+			}
+		},
+		yAxis:{
+			title:{
+				text:'PV'
+			},
+			min: 0,
+			plotLines: [{
+				value: 0,
+				width: 1,
+				color: '#808080'
+			}]
+		},
+		tooltip: {
+			valueSuffix: '个'
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'middle',
+			borderWidth: 0
+		},
+		series: [{
+			name:'pv',
+			data:[]
+		}]
+	});
+
+	uv = new Highcharts.Chart({
+		chart: {
+			renderTo: 'uv',
+			type: 'line',
+			//width:745
+			width:$('#pv').width()
+		},
+		title: {
+			text: 'uv'
+		},
+		xAxis: {
+			categories:[],
+			title: {
+				text:'时间'
+			}
+		},
+		yAxis:{
+			title:{
+				text:'UV'
+			},
+			min: 0,
+			plotLines: [{
+				value: 0,
+				width: 1,
+				color: '#808080'
+			}]
+		},
+		tooltip: {
+			valueSuffix: '个'
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'middle',
+			borderWidth: 0
+		},
+		series: [{
+			name:'uv',
+			data:[]
+		}]
+	});
+
+	$.getJSON(
+		'/admin_flow/OneData',
+		function(d){
+
+			var total = '<tr><td>总览</td><td>'+d.total.uv+'</td><td>'+d.total.pv+'</td><td>'+d.total.uv_rate+'</td><td>'+d.total.pv_rate+'</td></tr>';
+
+			var pc = '<tr><td>PC</td><td>'+d.www.uv+'</td><td>'+d.www.pv+'</td><td>'+d.www.uv_rate+'</td><td>'+d.www.pv_rate+'</td></tr>';
+
+			var android = '<tr><td>Android</td><td>'+d.other[0].uv+'</td><td>'+d.other[0].pv+'</td><td>'+d.other[0].uv_rate+'</td><td>'+d.other[0].pv_rate+'</td></tr>';
+
+			var ios = '<tr><td>ios</td><td>'+d.other[1].uv+'</td><td>'+d.other[1].pv+'</td><td>'+d.other[1].uv_rate+'</td><td>'+d.other[1].pv_rate+'</td></tr>';
+
+			var m = '<tr><td>Wap</td><td>'+d.other[2].uv+'</td><td>'+d.other[2].pv+'</td><td>'+d.other[2].uv_rate+'</td><td>'+d.other[2].pv_rate+'</td></tr>';
+
+			$("#contents").html(total+pc+m+android+ios);
+			$("#starts").val(d.start);
+			$("#stops").val(d.stop);
+		}
+	);
+
+
+});
+
+$.post(
+		'/admin_flow/OneUrl',
+		{url:$("#url").val()},
+		function(datas){
+			var data = $.parseJSON(datas);
+			pv.xAxis[0].categories=data.timeLine;
+			pv.series[0].setData(data.pv_img);
+			uv.xAxis[0].categories=data.timeLine;
+			uv.series[0].setData(data.uv_img);
+			console.log(data.url);
+			$("#url").val(data.url);
+		}
+);
+
+window.onload=function(){
+	setInterval("LoadData()", 300000);
+}
+
+var LoadData = function () {
+	$.post(
+			'/admin_flow/OneUrl',
+			{url:$("#url").val()},
+			function(datas){
+				var data = $.parseJSON(datas);
+				pv.xAxis[0].categories=data.timeLine;
+				pv.series[0].setData(data.pv_img);
+				uv.xAxis[0].categories=data.timeLine;
+				uv.series[0].setData(data.uv_img);
+				$("#url").val(data.url);
+			}
+	);
+}
+function yesterday(id){
+	$('#yester').val(id);
+}
+
+function putout(type){
+	$('#start').val($('#starts').val());
+	$('#stop').val($('#stops').val());
+	if(type==2){
+		var start  = $("#starts").val();
+		var stop = $("#stops").val();
+
+		var form = $("<form>");
+		form.attr('style', 'display:none');
+		form.attr('target', '');
+		form.attr('method', 'post');
+		form.attr('action', "/admin_flow/OneData");
+
+		var input1 = $('<input>');
+		input1.attr('type', 'hidden');
+		input1.attr('name', 'start');
+		input1.attr('value',start);
+
+		var input2 = $('<input>');
+		input2.attr('type', 'hidden');
+		input2.attr('name', 'stop');
+		input2.attr('value', stop);
+
+		var input3 = $('<input>');
+		input3.attr('type', 'hidden');
+		input3.attr('name', 'yester');
+		input3.attr('value', $("#yester").val());
+
+		var input4 = $('<input>');
+		input4.attr('type', 'hidden');
+		input4.attr('name', 'output');
+		input4.attr('value', 2);
+
+		$('body').append(form);
+		form.append(input1);
+		form.append(input2);
+		form.append(input3);
+		form.append(input4);
+		form.submit();
+
+	}else if(type==1){
+		//ajax提交页面脚本
+		$('#output').val(1);
+		$.post(
+				'/admin_flow/OneUrl',
+				{url:$("#url").val()},
+				function(datas){
+					var data = $.parseJSON(datas);
+					pv.xAxis[0].categories=data.timeLine;
+					pv.series[0].setData(data.pv_img);
+					uv.xAxis[0].categories=data.timeLine;
+					uv.series[0].setData(data.uv_img);
+					$("#url").val(data.url);
+				}
+		);
+	}else{
+		//提交查询
+		$.post(
+			'/admin_flow/OneData',
+			{start:$("#starts").val(),stop:$("#stops").val(),yester:$('#yester').val()},
+			function(data){
+				var d = $.parseJSON(data);
+				var total = '<tr><td>总览</td><td>'+d.total.uv+'</td><td>'+d.total.pv+'</td><td>'+d.total.uv_rate+'</td><td>'+d.total.pv_rate+'</td></tr>';
+				var pc = '<tr><td>PC</td><td>'+d.www.uv+'</td><td>'+d.www.pv+'</td><td>'+d.www.uv_rate+'</td><td>'+d.www.pv_rate+'</td></tr>';
+				var android = '<tr><td>Android</td><td>'+d.other[0].uv+'</td><td>'+d.other[0].pv+'</td><td>'+d.other[0].uv_rate+'</td><td>'+d.other[0].pv_rate+'</td></tr>';
+				var ios = '<tr><td>ios</td><td>'+d.other[1].uv+'</td><td>'+d.other[1].pv+'</td><td>'+d.other[1].uv_rate+'</td><td>'+d.other[1].pv_rate+'</td></tr>';
+				var m = '<tr><td>Wap</td><td>'+d.other[2].uv+'</td><td>'+d.other[2].pv+'</td><td>'+d.other[2].uv_rate+'</td><td>'+d.other[2].pv_rate+'</td></tr>';
+				$("#contents").html(total+pc+m+android+ios);
+				$("#starts").val(d.start);
+				$("#stops").val(d.stop);
+			}
+		);
+
+	}
+}
+
+</script>
+{% endblock %}

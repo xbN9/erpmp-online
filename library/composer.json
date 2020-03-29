@@ -1,0 +1,22 @@
+{
+    "require": {
+        "php": ">=7.1.16",
+        "illuminate/database": "5.7.10",
+        "illuminate/events": "5.7.10",
+        "symfony/class-loader": "2.6.*@dev",
+        "twig/twig":"1.*",
+        "fzaninotto/faker":"dev-master",
+        "mrclay/minify":"~3.0",
+        "imagine/imagine":"dev-master",
+        "monolog/monolog":"~1.0",
+        "php-amqplib/php-amqplib": ">=2.6.1",
+        "endroid/qr-code":"~3.2.9",
+        "elasticsearch/elasticsearch": "~5.3",
+        "qiniu/php-sdk":"dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "vendor/"
+        }
+    }
+}

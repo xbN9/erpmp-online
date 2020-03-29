@@ -1,0 +1,117 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        /* 定义账号验证规则 */
+        jQuery.validator.addMethod("usernameReg", function(value, element) { 
+            var reg = /^[a-zA-Z0-9-_.]{3,32}$/;
+            if(reg.test(value)){
+                return true;
+            }else{
+                return false;
+            }
+        }, "只能由数字、字母、下划线组成，3-32个字符");            
+        var validator = $("#admin_user").validate({
+            rules: {
+                username: {
+                    required: true,
+                    usernameReg:true
+                },
+                realname:"required",
+                nickname_public:"required",
+            },
+            messages: {
+                username: {
+                    required: "用户名不能为空"
+                },
+                realname:'真实姓名不能为空',                
+                nickname_public:"前台昵称不能为空",
+            },
+            // the errorPlacement has to take the layout into account
+            errorPlacement: function(error, element) {
+                error.insertAfter(element.parent().find('label:first'));
+            },
+            // set new class to error-labels to indicate valid fields
+            success: function(label) {
+                // set &nbsp; as text for IE
+                label.html("&nbsp;").addClass("ok");
+            }
+        });
+        // $("input[id^=rb]").click(function(){
+
+                $("tr[id^=p_]").show();
+                $("#realname").rules("add",{
+                    required:true,
+                    messages:{required:"请填写真实姓名"}
+                });
+                $("#password").rules("add",{
+                    required:true,
+                    messages:{required:"请设置管理员密码"}
+                });
+                $("#password2").rules("add",{
+                    equalTo: "#password",
+                    messages:{equalTo:"两次密码输入不相同"}
+                });
+                $("#email").rules("add",{
+                    email:true,
+                    required:true,
+                    messages:{required:"请填写正确的邮箱格式"}
+                });
+                $('#yuangong_email').html("");
+                $('#username').attr("class","half");
+                $('#username').focus();
+        // });
+    });
+</script>
+<!-- Page content -->
+<div id="page">
+    <!-- Wrapper -->
+    <div class="wrapper" >
+        <h3>添加管理员</h3>
+        <span class="subtitle">添加新的管理员</span>
+        <hr>
+        <div id="tabs" class="ui-tabs">
+            <ul class="ui-tabs-nav">
+                <li><a class="corner-tl" href="/admin_user/index">管理员列表</a></li>
+                <li class='ui-tabs-selected'><a class="corner-tr" href="/admin_user/adduser">添加管理员</a></li>
+            </ul>
+            <div id="tabs-1" class="ui-tabs-panel">
+                <form id="admin_user" method="post" action="/admin_user/insert">
+                    <table class="stylized full">
+                        <tr>
+                            <td><span class="red">*</span>用户名</td>
+                            <td><input type="text" class="" size="28" name="username" id="username"/>
+                                <label for="username"></label></td>
+                        </tr>
+                        <tr id="p_name">
+                            <td><span class="red">*</span>真实姓名</td>
+                            <td><input type="text" class="half" size="28" name="realname" id="realname" value=''/><label for="realname"></label></td>
+                        </tr>
+                        <tr id="p_pass" >
+                            <td><span class="red">*</span>密码</td>
+                            <td><input type="password" id="password" class="half" maxlength="32" name="password" value=''/><label for="password"></label></td>
+                        </tr>
+                        <tr id="p_pass2">
+                            <td><span class="red">*</span>重复密码</td>
+                            <td><input type="password" id="password2" class="half" maxlength="32" name="password2"/><label for="password2"></label></td>
+                        </tr>
+                        <tr id="p_email">
+                            <td>邮箱地址</td>
+                            <td><input type="text" id="email" class="half" name="email"/><label for="email"></label></td>
+                        </tr>
+                        <tr>
+                            <td><span class="red">*</span>RTX昵称</td>
+                            <td><input type="text" class="half" size="28" name="nickname" id="nickname_public"/><label for="nickname_public"></label>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="submit" value="添加管理员" class="btn btn-green big"> &nbsp;&nbsp; 
+                                <input class="btn" type="reset" value="重置"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="clear">&nbsp;</div>
+        </div>
+    </div>
+    <!-- End of Wrapper -->
+</div>
+<!-- End of Page content -->

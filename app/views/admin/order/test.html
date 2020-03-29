@@ -1,0 +1,114 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+			</div>
+			<div id="cons">{{ a }}</div>
+		</div>
+	</div>
+</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script src="/js/highcharts/highcharts.js"></script>
+
+<script>
+//	datas = [];
+	datas = new Array();
+	$(function () {
+		var data = $("#cons").text();
+		var contents = JSON.parse(data);
+		var i =0;
+		for ( var p in contents ){
+			datas[i] = new Array();
+			datas[i][0] = p;
+			datas[i][1] = contents[p];
+			i++;
+		}
+		//console.log(datas);
+//		$(contents).each(function(ind,ies){
+//			console.log(ind);
+//			console.log(ies);
+//		});
+		$('#container').highcharts({
+//		options = new Highcharts.Chart({
+				chart: {
+//				renderTo: 'container',
+//				type: 'pie',
+				plotBackgroundColor: null,
+				plotBorderWidth: null,
+				plotShadow: false
+			},
+			title: {
+				text: 'Browser market shares at a specific website, 2014'
+			},
+			tooltip: {
+				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+			},
+			plotOptions: {
+				pie: {
+					allowPointSelect: true,
+					cursor: 'pointer',
+					dataLabels: {
+						enabled: true,
+						format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+						style: {
+							color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+						}
+					}
+				}
+			},
+			series: [{
+				type: 'pie',
+				name: 'Browser share',
+//				data: [
+//					['Firefox',   45.0],
+//					['IE',       26.8],
+//					{
+//						name: 'Chrome',
+//						y: 12.8,
+//						sliced: true,
+//						selected: true
+//					},
+//					['Safari',    8.5],
+//					['Opera',     6.2],
+//					['Others',   0.7]
+//				]
+				data:datas
+			}]
+		});
+		//options.series[0].data=[datas];
+	});
+
+</script>
+{% endblock %}
+
+

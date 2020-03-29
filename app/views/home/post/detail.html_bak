@@ -1,0 +1,30 @@
+{% extends 'index/layout/layout.html' %}
+{% block content %}
+<div class="row" id="center_content"></div>
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(function(){
+$.getJSON(
+    "{{data.sAjaxSource}}",
+    function(d){
+        if(d.code!=0 && d.data){
+			var data = d.data;	
+            $('#center_content').empty();
+			var content = escape2Html(data.content);
+            var str = '<div class="list-group">'+
+				'<h4 class="list-group-item-heading">'+data.title+'</h4>'+
+				'<div class="list-group-item"><div>'+content+'</div>'+
+				'<span class="badge">'+data.keyword+'</span>'+
+				'<span class="badge">'+data.post_date+'</span></div></div>';
+            $('#center_content').html(str);
+        }
+    }
+);
+});
+ function escape2Html(strings='') {
+ var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+ return strings.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+}
+</script>
+{% endblock %}

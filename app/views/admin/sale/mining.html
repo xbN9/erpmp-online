@@ -1,0 +1,342 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+				<div class="col-xs-12">
+					<form id="form1" action="/admin_sale/mining" method="post" class="form-horizontal" enctype="multipart/form-data">
+						<div class="row">
+						<div class="col-md-12">
+							<div class="col-md-4">
+								<label class="control-label">模式：</label>
+								<select name="op_type" class="span2" id="op_type" >
+									<option value="all" {% if op_type=='all' %} selected {% endif %}>全部</option>
+									<option value="1" {% if op_type==1 %} selected {% endif %}>【1】境内自营</option>
+									<option value="6" {% if op_type==6 %} selected {% endif %}>【6】境外自营</option>
+									<option value="3" {% if op_type==3 %} selected {% endif %}>【3】境内POP</option>
+									<option value="5" {% if op_type==5 %} selected {% endif %}>【5】跨境POP－直邮</option>
+									<option value="7" {% if op_type==7 %} selected {% endif %}>【7】跨境POP－国外POP</option>
+								</select>
+							</div>		
+							<div class="col-md-4">
+								<label class="control-label col-md-2">Time:</label>
+								<div class="col-md-5">
+									<input type="text" name="start" id="starts" value="{% if start %}{{start}}{% endif %}" class="form-control hasDatepicker datepicker input-sm" placeholder="{{ start }}">
+								</div>
+								<div class="col-md-5">
+									<input type="text" name="stop" id="stops" value="{% if stop %}{{stop}}{% endif %}" class="form-control hasDatepicker datepicker input-sm" placeholder="{{ stop }}">
+								</div>
+							</div>	
+							<div class="col-md-3">
+								<div class="control-group">
+									<label class="control-label bolder blue">维度选择</label>
+										<div class="radio">
+											<label>
+												{% if dimension==1 %}
+													<input name="dimension" type="radio" id="dimension" class="ace" value="1" checked="checked">
+												{% else %}
+													<input name="dimension" type="radio" id="dimension" class="ace" value="1">
+												{% endif %}
+												<span class="lbl">模式</span>
+											</label>
+										</div>
+										<div class="radio">
+											<label>
+												{% if dimension==2 %}
+													<input name="dimension" type="radio" id="dimension" class="ace" value="2" checked="checked">
+												{% else %}
+													<input name="dimension" type="radio" id="dimension" class="ace" value="2">
+												{% endif %}
+												<span class="lbl">品类(一级分类)</span>
+											</label>
+										</div>
+										<div class="radio">
+											<label>
+												{% if dimension==3 %}
+												<input name="dimension" type="radio" id="dimension" class="ace" value="3" checked="checked">
+												{% else %}
+												<input name="dimension" type="radio" id="dimension" class="ace" value="3" >
+												{% endif %}
+												<span class="lbl">品牌</span>
+											</label>
+										</div>
+
+										<div class="radio">
+											<label>
+												{% if dimension==4 %}
+												<input name="dimension" type="radio" id="dimension" class="ace"
+												       value="4" checked="checked">
+												{% else %}
+												<input name="dimension" type="radio" id="dimension" class="ace"
+												       value="4" >
+												{% endif %}
+												<span class="lbl">sku(只能导出)</span>
+											</label>
+										</div>
+									</div>
+								</div>
+							<input type="hidden" name="outputs" id="outputs">
+							<div class="span1">
+								<button onclick="output(2)" class="btn btn-info btn-success btn-xs">查询</button>
+								<button onclick="output(1)" class="btn btn-info btn-success btn-xs">导出</button>
+							</div>
+						</div>			
+						</div>
+					</form>
+				</div>
+				<div class="col-xs-12">
+					<div class="col-xs-12" style="margin-top: 5px;">
+						<h3 class="header smaller lighter green">
+							<i class="ace-icon fa fa-bullhorn"></i>
+							采销统计
+						</h3>
+						<div id="norm" class="tab-pane fade active in">
+							<div class="row">
+								<table id="table1" class="table table-striped table-bordered table-hover">
+									<tr>
+										{% for title in common_title%}
+										<th>{{ title }}</th>
+										{% endfor %}
+									</tr>
+									{% if dimension == 1%}
+										{% for key,tab in tables %}
+											<tr>
+												{% if key == 1 %}
+													<td>国内自营</td>
+													<td>{{tab.gmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.egmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.cash|number_format(0,'3',',')}}</td>
+													<td>{{tab.coupon|number_format(0,'3',',')}}</td>
+													<td>{{tab.maoe|number_format(0,'3',',')}}</td>
+													<td>{{tab.dmao|number_format(0,'3',',')}}</td>
+													<td>{{tab.maop}}</td>
+													<td>{{tab.dmaop}}</td>
+													<td>{{tab.pre}}</td>
+													<td>{{tab.buy_users|number_format(0,'3',',')}}</td>
+													<td>{{tab.scode|number_format(0,'3',',')}}</td>
+												{% elseif key == 3 %}
+													<td>国内POP</td>
+													<td>{{tab.gmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.egmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.cash|number_format(0,'3',',')}}</td>
+													<td>{{tab.coupon|number_format(0,'3',',')}}</td>
+													<td>{{tab.maoe|number_format(0,'3',',')}}</td>
+													<td>{{tab.dmao|number_format(0,'3',',')}}</td>
+													<td>{{tab.maop}}</td>
+													<td>{{tab.dmaop}}</td>
+													<td>{{tab.pre}}</td>
+													<td>{{tab.buy_users|number_format(0,'3',',')}}</td>
+													<td>{{tab.scode|number_format(0,'3',',')}}</td>
+												{% elseif key == 5 %}
+													<td>直邮</td>
+													<td>{{tab.gmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.egmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.cash|number_format(0,'3',',')}}</td>
+													<td>{{tab.coupon|number_format(0,'3',',')}}</td>
+													<td>{{tab.maoe|number_format(0,'3',',')}}</td>
+													<td>{{tab.dmao|number_format(0,'3',',')}}</td>
+													<td>{{tab.maop}}</td>
+													<td>{{tab.dmaop}}</td>
+													<td>{{tab.pre}}</td>
+													<td>{{tab.buy_users|number_format(0,'3',',')}}</td>
+													<td>{{tab.scode|number_format(0,'3',',')}}</td>
+												{% elseif key == 6 %}
+													<td>跨境购</td>
+													<td>{{tab.gmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.egmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.cash|number_format(0,'3',',')}}</td>
+													<td>{{tab.coupon|number_format(0,'3',',')}}</td>
+													<td>{{tab.maoe|number_format(0,'3',',')}}</td>
+													<td>{{tab.dmao|number_format(0,'3',',')}}</td>
+													<td>{{tab.maop}}</td>
+													<td>{{tab.dmaop}}</td>
+													<td>{{tab.pre}}</td>
+													<td>{{tab.buy_users|number_format(0,'3',',')}}</td>
+													<td>{{tab.scode|number_format(0,'3',',')}}</td>
+												{% elseif key == 7 %}
+													<td>虚拟跨境购</td>
+													<td>{{tab.gmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.egmv|number_format(0,'3',',')}}</td>
+													<td>{{tab.cash|number_format(0,'3',',')}}</td>
+													<td>{{tab.coupon|number_format(0,'3',',')}}</td>
+													<td>{{tab.maoe|number_format(0,'3',',')}}</td>
+													<td>{{tab.dmao|number_format(0,'3',',')}}</td>
+													<td>{{tab.maop}}</td>
+													<td>{{tab.dmaop}}</td>
+													<td>{{tab.pre}}</td>
+													<td>{{tab.buy_users|number_format(0,'3',',')}}</td>
+													<td>{{tab.scode|number_format(0,'3',',')}}</td>
+												{% endif %}
+											</tr>
+										{% endfor %}
+									{% elseif dimension == 2 %}
+										{% for key,tab in tables %}
+											<tr>
+												<th rowspan={{tab|length + 1}}>{{ key }}</th>
+												{% for k,subgmv in gmvp %}
+													{% if k==key %}
+													<th rowspan={{tab|length + 1}}>{{ subgmv.egmvp }}</th>
+													{% endif %}
+												{% endfor %}
+												{% for sub_key,sub in tab %}
+												<tr>
+													<td>{{sub_key}}</td>
+													<td>{{sub.gmv|number_format(0,'3',',')}}</td>
+													<td>{{sub.egmv|number_format(0,'3',',')}}</td>
+													<td>{{sub.pre}}</td>
+													<td>{{sub.maoe|number_format(0,'3',',')}}</td>
+													<td>{{sub.dmao|number_format(0,'3',',')}}</td>
+													<td>{{sub.pmao|number_format(0,'3',',')}}</td>
+													{% if sub.qmaop and (sub.qmaop > sub.maop) %}
+														<td style="color: red">{{sub.maop}}</td>
+													{% else %}
+														<td>{{sub.maop}}</td>
+													{% endif %}
+													<td>{{sub.dmaop}}</td>
+													<td>{{sub.pmaop}}</td>
+													<td>{{sub.buy_users|number_format(0,'3',',')}}</td>
+													{% if sub.qmaop %}
+														<td>{{sub.qmaop}}</td>
+													{% endif %}
+												</tr>
+												{% endfor %}
+											</tr>
+										{% endfor %}
+									{% else %}
+										{% for tab in tables %}
+										<tr>
+											<td>{{ tab.brand_name }}</td>
+											<td>{{ tab.gmv|number_format(0,'3',',') }}</td>
+											<td>{{ tab.egmv|number_format(0,'3',',') }}</td>
+											<td>{{ tab.pre }}</td>
+											<td>{{ tab.maoe |number_format(0,'3',',')}}</td>
+											<td>{{ tab.dmao |number_format(0,'3',',')}}</td>
+											<td>{{ tab.pmao |number_format(0,'3',',')}}</td>
+											<td>{{ tab.maop }}</td>
+											<td>{{ tab.dmaop }}</td>
+											<td>{{ tab.pmaop }}</td>
+											<td>{{ tab.buy_users |number_format(0,'3',',')}}</td>
+										</tr>
+										{% endfor %}
+									{% endif %}
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/jquery.dataTables.bootstrap.js"></script>
+<!--<script src="/js/dataTables.tableTools.js"></script>-->
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script src="/js/date-time/bootstrap-datepicker.min.js"></script>
+
+<script type="text/javascript">
+	jQuery(function($) {
+		$("#starts").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			format: "yyyy-mm-dd"
+		});
+
+		$("#stops").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			format: "yyyy-mm-dd"
+		});
+	});
+
+	//导出
+	function output(data){
+		$("#outputs").val(data);
+
+		var dimension = $('input:radio:checked').val();
+		var start = $("#starts").val(),stop=$("#stops").val();
+		var sku = $('#sku').val();
+		
+		if(dimension == 2 || dimension == 3){
+			var op_type = $("#op_type").val();
+			if(op_type !='all'){
+				if(start=='' || stop==''){
+					alert('请选择时间');
+					//return false;
+					$("#starts").val('');
+					$("#stops").val('');
+					return false;
+				}else{
+					$("#form1").submit();
+				}
+			}else{
+				alert('品牌和品类请选择模式');
+				//return false;
+				$("#starts").val('');
+				$("#stops").val('');
+				return false;
+			}
+		}else if(dimension == 1){
+
+			if(start=='' || stop==''){
+				alert('请选择时间');
+				$("#starts").val('');
+				$("#stops").val('');
+				return false;
+				//window.location.reload();
+			}else{
+				$("#form1").submit();
+			}
+		}else if(dimension == 4){
+			if(start=='' || stop==''){
+				alert('请选择时间');
+				$("#starts").val('');
+				$("#stops").val('');
+				return false;
+			}else{
+				if(data==2){
+					alert('不能查询只能导出');
+					return false;
+				}else{
+					$("#form1").submit();
+				}
+			}
+
+		}else{
+			alert('请选择模式');
+			return false;
+		}
+	}
+
+</script>
+{% endblock %}

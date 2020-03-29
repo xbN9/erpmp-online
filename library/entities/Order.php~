@@ -1,0 +1,235 @@
+<?php
+namespace Entities;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Order
+ *
+ * @ORM\Table(name="order", uniqueConstraints={@ORM\UniqueConstraint(name="order_sn", columns={"order_sn"})}, indexes={@ORM\Index(name="status", columns={"status"}), @ORM\Index(name="create_time", columns={"create_time"}), @ORM\Index(name="is_show", columns={"is_show"}), @ORM\Index(name="uid", columns={"uid"})})
+ * @ORM\Entity
+ */
+class Order
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="uid", type="integer", nullable=false)
+     */
+    private $uid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="device_id", type="string", length=60, nullable=false)
+     */
+    private $deviceId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="order_sn", type="bigint", nullable=false)
+     */
+    private $orderSn;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="parent_order_sn", type="bigint", nullable=false)
+     */
+    private $parentOrderSn;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status", type="boolean", nullable=false)
+     */
+    private $status;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pay_price", type="decimal", precision=18, scale=2, nullable=false)
+     */
+    private $payPrice;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="origin_price", type="decimal", precision=18, scale=2, nullable=false)
+     */
+    private $originPrice;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="order_channel", type="boolean", nullable=false)
+     */
+    private $orderChannel;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="pay_channel", type="boolean", nullable=false)
+     */
+    private $payChannel;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="shipping_fee", type="decimal", precision=10, scale=2, nullable=false)
+     */
+    private $shippingFee;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fees", type="decimal", precision=10, scale=2, nullable=false)
+     */
+    private $fees;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="commission", type="decimal", precision=10, scale=2, nullable=false)
+     */
+    private $commission;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="coupon_id", type="string", length=25, nullable=false)
+     */
+    private $couponId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="coupon", type="decimal", precision=10, scale=2, nullable=false)
+     */
+    private $coupon;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="balance", type="decimal", precision=10, scale=2, nullable=false)
+     */
+    private $balance;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_gift_packs", type="boolean", nullable=false)
+     */
+    private $isGiftPacks;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="share_code", type="string", length=33, nullable=false)
+     */
+    private $shareCode;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_show", type="boolean", nullable=false)
+     */
+    private $isShow;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_time", type="datetime", nullable=false)
+     */
+    private $createTime;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="pay_time", type="datetime", nullable=false)
+     */
+    private $payTime;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="confirm_time", type="datetime", nullable=false)
+     */
+    private $confirmTime;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="confirm_uid", type="integer", nullable=false)
+     */
+    private $confirmUid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="confirm_note", type="string", length=255, nullable=false)
+     */
+    private $confirmNote;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="cancel_time", type="datetime", nullable=false)
+     */
+    private $cancelTime;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="canceluid", type="integer", nullable=false)
+     */
+    private $canceluid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="note", type="string", length=255, nullable=false)
+     */
+    private $note;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sysnote", type="string", length=255, nullable=false)
+     */
+    private $sysnote;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="update_time", type="datetime", nullable=false)
+     */
+    private $updateTime;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="order_type", type="boolean", nullable=false)
+     */
+    private $orderType;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="store_id", type="integer", nullable=false)
+     */
+    private $storeId;
+
+
+}

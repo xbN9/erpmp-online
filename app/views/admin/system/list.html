@@ -1,0 +1,86 @@
+{% extends "admin/layout/layout.html" %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+				<table id="sample-table-1" class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th class="center">
+								<label class="position-relative">
+									<input type="checkbox" class="ace">
+									<span class="lbl"></span>
+								</label>
+							</th>
+							<th>文件名</th>
+							<th>路径</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for val in data.files %}
+						<tr>
+							<td class="center">
+								<label class="position-relative">
+                                    <input type="checkbox" class="ace xp" value="{{val.name}}">
+									<span class="lbl"></span>
+								</label>
+							</td>
+							<td>
+								<a href="#">{{val.name}}</a>
+							</td>
+							<td>{{val.file}}</td>
+                            <td><button class="btn btn-white btn-pink btn-sm show">查看</button></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!-- <script src="/js/jquery.dataTables.bootstrap.js"></script> -->
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+    $('.show').click(function(){
+        var list = new Array();
+        var param,run,run1,run2,source,url;
+        $('.xp').each(function(){
+            if($(this).is(":checked")){
+                //判断个数,最多2个
+                list.push($(this).val());
+            }
+        }); 
+        var tmp;
+        if(list.length >= 2){
+            param = list.slice(0,2);
+            for(i in param){
+                tmp = param[i].split('.');
+                if(i==0){
+                run1 = tmp[0];
+                source = tmp[1];
+                }else{
+                run2 = tmp[0];
+                }
+            }
+            url='{{data.profile_url}}run1='+run1+'&run2='+run2+'&source='+source;
+            window.location.href=url
+        }else if(list.length > 0 && list.length < 2){
+            param = list;
+            for(i in param){
+                tmp = param[i].split('.');
+                run = tmp[0];
+                source = tmp[1];
+            }
+            url='{{data.profile_url}}run='+run+'&source='+source;
+            window.location.href=url
+        }
+    });
+});
+</script>
+{% endblock %}

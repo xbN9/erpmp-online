@@ -1,0 +1,196 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+				<div class="col-xs-12 span12">
+					<div class="row">
+					<div class="col-sm-11 span11">
+						<form id="form1" action="/admin_finance/popincome" method="post" class="form-inline" enctype="multipart/form-data">
+							发货时间：<input type="text" name="start" id="starts" value="{% if start %}{{start}}{% endif %}" class="form-control hasDatepicker datepicker">
+							-<input type="text" name="stop" id="stops" value="{% if stop %}{{stop}}{% endif %}" class="form-control hasDatepicker datepicker">
+							(可选)大促时间：<input type="text" name="start_cu" id="start_cu" value="{% if start_cu %}{{start_cu}}{% endif %}" class="form-control date_time" placeholder="YYYY-MM-DD HH:ii:ss">
+							-<input type="text" name="stop_cu" id="stop_cu" value="{% if stop_cu %}{{stop_cu}}{% endif %}" class="form-control date_time" placeholder="YYYY-MM-DD HH:ii:ss">
+							pop模式：<select name="op_type" id="op_type">
+										{% if op_type == 4 %}
+										<option value="4" selected="selected">国内pop</option>
+										{% else %}
+										<option value="4">国内pop</option>
+										{% endif%}
+										{% if op_type == 5 %}
+										<option value="5" selected="selected">海外pop</option>
+										{% else %}
+										<option value="5">海外pop</option>
+										{% endif%}
+									</select>
+							<input type="hidden" name="output" id="output_all">
+						</form>
+					</div>
+					<div class="col-sm-1 span1" >
+						<div class="input-group center" style="float:left;background-color:white;border-top:white;margin-top:0px">
+							<button onclick="output(3)" class="btn btn-info btn-success tooltip-info" data-rel="tooltip">查询</button>
+						</div>
+					</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="col-xs-12" style="margin-top: 15px;">
+						<h3 class="header smaller lighter green">
+							<i class="ace-icon fa fa-bullhorn"></i>
+							POP服务费收入统计
+						</h3>
+						<div class="tabbable">
+							<ul class="nav nav-tabs" id="myTab">
+								<li class="active">
+									<a data-toggle="tab" href="#total">
+										汇总
+									</a>
+								</li>
+								<li class="">
+									<a data-toggle="tab" href="#detail">
+										明细
+									</a>
+								</li>
+								<li class="">
+									<a data-toggle="tab" href="#pay_type">
+										支付方式
+									</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div id="total" class="tab-pane fade active in" style="width: 100%;">
+									<div class="input-group center" style="float:right;width:20px;height:20px;background-color:white;border-top:white;margin-bottom:5px;">
+										<button onclick="output(2)" class="btn btn-info btn-success" >汇总导出</button>
+									</div>
+									<div class="row">
+										<table id="table1" class="table table-striped table-bordered table-hover">
+											<tr>
+												{% for title in tab_title %}
+												<th class="tooltip-info" title="{{ title }}">{{ title }}
+												</th>
+												{% endfor %}
+											</tr>
+											{% for key,cont in page_data.contents %}
+											{% if cont.供应商!='' %}
+											<tr>
+												<td class="tooltip-info" title="{{ cont.供应商 }}">{{cont.供应商 | slice(0,3)}}</td>
+												<td>{{cont.采购模式}}</td>
+												<td>{{cont.销售金额|number_format(0, '3', ',')}}</td>
+												<td>{{cont.成交金额|number_format(0, '3', ',')}}</td>
+												<td>{{cont.含税运费收入|number_format(0, '3', ',')}}</td>
+												<td>{{cont.现金券|number_format(0, '3', ',')}}</td>
+												<td>{{cont.活动券|number_format(0, '3', ',')}}</td>
+												<td>{{cont.满减金额|number_format(0, '3', ',')}}</td>
+												<td>{{cont.支付金额|number_format(0, '3', ',')}}</td>
+												<td>{{cont.减免自承担|number_format(0, '3', ',')}}</td>
+												<td>{{cont.含税服务收入|number_format(0, '3', ',')}}</td>
+												<td>{{(cont.含税服务收入/1.06)|number_format(0, '3', ',')}}</td>
+												<td>{{cont.未税运费收入|number_format(0, '3', ',')}}</td>
+												<td>{{(cont.返还供应商货款金额+cont.减免自承担)|number_format(0, '3', ',')}}</td>
+											</tr>
+											{% endif %}
+											{% endfor %}
+										</table>
+									</div>
+									{% if page_data.contents is iterable %}
+									{{ include('/admin/public/page.html') }}
+									{% endif %}
+								</div>
+								<div id="detail" class="tab-pane fade" style="height: 50px;">
+									<div class="input-group center" style="float:right;width:20px;height:50px;background-color:white;border-top:white;">
+										<button onclick="output(1)" class="btn btn-info btn-success" id="outputs">明细导出</button>
+									</div>
+								</div>
+								<div id="pay_type" class="tab-pane fade" style="width: 100%;">
+									<div class="row">
+										<table id="pay_types" class="table table-striped table-bordered table-hover">
+											<tr>
+												<th>支付方式</th>
+												<th>金额</th>
+											</tr>
+											{% for pays in pay_data %}
+												<tr>
+													<td>{{pays.支付方式}}</td>
+													<td>{{pays.金额|number_format(0, '3', ',')}}</td>
+												</tr>
+											{% endfor %}
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+
+<script src="/js/ace-elements.min.js"></script>
+
+<script src="/js/date-time/moment.min.js"></script>
+
+<script src="/js/date-time/bootstrap-datepicker.min.js"></script>
+<!-- <script src="/js/date-time/bootstrap-datetimepicker.min.js"></script> -->
+<script src="/js/jquery.mask.min.js"></script>
+<script type="text/javascript">
+	jQuery(function($) {
+		$("#starts").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			format: "yyyy-mm-dd"
+		});
+
+		$("#stops").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			format: "yyyy-mm-dd"
+		});
+
+		// $('#start_cu').datetimepicker().next().on(ace.click_event, function(){
+		// 	$(this).prev().focus();
+		// });
+		// $('#stop_cu').datetimepicker().next().on(ace.click_event, function(){
+		// 	$(this).prev().focus();
+		// });
+		$('#start_cu').mask('0000-00-00 00:00:00');
+		$('#stop_cu').mask('0000-00-00 00:00:00');
+		
+	});
+
+	//导出
+	function output(data){
+		if(data==2){
+			//汇总导出
+			$("#output_all").val(1);
+			$("#form1").submit();
+		}else if(data==3){
+			//查询
+			$("#form1").attr('action', '/admin_finance/popincome');
+			$("#output_all").val(2);
+			$("#form1").submit();
+		}else if(data==1){
+			//明细导出
+			$("#form1").attr('action', '/admin_finance/popdetails');
+			$("#form1").submit();
+		}
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div class="col-xs-12">
+				<form class="form-horizontal" role="form" id="form">
+					{% for k,v in data.formArr %}
+                        {% if k == 'Id' %}
+						<div class="form-group">
+								<label class="col-sm-3 control-label
+                                no-padding-right" for="form-{{k}}">{{k}}</label>
+								<div class="col-sm-9">
+                                    <input readonly type="text" id="form-{{k}}"
+                                     placeholder="{{k}}" class="col-xs-10 col-sm-5"
+                                                         name="{{k}}"
+                                                         value="{{v}}">
+								</div>
+						</div>
+						<div class="space-4"></div>	
+                        {% else %}
+						<div class="form-group">
+                                    {% if k == 'name' %}
+								<label class="col-sm-3 control-label
+                                no-padding-right" for="form-{{k}}">名称</label>
+								<div class="col-sm-9">
+                                    <input type="text" id="form-{{k}}"
+                                     placeholder="{{k}}" class="col-xs-10 col-sm-5"
+                                                         name="{{k}}"
+                                                         value="{{v}}">
+								</div>
+                                    {% elseif k=='url'%}
+								<label class="col-sm-3 control-label
+                                no-padding-right" for="form-{{k}}">地址</label>
+								<div class="col-sm-9">
+                                    <input type="text" id="form-{{k}}"
+                                     placeholder="{{k}}" class="col-xs-10 col-sm-5"
+                                                         name="{{k}}"
+                                                         value="{{v}}">
+								</div>
+                                    {% elseif k=='level'%}
+								<label class="col-sm-3 control-label
+                                no-padding-right" for="form-{{k}}">等级</label>
+								<div class="col-sm-9">
+                                    <input type="text" id="form-{{k}}"
+                                     placeholder="{{k}}" class="col-xs-10 col-sm-5"
+                                                         name="{{k}}"
+                                                         value="{{v}}">
+								</div>
+                                    {% elseif k=='parentId'%}
+								<label class="col-sm-3 control-label
+                                no-padding-right" for="form-{{k}}">父级id</label>
+								<div class="col-sm-3">
+                                    <select name="{{k}}" class="form-control"
+                                                          id="parentId"
+                                                          data-placeholder="状态
+                                                          ">
+                                        <option value="0">一级菜单</option>
+                                        {% for v in data.parentArr %}
+                                        <option value="{{v.Id}}" {% if k==v.Id %}selected{% endif %}>{{v.name}}</option>
+                                        {% endfor %}
+                                    </select>
+								</div>
+                                    {% elseif k=='status'%}
+								<label class="col-sm-3 control-label
+                                no-padding-right" for="form-{{k}}">状态</label>
+								<div class="col-sm-9">
+                                    <input type="text" id="form-{{k}}"
+                                     placeholder="{{k}}" class="col-xs-10 col-sm-5"
+                                                         name="{{k}}"
+                                                         value="{{v}}">
+								</div>
+                                    {% elseif k=='menuIcon'%}
+								<label class="col-sm-3 control-label
+                                no-padding-right" for="form-icons">图标</label>
+								<div class="col-sm-3">
+									<input type="text" name="{{k}}" id="form-icons" class="col-xs-10 col-sm-4" />
+								</div>
+                                    {% elseif k=='sort'%}
+								<label class="col-sm-3 control-label
+                                no-padding-right" for="form-{{k}}">排序</label>
+								<div class="col-sm-9">
+                                    <input type="text" id="form-{{k}}"
+                                     placeholder="{{k}}" class="col-xs-10 col-sm-5"
+                                                         name="{{k}}"
+                                                         value="{{v}}">
+								</div>
+                                    {% endif %}
+						</div>
+						<div class="space-4"></div>	
+                        {% endif %}
+					{% endfor %}
+					<div class="clearfix form-actions">
+						<div class="col-md-offset-3 col-md-9">
+							<button class="btn btn-info" type="button" onclick="input(1)">
+								<i class="ace-icon fa fa-check bigger-110"></i>
+                                修改
+							</button>
+							&nbsp; &nbsp; &nbsp;
+							<button class="btn" type="reset" onclick="input(2)">
+								<i class="ace-icon fa fa-undo bigger-110"></i>
+                                重置
+							</button>
+						</div>
+					</div>
+				</form>	
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<script src='/js/jquery.mobile.custom.min.js'></script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/js/chosen.jquery.min.js"></script>
+<script src="/js/icon.picker.js"></script>
+<script type="text/javascript">
+function input(type){
+	if(type==1){
+		$.post(
+			"{{data.formaction}}",
+			$("#form").serialize(),
+			function(data){
+				if(data==2){
+					alert('信息未填写完整');
+					return false;	
+				}else if(data!=false){
+					alert('修改成功');
+            		window.location.href= "{{data.formrefer}}"
+				}
+			}
+		);
+	}else{
+		//重置
+		document.getElementById("form").reset();
+		return false;
+	}
+}
+$(function () {
+	$("#form-icons").iconPicker();
+});
+</script> 
+{% endblock %}	
+				

@@ -1,0 +1,431 @@
+{% extends "admin/layout/layout.html" %}
+{% block content %}
+<div class="page-content">
+    <div class="page-header">
+        {{data.sub_cate}}
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="space-6"></div>
+                <div class="col-sm-6 infobox-container">
+                    <div class="col-sm-6">
+                    <div class="infobox infobox-dark infobox-blue">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-shopping-cart"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.todayOrders}}</span>
+                            <div class="infobox-content">今日有效订单数</div>
+                        </div>
+                        {% if data.todayOrdersIsUP==true %}
+                        <div class="stat stat-success">{{data.todayOrdersPrec}}%</div>
+                        {% else %}
+                        <div class="stat stat-important">{{data.todayOrdersPrec}}%</div>
+                        {% endif %}
+                    </div>
+                    <div class="infobox infobox-dark infobox-blue">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-shopping-cart"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.todayGMV}}</span>
+                            <div class="infobox-content">今日有效GMV</div>
+                        </div>
+                        {% if data.todayGMVIsUP==true %}
+                        <div class="stat stat-success">{{data.todayGMVPrec}}%</div>
+                        {% else %}
+                        <div class="stat stat-important">{{data.todayGMVPrec}}%</div>
+                        {% endif %}
+                    </div>
+                    <div class="infobox infobox-dark infobox-grey">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-shopping-cart"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.yesterdayOrders}}</span>
+                            <div class="infobox-content">昨日有效订单</div>
+                        </div>
+                        {% if data.yesterdayOrdersIsUP==true %}
+                        <div class="stat stat-success">{{data.yesterdayOrdersPrec}}%</div>
+                        {% else %}
+                        <div class="stat stat-important">{{data.yesterdayOrdersPrec}}%</div>
+                        {% endif %}
+                    </div>
+                    <div class="infobox infobox-dark infobox-grey">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-shopping-cart"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.yesterdayGMV}}</span>
+                            <div class="infobox-content">昨日有效GMV</div>
+                        </div>
+                        {% if data.yesterdayGMVIsUP==true %}
+                        <div class="stat stat-success">{{data.yesterdayGMVPrec}}%</div>
+                        {% else %}
+                        <div class="stat stat-important">{{data.yesterdayGMVPrec}}%</div>
+                        {% endif %}
+                    </div>
+                    <div class="infobox infobox-blue">
+                        <div class="infobox-chart">
+                            <span class="sparkline" data-values="{{data.sevenOrders}}"></span>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.sevenOrdersTotal}}</span>
+                            <div class="infobox-content">近7日有效订单数</div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-sm-6">
+                    <div class="infobox infobox-green">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa  fa-users"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.todayUV}}</span>
+                            <div class="infobox-content">今日UV</div>
+                        </div>
+                        <!--<div class="stat stat-important">4%</div>-->
+                    </div>
+                    <div class="infobox infobox-green">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa  fa-users"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.yesterdayUV}}</span>
+                            <div class="infobox-content">昨日UV</div>
+                        </div>
+                        <!--<div class="stat stat-important">4%</div>-->
+                    </div>
+                    <div class="infobox infobox-green">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-shopping-cart"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.todayaddUser}}</span>
+                            <div class="infobox-content">今日新增用户</div>
+                        </div>
+                        <!--<div class="stat stat-important">4%</div>-->
+                    </div>
+                    <div class="infobox infobox-green">
+                        <div class="infobox-icon">
+                            <i class="ace-icon fa fa-shopping-cart"></i>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.yesterdayaddUser}}</span>
+                            <div class="infobox-content">昨日新增用户</div>
+                        </div>
+                        <!--<div class="stat stat-important">4%</div>-->
+                    </div>
+                    <div class="infobox infobox-blue">
+                        <div class="infobox-chart">
+                            <span class="sparkline" data-values="{{data.sevenUV}}"></span>
+                        </div>
+                        <div class="infobox-data">
+                            <span class="infobox-data-number">{{data.sevenUVTotal}}</span>
+                            <div class="infobox-content">近七日UV</div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="widget-box">
+                        <div class="widget-header widget-header-flat widget-header-small">
+                            <h5 class="widget-title">
+                                <i class="ace-icon fa fa-signal"></i>
+                                定单渠道分布
+                            </h5>
+                        </div>
+                        <div class="widget-main">
+                            <div id="pie" style="height:180px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="col-xs-12">
+            <div class="row">
+                <div calss="col-sm-12">
+                    <div class="col-sm-6">
+                        <div class="widget-box">
+                            <div class="widget-header widget-header-flat">
+                                <h4 class="widget-title">待处理事项</h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+									<table class="table table-bordered table-striped">
+										<tbody>
+											<tr>
+												<td>
+													<span class="label label-xlg label-primary arrowed-right">待付款订单数</span>
+												</td>
+												<td>
+													<a href="{{data.topay_url}}" target="__blank">
+														<span class="badge badge-info label-xlg">{{data.topay}}</span>
+													</a>
+												</td>
+											</tr>
+											<tr>
+												<td>
+                                                    <span class="label label-xlg label-info arrowed-right">待发货订单数</span>
+												</td>
+												<td>
+                                                    <a href="{{data.tosend}}" target="__blank">
+                                                    <span class="badge badge-info label-xlg">{{data.tosend}}</span>
+													</a>
+												</td>
+											</tr>
+											<tr>
+												<td>
+                                                    <span class="label label-xlg label-purple arrowed-right">已签收订单数</span>
+												</td>
+												<td>
+                                                    <a href="{{data.tosign}}" target="__blank">
+														<span class="badge badge-purple label-xlg">{{data.tosign}}</span>
+													</a>
+												</td>
+											</tr>
+											<tr>
+												<td>
+                                                    <span class="label label-xlg label-yellow arrowed-right">待退款售后订单数</span>
+												</td>
+												<td>
+													<a href="{{data.torefund_url}}" target="__blank">
+                                                    <span class="badge badge-yellow label-xlg">{{data.torefund}}</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="widget-box">
+                            <div class="widget-header widget-header-flat">
+                                <h4 class="widget-title">总览数据</h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table class="table table-bordered table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span class="label label-xlg label-success arrowed-right">sku已上架数</span>
+                                                </td>
+                                                <td>
+                                                    <a href="{{data.product_url}}" target="__blank">
+                                                        <span class="badge badge-success label-xlg">{{data.sku_on}}</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="label label-xlg label-warning arrowed-right">sku已经下架数</span>
+                                                </td>
+                                                <td>
+                                                    <a href="{{data.product_url}}" target="__blank">
+                                                    <span class="badge badge-warning label-xlg">{{data.sku_off}}</span>
+													</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="label label-xlg label-info arrowed-right">sku总数</span>
+                                                </td>
+                                                <td>
+                                                    <a href="" target="__blank">
+                                                        <span class="badge badge-info label-xlg">{{data.sku_all}}</span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="label label-xlg label-success arrowed-right">总用户数</span>
+                                                </td>
+                                                <td>
+                                                    <span class="label-xlg badge badge-success">{{data.user_all}}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-12" id="orderListShow" style="height:380px;">
+                </div>
+                <div class="col-xs-12" id="payListShow" style="height:380px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<script src="/js/echarts/echarts.min.js"></script>
+<script src="/js/flot/jquery.flot.min.js"></script>
+<script src="/js/jquery.sparkline.min.js"></script>
+<script src="/js/flot/jquery.flot.pie.min.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+    $('.sparkline').each(function() {
+        var $box = $(this).closest('.infobox');
+        var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
+        $(this).sparkline('html', {
+            tagValuesAttribute: 'data-values',
+            type: 'bar',
+            barColor: barColor,
+            chartRangeMin: $(this).data('min') || 0
+        });
+    });
+});
+
+var myChartPie = echarts.init(document.getElementById('pie'));
+myChartPie.showLoading({
+    text: '正在努力的读取数据中...', 
+});
+myChartPie.showLoading();
+var names=[];    
+var nums=[];    
+$.ajax({
+	type : 'get',
+	async : true,            
+	url : "{{data.order_channel}}",    
+	dataType : 'json',        
+	success : function(result) {
+		if (result) {
+			for(var i=0;i<result.length;i++){       
+				nums.push(result[i].num);    
+				names.push(result[i].name);    
+			}
+			myChartPie.hideLoading();    
+			myChartPie.setOption({        
+				legend: {
+					orient: 'vertical',
+					left: 'left',
+					data: names
+				},
+				series: [{
+					// 根据名字对应到相应的系列
+					name: '访问渠道',
+					type: 'pie',
+					data: result
+				}]
+			});
+		}
+	},
+	error : function(errorMsg) {
+		alert("图表请求数据失败!");
+		myChartPie.hideLoading();
+		// 图表清空
+		myChartPie.clear();
+		// 图表释放
+		myChartPie.dispose();
+	}
+});
+
+var myChartBar = echarts.init(document.getElementById('orderListShow'));
+myChartBar.showLoading({
+    text: '正在努力的读取数据中...', 
+});
+myChartBar.showLoading();
+
+var myChartPay = echarts.init(document.getElementById('payListShow'));
+myChartPay.showLoading({
+    text: '正在努力的读取数据中...', 
+});
+myChartPay.showLoading();
+
+$.ajax({
+	type : 'get',
+	async : true,            
+	url : "{{data.orderList}}",    
+	dataType : 'json',        
+	success : function(result) {
+		if (result) {
+            var orderNums=[];    
+            var orderTime=[];    
+            var orderPay=[];    
+			for(var i=0;i<result.length;i++){       
+                for(val in result[i]){
+				orderNums.push(result[i][val]['torders']);    
+				orderTime.push(result[i][val]['totime']);    
+				orderPay.push(result[i][val]['toprice']);    
+                }
+			}
+			myChartBar.hideLoading();    
+			myChartBar.setOption({        
+                color: ['#3398DB'],
+                title:{
+                    text:"下单量"
+                },
+                tooltip:{
+                    trigger: 'axis',
+                    axisPointer : {            
+                        type : 'shadow'               
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis:{
+                    data:orderTime
+                },
+                yAxis:{},
+                series:[{
+                    name:['有效订单数'],
+                    type:'bar',
+                    data:orderNums
+                }]
+			});
+
+			myChartPay.hideLoading();    
+			myChartPay.setOption({        
+                color: ['#3398DB'],
+                title:{
+                    text:"支付量"
+                },
+                tooltip:{
+                    trigger: 'axis',
+                    axisPointer : {            
+                        type : 'shadow'               
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis:{
+                    data:orderTime
+                },
+                yAxis:{},
+                series:[{
+                    name:['有效订单数'],
+                    type:'bar',
+                    data:orderPay
+                }]
+			});
+		}
+	},error : function(errorMsg) {
+		alert("图表请求数据失败!");
+		myChartBar.hideLoading();
+		// 图表清空
+		myChartBar.clear();
+		// 图表释放
+		myChartBar.dispose();
+	}
+});
+</script>
+{% endblock %}

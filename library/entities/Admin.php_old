@@ -1,0 +1,181 @@
+<?php
+namespace Entities;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Admin
+ *
+ * @ORM\Table(name="admin", uniqueConstraints={@ORM\UniqueConstraint(name="account", columns={"account"})})
+ * @ORM\Entity
+ */
+class Admin
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="admin_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $Id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="account", type="string", length=50, nullable=false)
+     */
+    private $account;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=150, nullable=false)
+     */
+    private $password;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status", type="boolean", nullable=false)
+     */
+    private $status;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="group", type="boolean", nullable=false)
+     */
+    private $group;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createtime", type="datetime", nullable=false)
+     */
+    private $createtime;
+
+    /**
+     * Get Id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->Id;
+    }
+
+    /**
+     * Set account
+     *
+     * @param string $account
+     * @return Admin
+     */
+    public function setAccount($account)
+    {
+        $this->account = $account;
+
+        return $this;
+    }
+
+    /**
+     * Get account
+     *
+     * @return string
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return Admin
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     * @return Admin
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set group
+     *
+     * @param boolean $group
+     * @return Admin
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+
+        return $this;
+    }
+
+    /**
+     * Get group
+     *
+     * @return boolean
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * Set createtime
+     *
+     * @param \DateTime $createtime
+     * @return Admin
+     */
+    public function setCreatetime($createtime)
+    {
+        $this->createtime = $createtime;
+
+        return $this;
+    }
+
+    /**
+     * Get createtime
+     *
+     * @return \DateTime
+     */
+    public function getCreatetime()
+    {
+        return $this->createtime;
+    }
+}

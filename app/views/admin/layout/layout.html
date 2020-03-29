@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	{{ include('/admin/public/head.html') }}
+</head>
+<body class="no-skin">
+	{{ include('/admin/public/navbar.html') }}
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+		</script>
+	<div id="sidebar" class="sidebar responsive">
+		<script type="text/javascript">
+			try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+		</script>
+		{{ include('/admin/public/menu.html') }}
+		<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+			<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+		</div>
+	</div>
+
+	<div class="main-content">
+		<div class="breadcrumbs" id="breadcrumbs">
+			<ul class="breadcrumb">
+				<li>
+					<i class="ace-icon fa fa-home home-icon"></i>
+					{{ data.module_name }}
+				</li>
+				<li class="active">{{ data.sub_title }}</li>
+			</ul>
+		</div>
+		{% block content %}
+
+		{% endblock %}
+	</div>
+		{{ include('/admin/public/foot.html') }}
+</body>
+</html>

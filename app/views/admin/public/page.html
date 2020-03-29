@@ -1,0 +1,30 @@
+<div class="row">
+	<div>
+		<ul class="pagination">
+			{% if page_data.prefix!=0 %}
+			<li class="disabled">
+				<a href="{{ page_data.url }}{{ page_data.prefix}}">
+					<i class="ace-icon fa fa-angle-double-left"></i>
+				</a>
+			</li>
+			<li>
+				<a href="{{ page_data.url }}{{ page_data.prefix}}">{{ page_data.prefix}}</a>
+			</li>
+			{% endif %}
+
+			<li class="active">
+				<a href="{{ page_data.url }}{{page_data.current}}">{{ page_data.current}}</a>
+			</li>
+			{% if page_data.next!=page_data.current %}
+			<li>
+				<a href="{{ page_data.url }}{{page_data.next}}">{{ page_data.next}}</a>
+			</li>
+			<li>
+				<a href="{{ page_data.url }}{{ page_data.next}}">
+					<i class="ace-icon fa fa-angle-double-right"></i>
+				</a>
+			</li>
+			{% endif %}
+		</ul>
+	</div>
+</div>

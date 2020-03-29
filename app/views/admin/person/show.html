@@ -1,0 +1,720 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+				<div class="col-xs-12">
+					<div class="col-xs-8">
+					<form id="form1" action="" method="post" class="form-inline" enctype="multipart/form-data">
+						<div id="group_option">
+							<div class="form-group">
+								<label for="b_select">用户群：</label>
+                        		<select class="b_select">
+                        	    	{% for bk,bv in base_select %}
+                        	    		<option value="{{ bk }}" >{{ bv }}</option>
+                        	    	{% endfor %}
+								</select>
+							</div>
+							<div class="form-group">
+								<select class="sub_select"></select>
+							</div>
+							<div class="form-group">
+								<select class="sub_option">
+									{% for ok,ov in option %}
+										<option value="{{ ok }}">{{ ov }} </option>
+									{% endfor %}	
+								</select>
+							</div>
+							<div class="form-group">
+								<input type="text" class="options">	
+							</div>
+							<div class="form-group">
+								<a href="#" role="button" onclick="output(4)" class="active">
+									<i class="fa fa-plus-square fa-2x"></i>
+								</a>
+								<a href="#" role="button" onclick="output(5)" class="active">
+									<i class="fa fa-minus-square fa-2x"></i>
+								</a>
+							</div>
+						</div>
+					</form>
+					</div>
+					<div class="col-xs-1">
+						<button onclick="output(3)" class="btn btn-sm btn-success">查询</button>
+					</div>
+					<div class="col-xs-3">
+					<div class="alert alert-block alert-success">
+						<button type="button" class="close" data-dismiss="alert">
+							<i class="ace-icon fa fa-times"></i>
+						</button>
+						<p>
+							＊注：按照需求输入相关的数字<br/>
+							注册平台:1是pc,8是wap,10是ios,11是android<br/>
+							渠道:渠道码<br/>
+							宝宝性别:1是女,2是男<br/>
+							需要用到介于条件的中间以逗号分隔(英文逗号)<br/>
+						</p>
+					</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="col-xs-12" style="margin-top: 15px;">
+						<h3 class="header smaller lighter green" id="user_count">
+							<i class="ace-icon fa fa-bullhorn"></i>
+							{{ table_title }} 
+						</h3>
+						
+						<div class="tabbable">
+							<ul class="nav nav-tabs" id="myTab">
+								{% for tk,tt in tb_title %}
+									{% if tk == 'his' %}
+									<li class="active">
+										<a data-toggle="tab" href="#{{tk}}" id="{{tk}}tab">
+											{{ tt }}
+										</a>
+									</li>
+									{% else %}
+										<li class="">
+											<a data-toggle="tab" href="#{{tk}}" id="{{tk}}tab">
+												{{ tt }}
+											</a>
+										</li>
+									{% endif %}
+								{% endfor %}
+								<li style="float:right">
+									<button type="button" onclick="output(2)" class="btn btn-xs btn-info">导出用户群</button>
+								</li> 
+							</ul>
+
+							<div class="tab-content">
+								<div id="his" class="tab-pane fade active in">
+									<div id="brand"></div>
+									<div id="cate"></div>
+									<div id="users"></div>
+								</div>
+								<div id="now" class="tab-pane fade">
+									<div id="hot"></div>
+									<div id="m_brand"></div>
+									<div id="m_cate"></div>
+								</div>
+								<div id="area" class="tab-pane fade">
+									<div id="map"></div>
+									<div id="contents" class="row"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<!-- <script src="/js/date-time/moment.min.js"></script> -->
+<!-- <script src="/js/date-time/bootstrap-datepicker.min.js"></script> -->
+<script src="/js/highcharts/highcharts.js"></script>
+<script src="/js/highcharts/modules/exporting.js"></script>
+<script src="/js/map/map.js"></script>
+<script src="/js/map/data.js"></script>
+<!-- <script src="/js/map/drilldown.js"></script> -->
+<script src="/js/map/cn-china-by-peng8.js"></script>
+
+<script type="text/javascript">
+var his,chart,common_base,maps,map_data,show_tag;
+jQuery(function($) {
+	// $("#starts").datepicker({
+	// 	showOtherMonths: true,
+	// 	selectOtherMonths: false,
+	// 	format: "yyyy-mm-dd"
+	// });
+
+	// $("#stops").datepicker({
+	// 	showOtherMonths: true,
+	// 	selectOtherMonths: false,
+	// 	format: "yyyy-mm-dd"
+	// });
+	// 
+	//highcharts
+ 	Highcharts.setOptions({
+		lang: {
+			downloadJPEG: "下载JPEG 图片" ,
+			downloadPNG: "下载PNG 图片"  ,
+			exportButtonTitle: "导出图片"
+		},
+		credits: {
+			enabled:false
+		}
+	});
+
+	//tab_img 	
+ 	his = {
+ 		chart: {
+			renderTo: 'brand',
+			events: {
+                load: function(){
+                    this.showLoading();
+                }
+            }
+		},
+		title: {
+			text: '购买品牌偏好',
+			// text: Atitle
+		},
+		xAxis: {
+			categories:[],
+			title: {
+				text:'品牌'
+			}
+		},
+		yAxis:[
+		{
+			title:{
+				text:'订单数(父)',
+				style: {
+                    color: '#89A54E'
+                }
+			},
+			min: 0,			
+			labels: {
+                format: '{value}个',
+                style: {
+                    color: '#89A54E'
+                }
+            },
+            opposite:true
+		},
+		{
+			title:{
+				text:'收订金额(有效)',
+				style: {
+                    color: '#4572A7'
+            	}
+			},
+			min: 0,
+	     	labels: {
+                format: '{value}元',
+                style: {
+                    color: '#4572A7'
+                }
+            }
+		}
+		],
+		tooltip: {
+			shared: true
+		},
+		legend: {
+            layout: 'vertical',
+            align: 'left',
+            x: 120,
+            verticalAlign: 'top',
+            y: 10,
+            floating: true,
+            backgroundColor: '#FFFFFF'
+        },
+		series: [{
+			name:'收订金额(有效)',
+			color: '#4572A7',
+            type: 'column',
+            yAxis: 1,
+            data:[],
+            tooltip: {
+                valueSuffix: '元'
+            }
+		},
+		{
+			name:'订单数()',
+			color: '#89A54E',
+            type: 'column',
+			data:[],
+			tooltip: {
+                valueSuffix: '个'
+            }
+		}
+		]
+ 	}
+ 	
+ 	//地图
+ 	map_data = Highcharts.geojson(Highcharts.maps['countries/cn/custom/cn-all-china']);
+   
+    //初始化地图
+    maps = {
+    	chart : {
+        	height:400
+        },
+        title : {
+            text : '用户地域分布'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+        tooltip:{
+        	pointFormat:"{point.properties.cn-name}:{point.value}人"
+	        //pointFormat:"用户数:{point.value}人"
+        },
+        colorAxis: {
+            min: 0,
+            minColor: '#00CD00',
+            maxColor: '#B22222'
+        },
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+        plotOptions: {
+            map: {
+                states: {
+                    hover: {
+                        color: '#EEDD66'
+                    }
+                }
+            }
+        },
+        series : [{
+            type:'map',
+            data:[],
+            name:'中国',
+            dataLabels: {
+                enabled: true,
+                format: '{point.properties.cn-name}'
+            }
+        }]
+    }
+
+	common_base = {
+		chart: {
+			renderTo: 'users',
+			type: 'column',
+			events: {
+                load: function(){
+                    this.showLoading();
+                }
+            }
+		},
+		title: {
+			text: '消费分布'
+		},
+		xAxis: {
+			categories:[],
+			title: {
+				text:'消费金额'
+			}
+		},
+		yAxis:[
+		{
+			title:{
+				text:'用户数',
+				style: {
+                    color: '#89A54E'
+                }
+			},
+			min: 0,			
+			labels: {
+                format: '{value}',
+                style: {
+                    color: '#89A54E'
+                }
+            }
+		}
+		],
+		tooltip: {
+			shared: true
+		},
+		legend: {
+            layout: 'vertical',
+            align: 'left',
+            x: 120,
+            verticalAlign: 'top',
+            y: 10,
+            floating: true,
+            backgroundColor: '#FFFFFF'
+        },
+		series: [{
+			name:'购买人数',
+			color: '#4572A7',
+            data:[],
+            tooltip: {
+                valueSuffix: '个'
+            }
+		}
+		]
+	}
+
+	$.getJSON(
+		'/admin_person/bselect',
+		function(data){
+			var sub_select = '';
+			for ( sub in data[1]){
+				sub_select += "<option value='"+sub+"'>"+data[1][sub]+"</option>";
+			}
+		$('.sub_select:eq(0)').empty().append(sub_select);
+	});
+});
+
+
+	var bs,sub_len;
+	sub_len = $("#form1").children().length;
+
+	//导出
+	function output(data){
+		if(data==2){
+			//导出
+            var params = '';
+            $('.sub_select').each(function(){
+            	params +=$(this).val()+'|';
+            });
+
+            var option = '';
+            $('.sub_option').each(function(){
+            	option +=$(this).val()+'|';
+            });
+
+            var val = '';
+            $('.options').each(function(){
+            	if($(this).val()!=''){
+            		val += $(this).val()+'|';	
+            	}
+            });
+                
+			var form = $("<form>");
+			form.attr('style', 'display:none');
+			form.attr('target', '');
+			form.attr('method', 'post');
+			form.attr('action', '/admin_person/usergroup');
+							
+			var input = "<input type='hidden' name='params' value="+params+">"+
+				"<input type='hidden' name='option' value="+option+">"+
+				"<input type='hidden' name='val' value="+val+">"+
+				"<input type='hidden' name='output' value=1>";
+			form.append(input);
+			$('body').append(form);
+			form.submit();
+			form.remove();
+			
+		
+        }else if(data == 3){
+            //ajax 
+            var params = '';
+            $('.sub_select').each(function(){
+            	params +=$(this).val()+'|';
+            });
+
+            var option = '';
+            $('.sub_option').each(function(){
+            	option +=$(this).val()+'|';
+            });
+
+            var val = '';
+            $('.options').each(function(){
+            	if($(this).val()!=''){
+            		val += $(this).val()+'|';	
+            	}
+            });
+
+			if(val!=''){
+				var loading = "<h3 class='header smaller lighter grey loading' >" +
+						"<i class='showloading ace-icon fa fa-spinner fa-spin orange bigger-125'></i>" +
+						"</h3>";
+				$('#his').append(loading);
+
+				if($('#his').children().length > 0){
+					$('#brand').empty();
+					$('#cate').empty();
+					$('#users').empty();
+					$('#hot').empty();
+					$('#m_brand').empty();
+					$('#m_cate').empty();
+					$('#map').empty();
+					$('#contents').empty();
+				}
+
+				$.post(
+        		'/admin_person/HisShow',
+        		{params:params,option:option,val:val},
+        		function(datas){
+					if(datas !=0){
+						//第一个tab
+        				var data = $.parseJSON(datas);
+        			
+        				//brand
+            			var brand_len = data.brand.length;
+            			var brand_cate = [],brand_money = [],brand_orders = [];
+            			for(var i = 0;i < brand_len;i++){
+            				brand_cate[i] = data.brand[i].brand_name;
+            				brand_money[i] = data.brand[i].money;
+            				brand_orders[i] = data.brand[i].orders;
+            			}
+
+            			his.chart.renderTo = "brand";
+    					his.title.text = "购买品牌偏好";
+    					his.xAxis.title.text = '品牌';
+
+    					brand = new Highcharts.Chart(his);
+
+            			if(brand_cate.length < 1){
+            				brand.showLoading();
+            			}else{
+				            show_tag = 1;
+            				brand.hideLoading();
+            			}
+		
+            			brand.xAxis[0].categories = brand_cate;
+						brand.series[0].setData(brand_money);
+						brand.series[1].setData(brand_orders);
+
+
+						//cate
+            			var cate_len = data.cate.length;
+            			var cate_categ = [],cate_money = [],cate_orders = [];
+            			for(var j = 0;j < cate_len;j++){
+            				cate_categ[j] = data.cate[j].cate_name;
+            				cate_money[j] = data.cate[j].money;
+            				cate_orders[j] = data.cate[j].orders;
+            			}
+
+            			his.chart.renderTo = "cate";
+    					his.title.text = "购买品类偏好";
+    					his.xAxis.title.text = '品类';
+
+    					cate = new Highcharts.Chart(his);
+		
+            			cate.xAxis[0].categories = cate_categ;
+						cate.series[0].setData(cate_money);
+						cate.series[1].setData(cate_orders);
+			
+						if(cate_categ.length < 1){
+            				cate.showLoading();
+            			}else{
+            				cate.hideLoading();
+            			}
+
+            			var user_len = data.user.length;
+            			var users_counts = [],users_price = [];
+            			for(var k = 0;k<user_len;k++){	
+            				users_counts[k] = data.user[k].users;
+            				users_price[k] = data.user[k].price;
+            			}
+						
+						common_base.chart.renderTo = "users";
+						common_base.chart.type = "column";
+    					common_base.title.text = "消费分布";
+    					common_base.xAxis.title.text = '消费金额';
+    					common_base.yAxis[0].title.text = '用户数';
+    						
+    					user = new Highcharts.Chart(common_base);
+
+            			user.xAxis[0].categories = users_price;
+            			user.series[0].name = '购买人数';
+						user.series[0].setData(users_counts);
+			
+						if(users_price.length < 1){
+            				user.showLoading();
+            			}else{
+            				user.hideLoading();
+            			}
+
+            			//tab2
+            			var kk = 0,hotname = [],hotval = [];
+
+		            	for( k in data.keyword){
+		            		hotname[kk] = k;
+		            		hotval[kk] = data.keyword[k];
+		            		++kk;
+            			}	
+
+            			common_base.chart.renderTo = "hot";
+						common_base.chart.type = "bar";
+    					common_base.title.text = "最近30天热搜";
+    					common_base.xAxis.title.text = '热词数';
+    					common_base.yAxis[0].title.text = '热词';
+    					common_base.series[0].name = '热词';
+    					common_base.series[0].tooltip.valueSuffix = '次';
+
+    					hot = new Highcharts.Chart(common_base);
+            			hot.xAxis[0].categories = hotname;
+						hot.series[0].setData(hotval);
+
+						if(hotname.length < 1){
+            				hot.showLoading();
+            			}else{
+            				hot.hideLoading();
+            			}
+
+            			var m_brand_name = [],m_brand_users = [];
+            			for( b in data.m_brand){
+            				m_brand_name[b] = data.m_brand[b].name;
+            				m_brand_users[b] = data.m_brand[b].users;
+            			}
+
+            			common_base.chart.renderTo = "m_brand";
+						common_base.chart.type = "bar";
+    					common_base.title.text = "最近30天品牌";
+    					common_base.xAxis.title.text = '品牌';
+    					common_base.yAxis[0].title.text = '访问次数';
+    					common_base.series[0].name = '访问次数';
+    					common_base.series[0].tooltip.valueSuffix = '次';
+
+    					m_brands = new Highcharts.Chart(common_base);
+            			m_brands.xAxis[0].categories = m_brand_name;
+						m_brands.series[0].setData(m_brand_users);
+
+						if(m_brand_name.length < 1){
+            				m_brands.showLoading();
+            			}else{
+            				m_brands.hideLoading();
+            			}
+
+            			var m_cate_name = [],m_cate_users = [];
+            			for( c in data.m_cate){
+            				m_cate_name[c] = data.m_cate[c].name;
+            				m_cate_users[c] = data.m_cate[c].users;
+            			}
+
+            			common_base.chart.renderTo = "m_cate";
+						common_base.chart.type = "bar";
+    					common_base.title.text = "最近30天品类";
+    					common_base.xAxis.title.text = '品类';
+    					common_base.yAxis[0].title.text = '访问次数';
+    					common_base.series[0].name = '访问次数';
+    					common_base.series[0].tooltip.valueSuffix = '次';
+
+    					m_cates = new Highcharts.Chart(common_base);
+            			m_cates.xAxis[0].categories = m_cate_name;
+						m_cates.series[0].setData(m_cate_users);
+
+						if(m_cate_name.length < 1){
+            				m_cates.showLoading();
+            			}else{
+            				m_cates.hideLoading();
+            			}
+
+						if(data.user_count == null){
+							data.user_count = 0;
+						}
+
+						//user_counts
+						if($('#user_count_tag').length > 0){
+							$('#user_count_tag').remove();
+							$('#user_count').append("<span id='user_count_tag' style='color:red'>用户数："+data.user_count+"</span>");
+						}else{
+							$('#user_count').append("<span id='user_count_tag' style='color:red'>用户数："+data.user_count+"</span>");
+						}
+
+						$(".showloading").remove();
+
+            			//tab3
+            			maps.chart.renderTo = "map";
+    					maps.title.text = "用户地域分布";
+    					map = new Highcharts.Map(maps);
+						
+						//用户数
+						var users = 0,td = '',sername = [];
+						$.each(map_data, function (i) {
+							this.drilldown = this.properties['drill-key'];
+							for(m in data.area){
+								if(data.area[m].city == this.properties['cn-name']){
+									this.value = data.area[m].users;
+									td += "<tr><td>"+data.area[m].city+"</td><td>"+data.area[m].users+"</td></tr>";
+									users += data.area[m].users;
+								}
+							}
+    					});
+
+						map.series[0].setData(map_data,false);
+
+    					//table
+    					var tabs = "<table class='table table-striped table-bordered table-hover'>"+td+"</table>";
+    					$('#contents').append(tabs);
+
+            		}else{
+            			// $('#his').hide();
+            		}
+        		});
+			}else{
+				alert('没有选择条件值');
+				return false;
+			}	            
+            
+		}else if(data==4){
+			var count = $("#form1").children().length;
+			sub_len = $("#form1").children().length;
+
+			//给到每个select 一个唯
+			var select_con = $('#group_option').html();
+			$('#form1').append('<div>'+select_con+'</div>');
+
+			$('.b_select:eq('+count+')').change(function(){
+				bs = $(this).val();
+				$.getJSON(
+					'/admin_person/bselect',
+					function(data){
+						var sub_select = '';
+					for ( sub in data[bs]){
+						sub_select += "<option value='"+sub+"'>"+data[bs][sub]+"</option>";
+					}
+					$('.sub_select:eq('+count+')').empty().append(sub_select);
+				});
+			});
+			
+		}else if(data == 5){
+			var count = $("#form1").children().length;
+				sub_len = count -1;
+			if(count > 1){
+				$('#form1 > div').last().remove();
+			}
+		}
+	}
+
+	var f_len = sub_len - 1;
+	$('.b_select:eq('+f_len+')').change(function(){
+		bs = $(this).val();
+		$.getJSON(
+			'/admin_person/bselect',
+			function(data){
+				var sub_select = '';
+			for ( sub in data[bs]){
+				sub_select += "<option value='"+sub+"'>"+data[bs][sub]+"</option>";
+			}
+			if(sub_len==1){
+				$('.sub_select:eq(0)').empty().append(sub_select);
+			}else{
+				$('.sub_select:eq('+f_len+')').empty().append(sub_select);	
+			}
+			
+		});
+	});
+
+</script>
+{% endblock %}

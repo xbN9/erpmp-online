@@ -1,0 +1,78 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+				<div class="col-xs-12">
+					<div class="col-xs-12" style="margin-top: 5px;">
+						<h3 class="header smaller lighter green">
+							<i class="ace-icon fa fa-bullhorn"></i>
+							目录列表
+						</h3>
+						<div id="norm" class="tab-pane fade active in">
+							<div class="row">
+								<table id="table1" class="table table-striped table-bordered table-hover">
+									{% for vars in files %}
+									<tr>
+										<td><a onclick="downloads('{{ vars }}')">{{ vars }}</a></td>
+									</tr>
+									{% endfor %}
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+
+<script type="text/javascript">
+	function downloads(filename){
+		var form = $("<form>");
+		form.attr('style', 'display:none');
+		form.attr('target', '');
+		form.attr('method', 'post');
+		form.attr('action', '/admin_base/download');
+		var input1 = $('<input>');
+		input1.attr('type', 'hidden');
+		input1.attr('name', 'filename');
+		input1.attr('value', filename);
+		$('body').append(form);
+		form.append(input1);
+		form.submit();
+		form.remove();
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,441 @@
+{% extends "admin/layout/layout.html" %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+				<div class="col-md-12">
+					<div class="col-sm-7 infobox-container">
+						<h5>系统概览</h5>
+					</div>
+					<div class="col-sm-7 infobox-container">
+						<div class="infobox infobox-green">
+							<div class="infobox-icon">
+								<i class="ace-icon fa fa-download">G</i>
+							</div>
+							<div class="infobox-data">
+								<span class="infobox-data-number">{{data.disk_total}}</span>
+								<div class="infobox-content">
+									<a href="{{data.disk_url}}">
+										磁盘(GB)
+									</a>
+								</div>
+							</div>
+							<div class="badge badge-success">
+								{{data.disk_space}}
+							</div>
+						</div>
+						<div class="infobox infobox-blue">
+							<div class="infobox-icon">
+								<i class="ace-icon fa fa-database"></i>
+							</div>
+							<div class="infobox-data">
+								<span class="infobox-data-number">memory_total</span>
+								<div class="infobox-content">
+									<a href="{{data.memory_url}}">
+									    内存
+									</a>
+								</div>
+							</div>
+							<div class="badge badge-important">
+								{{ data.memory_space}}
+								<i class="ace-icon fa"></i>
+							</div>
+						</div>
+						<div class="infobox infobox-red">
+							<div class="infobox-icon">
+								<i class="ace-icon fa fa-money"></i>
+							</div>
+							<div class="infobox-data">
+								<span class="infobox-data-number">111k</span>
+								<div class="infobox-content">
+									<a href="/drill_manage/index/keyId/3">
+										php
+									</a>
+								</div>
+							</div>
+							<div class="badge {% if data.effective_gmv_percent < 0 %} badge-important {%else%}badge-success{%endif%}">
+								{{ data.effective_gmv_percent}}
+								<i class="ace-icon fa {%if data.effective_gmv_percent < 0%} fa-arrow-down {%else%}fa-arrow-up{%endif%}"></i>
+							</div>
+						</div>
+						<div class="infobox infobox-red">
+							<div class="infobox-icon">
+								<i class="ace-icon fa fa-shopping-cart"></i>
+							</div>
+							<div class="infobox-data">
+								<span class="infobox-data-number">555</span>
+								<a href="/drill_manage/index/keyId/21"><div
+                                        class="infobox-content">nginx</div></a>
+							</div>
+						</div>
+						<div class="infobox infobox-orange2">
+							<div class="infobox-icon">
+								<i class="ace-icon fa fa-database"></i>
+							</div>
+							<div class="infobox-data">
+								<span class="infobox-data-number"></span>
+								<div class="infobox-content">mysql</div>
+							</div>
+						</div>
+						<div class="infobox infobox-blue2">
+							<div class="infobox-progress">
+								<div class="easy-pie-chart percentage" data-percent="{{ data.effective_xinke_all / data.effective_users_all * 100 }}" data-size="46">
+					                <span class="percent">
+					                    {{ (data.effective_xinke_all / data.effective_users_all * 100) |number_format(0,'.',',')}}
+					                </span>%
+								</div>
+							</div>
+							<div class="infobox-data">
+								<span class="infobox-data-number">{{ data.effective_xinke_all|number_format(0,'.',',') }}</span>
+								<div class="infobox-content">
+									<span class="bigger-110">网络带宽</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+<div class="col-sm-5">
+										<div class="widget-box">
+											<div class="widget-header widget-header-flat widget-header-small">
+												<h5 class="widget-title">
+													<i class="ace-icon fa fa-signal"></i>
+													Traffic Sources
+												</h5>
+
+												<div class="widget-toolbar no-border">
+													<div class="inline dropdown-hover">
+														<button class="btn btn-minier btn-primary">
+															This Week
+															<i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>
+														</button>
+
+														<ul class="dropdown-menu dropdown-menu-right dropdown-125 dropdown-lighter dropdown-close dropdown-caret">
+															<li class="active">
+																<a href="#" class="blue">
+																	<i class="ace-icon fa fa-caret-right bigger-110">&nbsp;</i>
+																	This Week
+																</a>
+															</li>
+
+															<li>
+																<a href="#">
+																	<i class="ace-icon fa fa-caret-right bigger-110 invisible">&nbsp;</i>
+																	Last Week
+																</a>
+															</li>
+
+															<li>
+																<a href="#">
+																	<i class="ace-icon fa fa-caret-right bigger-110 invisible">&nbsp;</i>
+																	This Month
+																</a>
+															</li>
+
+															<li>
+																<a href="#">
+																	<i class="ace-icon fa fa-caret-right bigger-110 invisible">&nbsp;</i>
+																	Last Month
+																</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+
+											<div class="widget-body">
+												<div class="widget-main">
+													<div id="piechart-placeholder" style="width: 90%; min-height: 150px; padding: 0px; position: relative;"><canvas class="flot-base" width="688" height="300" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 344px; height: 150px;"></canvas><canvas class="flot-overlay" width="688" height="300" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 344px; height: 150px;"></canvas><div class="legend"><div style="position: absolute; width: 105px; height: 110px; top: 15px; right: -30px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div><table style="position:absolute;top:15px;right:-30px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #68BC31;overflow:hidden"></div></div></td><td class="legendLabel">social networks</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #2091CF;overflow:hidden"></div></div></td><td class="legendLabel">search engines</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #AF4E96;overflow:hidden"></div></div></td><td class="legendLabel">ad campaigns</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #DA5430;overflow:hidden"></div></div></td><td class="legendLabel">direct traffic</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #FEE074;overflow:hidden"></div></div></td><td class="legendLabel">other</td></tr></tbody></table></div></div>
+
+													<div class="hr hr8 hr-double"></div>
+
+													<div class="clearfix">
+														<div class="grid3">
+															<span class="grey">
+																<i class="ace-icon fa fa-facebook-square fa-2x blue"></i>
+																&nbsp; likes
+															</span>
+															<h4 class="bigger pull-right">1,255</h4>
+														</div>
+
+														<div class="grid3">
+															<span class="grey">
+																<i class="ace-icon fa fa-twitter-square fa-2x purple"></i>
+																&nbsp; tweets
+															</span>
+															<h4 class="bigger pull-right">941</h4>
+														</div>
+
+														<div class="grid3">
+															<span class="grey">
+																<i class="ace-icon fa fa-pinterest-square fa-2x red"></i>
+																&nbsp; pins
+															</span>
+															<h4 class="bigger pull-right">1,050</h4>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+				<div class="col-md-12">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/js/jquery.easypiechart.min.js"></script>
+<script src="/js/jquery.sparkline.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/jquery.dataTables.bootstrap.js"></script>
+<!-- ace scripts -->
+<script src="/js/flot/jquery.flot.min.js"></script>
+<script src="/js/flot/jquery.flot.pie.min.js"></script>
+<script src="/js/flot/jquery.flot.resize.min.js"></script>
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+	$('.easy-pie-chart.percentage').each(function(){
+	    var $box = $(this).closest('.infobox');
+	    var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
+	    var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
+	    var size = parseInt($(this).data('size')) || 50;
+	    $(this).easyPieChart({
+	        barColor: barColor,
+	        trackColor: trackColor,
+	        scaleColor: false,
+	        lineCap: 'butt',
+	        lineWidth: parseInt(size/10),
+	        animate: /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ? false : 1000,
+	        size: size
+	    });
+	});
+            
+	$('.sparkline').each(function(){
+		var $box = $(this).closest('.infobox');
+		var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
+		$(this).sparkline('html',
+		     {
+		        tagValuesAttribute:'data-values',
+		        type: 'bar',
+		        barColor: barColor ,
+		        chartRangeMin:$(this).data('min') || 0
+		     });
+	});
+
+	//flot chart resize plugin, somehow manipulates default browser resize event to optimize it!
+	//but sometimes it brings up errors with normal resize event handlers
+	$.resize.throttleWindow = false;
+
+	var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
+	var data = [
+	{ label: "social networks",  data: 38.7, color: "#68BC31"},
+	{ label: "search engines",  data: 24.5, color: "#2091CF"},
+	{ label: "ad campaigns",  data: 8.2, color: "#AF4E96"},
+	{ label: "direct traffic",  data: 18.6, color: "#DA5430"},
+	{ label: "other",  data: 10, color: "#FEE074"}
+	];
+
+	function drawPieChart(placeholder, data, position) {
+		$.plot(placeholder, data, {
+		series: {
+		    pie: {
+		        show: true,
+		        tilt:0.8,
+		        highlight: {
+		            opacity: 0.25
+		        },
+		        stroke: {
+		            color: '#fff',
+		            width: 2
+		        },
+		        startAngle: 2
+		    }
+		},
+		legend: {
+		    show: true,
+		    position: position || "ne",
+		    labelBoxBorderColor: null,
+		    margin:[-30,15]
+		}
+		,
+		grid: {
+		    hoverable: true,
+		    clickable: true
+		}
+		})
+	}
+
+	drawPieChart(placeholder, data);
+
+	placeholder.data('chart', data);
+	placeholder.data('draw', drawPieChart);
+
+	//pie chart tooltip example
+	var $tooltip = $("<div class='tooltip top in'><div class='tooltip-inner'></div></div>").hide().appendTo('body');
+	var previousPoint = null;
+
+	placeholder.on('plothover', function (event, pos, item) {
+		if(item) {
+			if (previousPoint != item.seriesIndex) {
+				previousPoint = item.seriesIndex;
+				var tip = item.series['label'] + " : " + item.series['percent']+'%';
+				$tooltip.show().children(0).text(tip);
+			}
+			$tooltip.css({top:pos.pageY + 10, left:pos.pageX + 10});
+		} else {
+			$tooltip.hide();
+			previousPoint = null;
+		}
+	});
+
+	var d1 = [];
+	for (var i = 0; i < Math.PI * 2; i += 0.5) {
+		d1.push([i, Math.sin(i)]);
+	}
+
+	var d2 = [];
+		for (var i = 0; i < Math.PI * 2; i += 0.5) {
+		d2.push([i, Math.cos(i)]);
+	}
+
+	var d3 = [];
+	for (var i = 0; i < Math.PI * 2; i += 0.2) {
+		d3.push([i, Math.tan(i)]);
+	}
+
+
+	var sales_charts = $('#sales-charts').css({'width':'100%' , 'height':'220px'});
+	$.plot("#sales-charts",
+		[
+		{ label: "Domains", data: d1 },
+		{ label: "Hosting", data: d2 },
+		{ label: "Services", data: d3 }
+		],
+		{
+			hoverable: true,
+			shadowSize: 0,
+			series: {
+			lines: { show: true },
+			points: { show: true }
+			},
+			xaxis: {
+			tickLength: 0
+			},
+			yaxis: {
+			ticks: 10,
+			min: -2,
+			max: 2,
+			tickDecimals: 3
+			},
+			grid: {
+			backgroundColor: { colors: [ "#fff", "#fff" ] },
+			borderWidth: 1,
+			borderColor:'#555'
+			}
+		}
+	);
+
+	$('#recent-box [data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+		function tooltip_placement(context, source) {
+			var $source = $(source);
+			var $parent = $source.closest('.tab-content')
+			var off1 = $parent.offset();
+			var w1 = $parent.width();
+
+			var off2 = $source.offset();
+			//var w2 = $source.width();
+
+			if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+				return 'left';
+			}
+
+		$('.dialogs,.comments').ace_scroll({
+			size: 300
+		});
+
+	var agent = navigator.userAgent.toLowerCase();
+	if("ontouchstart" in document && /applewebkit/.test(agent) && /android/.test(agent))
+		$('#tasks').on('touchstart', function(e){
+		var li = $(e.target).closest('#tasks li');
+		if(li.length == 0)return;
+		var label = li.find('label.inline').get(0);
+		if(label == e.target || $.contains(label, e.target)) e.stopImmediatePropagation() ;
+	});
+
+	$('#tasks').sortable({
+		opacity:0.8,
+		revert:true,
+		forceHelperSize:true,
+		placeholder: 'draggable-placeholder',
+		forcePlaceholderSize:true,
+		tolerance:'pointer',
+		stop: function( event, ui ) {
+		//just for Chrome!!!! so that dropdowns on items don't appear below other items after being moved
+			$(ui.item).css('z-index', 'auto');
+		}
+	});
+	$('#tasks').disableSelection();
+	$('#tasks input:checkbox').removeAttr('checked').on('click', function(){
+		if(this.checked) $(this).closest('li').addClass('selected');
+		else $(this).closest('li').removeClass('selected');
+	});
+
+	$('#task-tab .dropdown-hover').on('mouseenter', function(e) {
+		var offset = $(this).offset();
+
+		var $w = $(window)
+		if (offset.top > $w.scrollTop() + $w.innerHeight() - 100)
+			$(this).addClass('dropup');
+		else $(this).removeClass('dropup');
+	});
+
+	var oTable1 =
+			$('#sample-table-2')
+					.dataTable( {
+						bAutoWidth: false,
+						"aoColumns": [
+							null, null,null,null, null,null,null, null,null,null, null,null,null, null,null
+						],
+						"aaSorting": []
+					} );
+
+	$(document).on('click', 'th input:checkbox' , function(){
+		var that = this;
+		$(this).closest('table').find('tr > td:first-child input:checkbox')
+				.each(function(){
+					this.checked = that.checked;
+					$(this).closest('tr').toggleClass('selected');
+				});
+	});
+});
+
+//            jQuery(function($) {
+//                var oTable1 =
+//                $('#sample-table-2')
+//                .dataTable( {
+//                    bAutoWidth: false,
+//                    "aoColumns": [
+//                      null, null,null,null, null,null,null, null,null,null, null,null,null, null,null
+//                    ],
+//                    "aaSorting": [],
+//                } );
+//
+//
+//                $(document).on('click', 'th input:checkbox' , function(){
+//                    var that = this;
+//                    $(this).closest('table').find('tr > td:first-child input:checkbox')
+//                    .each(function(){
+//                        this.checked = that.checked;
+//                        $(this).closest('tr').toggleClass('selected');
+//                    });
+//                });
+//            })
+</script>
+{% endblock %}

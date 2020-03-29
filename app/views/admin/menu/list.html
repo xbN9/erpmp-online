@@ -1,0 +1,139 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+                <div class="col-xs-12">
+                    <div class="table-header">
+                        {{data.tab_sub_title}}
+                    </div>
+                    <div class="dataTables_wrapper form-inline no-footer">
+                        <table id="table" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="table2_info">
+                            <thead>
+                                <tr role="row">
+                                    {% for title in data.data_title %}
+                                    <th>{{title}}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>			
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/jquery.dataTables.bootstrap.js"></script>
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+	$('#table').dataTable({
+		"bDestroy": true,
+		"bProcessing": true, //开启服务器模式
+		"bServerSide": true,
+		"sAjaxDataProp": "data",
+        "sAjaxSource":'{{data.sAjaxSource}}',
+		"bAutoWidth": true,
+		"bSort": false,
+		//分页
+		"aoColumns": [
+            /*{
+                "mData":"id",
+                "mDataProp": "id",
+                "sClass": "center",
+                "mRender": function(data,type,row) {
+                return '<label class="position-relative">'+
+                        '<input type="checkbox" class="ace" value="'+row.id+'"/>' +
+                        '<span class="lbl"></span>' +
+                        '</label>';
+                }
+            },*/
+			{ "mData": "name","mDataProp": "name","bSortable": false},
+			{ "mData": "url","mDataProp": "url","bSortable": false},
+			{ "mData": "level","mDataProp": "level","bSortable": false},
+			{ "mData": "status","mDataProp": "status","bSortable": false},
+			{ "mData": "sort","mDataProp": "sort","bSortable": false},
+			{ 
+                "mData": "icon",
+                "mDataProp": "icon",
+                "bSortable": false,
+                "mRender": function (data, type, row) {
+                    return '<i class="'+row.icon+'"></i><span>&nbsp;&nbsp;'+row.icon+'</span>';
+		        }
+            },
+			{
+				"mDataProp":"id",
+				"sClass": "center",
+				"bSortable": false,
+                "mRender": function (data, type, row) {
+                    return '<a href={{data.changeurl}}'+row.id+'>修改</a>';
+		        }
+	        }
+		],
+		"bPaginate":true,
+		"bLengthChange" : true,
+		"lengthMenu": [[10,25,50],[10, 25, 50]],
+		"iDisplayLength": 10, //分页
+		"oLanguage": {
+			"sProcessing" : "正在加载中......",
+			"sLengthMenu" : "每页显示 _MENU_ 条记录",
+			"sZeroRecords" : "没有数据！",
+			"sEmptyTable" : "表中无数据存在！",
+			"sInfo" : "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+			"sInfoEmpty" : "显示0到0条记录",
+			"sInfoFiltered" : "数据表中共为 _MAX_ 条记录",
+			"oPaginate" : {
+				"sFirst" : "首页",
+				"sPrevious" : "上一页",
+				"sNext" : "下一页",
+				"sLast" : "末页"
+			}
+		}
+	});
+	$(document).on('click', 'th input:checkbox' , function(){
+		var that = this;
+		$(this).closest('table').find('tr > td:first-child input:checkbox')
+				.each(function(){
+					this.checked = that.checked;
+					$(this).closest('tr').toggleClass('selected');
+				});
+	});
+	$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+	function tooltip_placement(context, source) {
+		var $source = $(source);
+		var $parent = $source.closest('table')
+		var off1 = $parent.offset();
+		var w1 = $parent.width();
+		var off2 = $source.offset();
+		if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+		return 'left';
+	}
+});
+</script>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+            <div id="container"></div>
+		</div>
+	</div>
+</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script src="/js/highcharts/highcharts.js"></script>
+
+<script>
+var options,data,categories;
+$(function(){
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        // options = $('#container').highcharts({
+        options = new Highcharts.Chart({    
+            chart: {
+                renderTo: 'container',
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    load: function() {
+                        setInterval("LoadData()", 2000);
+//	                    setInterval("LoadData()", 600000);
+                    }
+                }
+            },
+            title: {
+                text: '曲线数'
+            },
+            xAxis: {
+                //type: 'datetime'
+                //tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function() {
+                        // return '<b>'+ this.series.name +'</b><br>'+
+                        // Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br>'+
+                        // Highcharts.numberFormat(this.y, 2);
+                        return '<b>'+ this.series.name +'</b><br>'+this.x +'<br>'+
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: '订单突',
+                data:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+	            //pointInterval: 24 * 3600 * 1000
+            }]
+        });
+});
+
+var LoadData = function () {
+    $.getJSON('/admin_order/orderData',function(datas){
+        if(datas.length>0){
+            //var d=[],x=[];
+	        var x=[];
+            for(var i=0;i<=datas.length;++i){
+                if(datas[i]){
+                    //d.push(datas[i]['num']);
+                    //x.push(datas[i]['time']);
+                    // console.log(datas[i]['time']);
+                    options.series[0].addPoint([datas[i]['time'],datas[i]['num']], false, true);
+	                x.push(datas[i]['time']);
+                }
+            }
+	        console.log(x);
+	        options.xAxis[0].categories=x;
+            options.redraw();
+            // options.series[0].setData(d);
+            // options.xAxis[0].setCategories(x);
+        }
+    });
+}
+//function getDate(tm){
+//	var tt=new Date(parseInt(tm) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ")
+//	return tt;
+//}
+</script>
+{% endblock %}

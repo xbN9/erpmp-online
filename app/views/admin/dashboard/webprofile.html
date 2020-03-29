@@ -1,0 +1,1245 @@
+{% extends "/admin/manage/index.html.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="breadcrumbs" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">性能管理</a>
+            </li>
+            <li class="active">查看性能</li>
+        </ul>
+    </div>
+    <div class="page-content">
+    <!--显示性能页-->
+    <div class="row">
+        <div class="col-xs-12">
+            <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+	                    <th class="center">
+		                    <label class="position-relative">
+			                    {#<input type="checkbox" class="ace">#}
+		                        <span class="lbl"></span>
+		                    </label>
+	                    </th>
+	                    <th>性能日志</th>
+	                    <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for filename in files %}
+	                <tr>
+		                <td class="center">
+			                <label class="position-relative">
+				                <input type="checkbox" class="ace">
+				                <span class="lbl"></span>
+			                </label>
+		                </td>
+		                <td>
+			                <a href="#">{{ filename }}</a>
+		                </td>
+		                <td class="center">
+		                <div class="hidden-sm hidden-xs btn-group">
+			                <button class="btn btn-xs btn-success">
+				                <i class="ace-icon fa fa-check bigger-120">查看</i>
+			                </button>
+			                <button class="btn btn-xs btn-success">
+				                <i class="ace-icon fa fa-check bigger-120">对比</i>
+			                </button>
+			                <button class="btn btn-xs btn-success">
+				                <i class="ace-icon fa fa-check bigger-120">合并</i>
+			                </button>
+		                </div>
+		                </td>
+	                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {#<div class="ace-settings-container" id="ace-settings-container">#}
+        {#<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">#}
+            {#<i class="ace-icon fa fa-cog bigger-150"></i>#}
+        {#</div>#}
+        {#<div class="ace-settings-box clearfix" id="ace-settings-box">#}
+            {#<div class="pull-left width-50">#}
+                {#<div class="ace-settings-item">#}
+                    {#<div class="pull-left">#}
+                        {#<select id="skin-colorpicker" class="hide">#}
+                            {#<option data-skin="no-skin" value="#438EB9">#438EB9</option>#}
+                            {#<option data-skin="skin-1" value="#222A2D">#222A2D</option>#}
+                            {#<option data-skin="skin-2" value="#C6487E">#C6487E</option>#}
+                            {#<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>#}
+                        {#</select>#}
+                    {#</div>#}
+                    {#<span>&nbsp; 选择皮肤</span>#}
+                {#</div>#}
+                {#<div class="ace-settings-item">#}
+                    {#<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />#}
+                    {#<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>#}
+                {#</div>#}
+                {#<div class="ace-settings-item">#}
+                    {#<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />#}
+                    {#<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>#}
+                {#</div>#}
+                {#<div class="ace-settings-item">#}
+                    {#<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />#}
+                    {#<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>#}
+                {#</div>#}
+                {#<div class="ace-settings-item">#}
+                    {#<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />#}
+                    {#<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>#}
+                {#</div>#}
+                {#<div class="ace-settings-item">#}
+                    {#<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />#}
+                    {#<label class="lbl" for="ace-settings-add-container">#}
+                        {#Inside#}
+                        {#<b>.container</b>#}
+                    {#</label>#}
+                {#</div>#}
+            {#</div>#}
+            {#<div class="pull-left width-50">#}
+                {#<div class="ace-settings-item">#}
+                    {#<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" />#}
+                    {#<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>#}
+                {#</div>#}
+                {#<div class="ace-settings-item">#}
+                    {#<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" />#}
+                    {#<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>#}
+                {#</div>#}
+                {#<div class="ace-settings-item">#}
+                    {#<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />#}
+                    {#<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+    {#<div class="page-content-area">#}
+    {#<div class="page-header">#}
+        {#<h1>#}
+            {#仪表盘#}
+            {#<small>#}
+                {#<i class="ace-icon fa fa-angle-double-right"></i>#}
+                {#内容简要#}
+            {#</small>#}
+        {#</h1>#}
+    {#</div>#}
+
+    {#<div class="row">#}
+    {#<div class="col-xs-12">#}
+    {#&#123;&#35;<div class="alert alert-block alert-success">&#35;&#125;#}
+    {#&#123;&#35;<button type="button" class="close" data-dismiss="alert">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-times"></i>&#35;&#125;#}
+    {#&#123;&#35;</button>&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-check green"></i>&#35;&#125;#}
+    {#&#123;&#35;Welcome to&#35;&#125;#}
+    {#&#123;&#35;<strong class="green">&#35;&#125;#}
+    {#&#123;&#35;Ace&#35;&#125;#}
+    {#&#123;&#35;<small>(v1.3.1)</small>&#35;&#125;#}
+    {#&#123;&#35;</strong>,&#35;&#125;#}
+    {#&#123;&#35;the lightweight, feature-rich and easy to use admin template.&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#<div class="row">#}
+    {#<div class="space-6"></div>#}
+    {#<div class="col-sm-7 infobox-container">#}
+        {#<div class="infobox infobox-green">#}
+            {#<div class="infobox-icon">#}
+                {#<i class="ace-icon fa fa-comments"></i>#}
+            {#</div>#}
+            {#<div class="infobox-data">#}
+                {#<span class="infobox-data-number">32</span>#}
+                {#<div class="infobox-content">comments + 2 reviews</div>#}
+            {#</div>#}
+
+            {#<div class="stat stat-success">8%</div>#}
+        {#</div>#}
+
+        {#<div class="infobox infobox-blue">#}
+            {#<div class="infobox-icon">#}
+                {#<i class="ace-icon fa fa-twitter"></i>#}
+            {#</div>#}
+
+            {#<div class="infobox-data">#}
+                {#<span class="infobox-data-number">11</span>#}
+                {#<div class="infobox-content">new followers</div>#}
+            {#</div>#}
+
+            {#<div class="badge badge-success">#}
+                {#+32%#}
+                {#<i class="ace-icon fa fa-arrow-up"></i>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#<div class="infobox infobox-pink">#}
+            {#<div class="infobox-icon">#}
+                {#<i class="ace-icon fa fa-shopping-cart"></i>#}
+            {#</div>#}
+
+            {#<div class="infobox-data">#}
+                {#<span class="infobox-data-number">8</span>#}
+                {#<div class="infobox-content">new orders</div>#}
+            {#</div>#}
+            {#<div class="stat stat-important">4%</div>#}
+        {#</div>#}
+
+        {#<div class="infobox infobox-red">#}
+            {#<div class="infobox-icon">#}
+                {#<i class="ace-icon fa fa-flask"></i>#}
+            {#</div>#}
+
+            {#<div class="infobox-data">#}
+                {#<span class="infobox-data-number">7</span>#}
+                {#<div class="infobox-content">experiments</div>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#<div class="infobox infobox-orange2">#}
+            {#<div class="infobox-chart">#}
+                {#<span class="sparkline" data-values="196,128,202,177,154,94,100,170,224"></span>#}
+            {#</div>#}
+
+            {#<div class="infobox-data">#}
+                {#<span class="infobox-data-number">6,251</span>#}
+                {#<div class="infobox-content">pageviews</div>#}
+            {#</div>#}
+
+            {#<div class="badge badge-success">#}
+                {#7.2%#}
+                {#<i class="ace-icon fa fa-arrow-up"></i>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#<div class="infobox infobox-blue2">#}
+            {#<div class="infobox-progress">#}
+                {#<div class="easy-pie-chart percentage" data-percent="42" data-size="46">#}
+                    {#<span class="percent">42</span>%#}
+                {#</div>#}
+            {#</div>#}
+
+            {#<div class="infobox-data">#}
+                {#<span class="infobox-text">traffic used</span>#}
+
+                {#<div class="infobox-content">#}
+                    {#<span class="bigger-110">~</span>#}
+                    {#58GB remaining#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#<div class="space-6"></div>#}
+
+        {#<div class="infobox infobox-green infobox-small infobox-dark">#}
+            {#<div class="infobox-progress">#}
+                {#<div class="easy-pie-chart percentage" data-percent="61" data-size="39">#}
+                    {#<span class="percent">61</span>%#}
+                {#</div>#}
+            {#</div>#}
+
+            {#<div class="infobox-data">#}
+                {#<div class="infobox-content">Task</div>#}
+                {#<div class="infobox-content">Completion</div>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#<div class="infobox infobox-blue infobox-small infobox-dark">#}
+            {#<div class="infobox-chart">#}
+                {#<span class="sparkline" data-values="3,4,2,3,4,4,2,2"></span>#}
+            {#</div>#}
+
+            {#<div class="infobox-data">#}
+                {#<div class="infobox-content">Earnings</div>#}
+                {#<div class="infobox-content">$32,000</div>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#<div class="infobox infobox-grey infobox-small infobox-dark">#}
+            {#<div class="infobox-icon">#}
+                {#<i class="ace-icon fa fa-download"></i>#}
+            {#</div>#}
+
+            {#<div class="infobox-data">#}
+                {#<div class="infobox-content">Downloads</div>#}
+                {#<div class="infobox-content">1,205</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+
+    {#<div class="vspace-12-sm"></div>#}
+
+    {#<div class="col-sm-5">#}
+        {#<div class="widget-box">#}
+            {#<div class="widget-header widget-header-flat widget-header-small">#}
+                {#<h5 class="widget-title">#}
+                    {#<i class="ace-icon fa fa-signal"></i>#}
+                    {#Traffic Sources#}
+                {#</h5>#}
+
+                {#<div class="widget-toolbar no-border">#}
+                    {#<div class="inline dropdown-hover">#}
+                        {#<button class="btn btn-minier btn-primary">#}
+                            {#This Week#}
+                            {#<i class="ace-icon fa fa-angle-down icon-on-right bigger-110"></i>#}
+                        {#</button>#}
+
+                        {#<ul class="dropdown-menu dropdown-menu-right dropdown-125 dropdown-lighter dropdown-close dropdown-caret">#}
+                            {#<li class="active">#}
+                                {#<a href="#" class="blue">#}
+                                    {#<i class="ace-icon fa fa-caret-right bigger-110">&nbsp;</i>#}
+                                    {#This Week#}
+                                {#</a>#}
+                            {#</li>#}
+
+                            {#<li>#}
+                                {#<a href="#">#}
+                                    {#<i class="ace-icon fa fa-caret-right bigger-110 invisible">&nbsp;</i>#}
+                                    {#Last Week#}
+                                {#</a>#}
+                            {#</li>#}
+
+                            {#<li>#}
+                                {#<a href="#">#}
+                                    {#<i class="ace-icon fa fa-caret-right bigger-110 invisible">&nbsp;</i>#}
+                                    {#This Month#}
+                                {#</a>#}
+                            {#</li>#}
+
+                            {#<li>#}
+                                {#<a href="#">#}
+                                    {#<i class="ace-icon fa fa-caret-right bigger-110 invisible">&nbsp;</i>#}
+                                    {#Last Month#}
+                                {#</a>#}
+                            {#</li>#}
+                        {#</ul>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+
+            {#<div class="widget-body">#}
+                {#<div class="widget-main">#}
+                    {#<div id="piechart-placeholder"></div>#}
+
+                    {#<div class="hr hr8 hr-double"></div>#}
+
+                    {#<div class="clearfix">#}
+                        {#<div class="grid3">#}
+															{#<span class="grey">#}
+																{#<i class="ace-icon fa fa-facebook-square fa-2x blue"></i>#}
+																{#&nbsp; likes#}
+															{#</span>#}
+                            {#<h4 class="bigger pull-right">1,255</h4>#}
+                        {#</div>#}
+
+                        {#<div class="grid3">#}
+															{#<span class="grey">#}
+																{#<i class="ace-icon fa fa-twitter-square fa-2x purple"></i>#}
+																{#&nbsp; tweets#}
+															{#</span>#}
+                            {#<h4 class="bigger pull-right">941</h4>#}
+                        {#</div>#}
+
+                        {#<div class="grid3">#}
+															{#<span class="grey">#}
+																{#<i class="ace-icon fa fa-pinterest-square fa-2x red"></i>#}
+																{#&nbsp; pins#}
+															{#</span>#}
+                            {#<h4 class="bigger pull-right">1,050</h4>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div><!-- /.widget-main -->#}
+            {#</div><!-- /.widget-body -->#}
+        {#</div><!-- /.widget-box -->#}
+    {#</div><!-- /.col -->#}
+    {#</div><!-- /.row -->#}
+
+    {#<div class="hr hr32 hr-dotted"></div>#}
+
+    {#<div class="row">#}
+        {#<div class="col-sm-5">#}
+            {#<div class="widget-box transparent">#}
+                {#<div class="widget-header widget-header-flat">#}
+                    {#<h4 class="widget-title lighter">#}
+                        {#<i class="ace-icon fa fa-star orange"></i>#}
+                        {#Popular Domains#}
+                    {#</h4>#}
+
+                    {#<div class="widget-toolbar">#}
+                        {#<a href="#" data-action="collapse">#}
+                            {#<i class="ace-icon fa fa-chevron-up"></i>#}
+                        {#</a>#}
+                    {#</div>#}
+                {#</div>#}
+
+                {#<div class="widget-body">#}
+                    {#<div class="widget-main no-padding">#}
+                        {#<table class="table table-bordered table-striped">#}
+                            {#<thead class="thin-border-bottom">#}
+                            {#<tr>#}
+                                {#<th>#}
+                                    {#<i class="ace-icon fa fa-caret-right blue"></i>name#}
+                                {#</th>#}
+
+                                {#<th>#}
+                                    {#<i class="ace-icon fa fa-caret-right blue"></i>price#}
+                                {#</th>#}
+
+                                {#<th class="hidden-480">#}
+                                    {#<i class="ace-icon fa fa-caret-right blue"></i>status#}
+                                {#</th>#}
+                            {#</tr>#}
+                            {#</thead>#}
+
+                            {#<tbody>#}
+                            {#<tr>#}
+                                {#<td>internet.com</td>#}
+
+                                {#<td>#}
+                                    {#<small>#}
+                                        {#<s class="red">$29.99</s>#}
+                                    {#</small>#}
+                                    {#<b class="green">$19.99</b>#}
+                                {#</td>#}
+
+                                {#<td class="hidden-480">#}
+                                    {#<span class="label label-info arrowed-right arrowed-in">on sale</span>#}
+                                {#</td>#}
+                            {#</tr>#}
+
+                            {#<tr>#}
+                                {#<td>online.com</td>#}
+
+                                {#<td>#}
+                                    {#<small>#}
+                                        {#<s class="red"></s>#}
+                                    {#</small>#}
+                                    {#<b class="green">$16.45</b>#}
+                                {#</td>#}
+
+                                {#<td class="hidden-480">#}
+                                    {#<span class="label label-success arrowed-in arrowed-in-right">approved</span>#}
+                                {#</td>#}
+                            {#</tr>#}
+
+                            {#<tr>#}
+                                {#<td>newnet.com</td>#}
+
+                                {#<td>#}
+                                    {#<small>#}
+                                        {#<s class="red"></s>#}
+                                    {#</small>#}
+                                    {#<b class="green">$15.00</b>#}
+                                {#</td>#}
+
+                                {#<td class="hidden-480">#}
+                                    {#<span class="label label-danger arrowed">pending</span>#}
+                                {#</td>#}
+                            {#</tr>#}
+
+                            {#<tr>#}
+                                {#<td>web.com</td>#}
+
+                                {#<td>#}
+                                    {#<small>#}
+                                        {#<s class="red">$24.99</s>#}
+                                    {#</small>#}
+                                    {#<b class="green">$19.95</b>#}
+                                {#</td>#}
+
+                                {#<td class="hidden-480">#}
+																	{#<span class="label arrowed">#}
+																		{#<s>out of stock</s>#}
+																	{#</span>#}
+                                {#</td>#}
+                            {#</tr>#}
+
+                            {#<tr>#}
+                                {#<td>domain.com</td>#}
+
+                                {#<td>#}
+                                    {#<small>#}
+                                        {#<s class="red"></s>#}
+                                    {#</small>#}
+                                    {#<b class="green">$12.00</b>#}
+                                {#</td>#}
+
+                                {#<td class="hidden-480">#}
+                                    {#<span class="label label-warning arrowed arrowed-right">SOLD</span>#}
+                                {#</td>#}
+                            {#</tr>#}
+                            {#</tbody>#}
+                        {#</table>#}
+                    {#</div><!-- /.widget-main -->#}
+                {#</div><!-- /.widget-body -->#}
+            {#</div><!-- /.widget-box -->#}
+        {#</div><!-- /.col -->#}
+
+        {#<div class="col-sm-7">#}
+            {#<div class="widget-box transparent">#}
+                {#<div class="widget-header widget-header-flat">#}
+                    {#<h4 class="widget-title lighter">#}
+                        {#<i class="ace-icon fa fa-signal"></i>#}
+                        {#Sale Stats#}
+                    {#</h4>#}
+                    {#<div class="widget-toolbar">#}
+                        {#<a href="#" data-action="collapse">#}
+                            {#<i class="ace-icon fa fa-chevron-up"></i>#}
+                        {#</a>#}
+                    {#</div>#}
+                {#</div>#}
+                {#<div class="widget-body">#}
+                    {#<div class="widget-main padding-4">#}
+                        {#<div id="sales-charts"></div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+    {#<div class="hr hr32 hr-dotted"></div>#}
+    {#&#123;&#35;<div class="row">&#35;&#125;#}
+    {#&#123;&#35;<div class="col-sm-6">&#35;&#125;#}
+    {#&#123;&#35;<div class="widget-box transparent" id="recent-box">&#35;&#125;#}
+    {#&#123;&#35;<div class="widget-header">&#35;&#125;#}
+    {#&#123;&#35;<h4 class="widget-title lighter smaller">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-rss orange"></i>RECENT&#35;&#125;#}
+    {#&#123;&#35;</h4>&#35;&#125;#}
+    {#&#123;&#35;<div class="widget-toolbar no-border">&#35;&#125;#}
+    {#&#123;&#35;<ul class="nav nav-tabs" id="recent-tab">&#35;&#125;#}
+    {#&#123;&#35;<li class="active">&#35;&#125;#}
+    {#&#123;&#35;<a data-toggle="tab" href="#task-tab">Tasks</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a data-toggle="tab" href="#member-tab">Members</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a data-toggle="tab" href="#comment-tab">Comments</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;</ul>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;<div class="widget-body">&#35;&#125;#}
+    {#&#123;&#35;<div class="widget-main padding-4">&#35;&#125;#}
+    {#&#123;&#35;<div class="tab-content padding-8">&#35;&#125;#}
+    {#&#123;&#35;<div id="task-tab" class="tab-pane active">&#35;&#125;#}
+    {#&#123;&#35;<h4 class="smaller lighter green">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-list"></i>&#35;&#125;#}
+    {#&#123;&#35;Sortable Lists&#35;&#125;#}
+    {#&#123;&#35;</h4>&#35;&#125;#}
+    {#&#123;&#35;<ul id="tasks" class="item-list">&#35;&#125;#}
+    {#&#123;&#35;<li class="item-orange clearfix">&#35;&#125;#}
+    {#&#123;&#35;<label class="inline">&#35;&#125;#}
+    {#&#123;&#35;<input type="checkbox" class="ace" />&#35;&#125;#}
+    {#&#123;&#35;<span class="lbl"> Answering customer questions</span>&#35;&#125;#}
+    {#&#123;&#35;</label>&#35;&#125;#}
+    {#&#123;&#35;<div class="pull-right easy-pie-chart percentage" data-size="30" data-color="#ECCB71" data-percent="42">&#35;&#125;#}
+    {#&#123;&#35;<span class="percent">42</span>%&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;<li class="item-red clearfix">&#35;&#125;#}
+    {#&#123;&#35;<label class="inline">&#35;&#125;#}
+    {#&#123;&#35;<input type="checkbox" class="ace" />&#35;&#125;#}
+    {#&#123;&#35;<span class="lbl"> Fixing bugs</span>&#35;&#125;#}
+    {#&#123;&#35;</label>&#35;&#125;#}
+    {#&#123;&#35;<div class="pull-right action-buttons">&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="blue">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-pencil bigger-130"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+
+    {#&#123;&#35;<span class="vbar"></span>&#35;&#125;#}
+
+    {#&#123;&#35;<a href="#" class="red">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-trash-o bigger-130"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+
+    {#&#123;&#35;<span class="vbar"></span>&#35;&#125;#}
+
+    {#&#123;&#35;<a href="#" class="green">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-flag bigger-130"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li class="item-default clearfix">&#35;&#125;#}
+    {#&#123;&#35;<label class="inline">&#35;&#125;#}
+    {#&#123;&#35;<input type="checkbox" class="ace" />&#35;&#125;#}
+    {#&#123;&#35;<span class="lbl"> Adding new features</span>&#35;&#125;#}
+    {#&#123;&#35;</label>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="inline pull-right position-relative dropdown-hover">&#35;&#125;#}
+    {#&#123;&#35;<button class="btn btn-minier bigger btn-primary">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-cog icon-only bigger-120"></i>&#35;&#125;#}
+    {#&#123;&#35;</button>&#35;&#125;#}
+
+    {#&#123;&#35;<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-caret dropdown-close dropdown-menu-right">&#35;&#125;#}
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-success" data-rel="tooltip" title="Mark&nbsp;as&nbsp;done">&#35;&#125;#}
+    {#&#123;&#35;<span class="green">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-check bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">&#35;&#125;#}
+    {#&#123;&#35;<span class="red">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-trash-o bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;</ul>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li class="item-blue clearfix">&#35;&#125;#}
+    {#&#123;&#35;<label class="inline">&#35;&#125;#}
+    {#&#123;&#35;<input type="checkbox" class="ace" />&#35;&#125;#}
+    {#&#123;&#35;<span class="lbl"> Upgrading scripts used in template</span>&#35;&#125;#}
+    {#&#123;&#35;</label>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li class="item-grey clearfix">&#35;&#125;#}
+    {#&#123;&#35;<label class="inline">&#35;&#125;#}
+    {#&#123;&#35;<input type="checkbox" class="ace" />&#35;&#125;#}
+    {#&#123;&#35;<span class="lbl"> Adding new skins</span>&#35;&#125;#}
+    {#&#123;&#35;</label>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li class="item-green clearfix">&#35;&#125;#}
+    {#&#123;&#35;<label class="inline">&#35;&#125;#}
+    {#&#123;&#35;<input type="checkbox" class="ace" />&#35;&#125;#}
+    {#&#123;&#35;<span class="lbl"> Updating server software up</span>&#35;&#125;#}
+    {#&#123;&#35;</label>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li class="item-pink clearfix">&#35;&#125;#}
+    {#&#123;&#35;<label class="inline">&#35;&#125;#}
+    {#&#123;&#35;<input type="checkbox" class="ace" />&#35;&#125;#}
+    {#&#123;&#35;<span class="lbl"> Cleaning up</span>&#35;&#125;#}
+    {#&#123;&#35;</label>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;</ul>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div id="member-tab" class="tab-pane">&#35;&#125;#}
+    {#&#123;&#35;<div class="clearfix">&#35;&#125;#}
+    {#&#123;&#35;<div class="itemdiv memberdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Bob Doe's avatar" src="/avatars/user.jpg" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Bob Doe</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">20 min</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div>&#35;&#125;#}
+    {#&#123;&#35;<span class="label label-warning label-sm">pending</span>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="inline position-relative">&#35;&#125;#}
+    {#&#123;&#35;<button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>&#35;&#125;#}
+    {#&#123;&#35;</button>&#35;&#125;#}
+
+    {#&#123;&#35;<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">&#35;&#125;#}
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-success" data-rel="tooltip" title="Approve">&#35;&#125;#}
+    {#&#123;&#35;<span class="green">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-check bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-warning" data-rel="tooltip" title="Reject">&#35;&#125;#}
+    {#&#123;&#35;<span class="orange">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-times bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">&#35;&#125;#}
+    {#&#123;&#35;<span class="red">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-trash-o bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;</ul>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv memberdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Joe Doe's avatar" src="/avatars/avatar2.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Joe Doe</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">1 hour</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div>&#35;&#125;#}
+    {#&#123;&#35;<span class="label label-warning label-sm">pending</span>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="inline position-relative">&#35;&#125;#}
+    {#&#123;&#35;<button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>&#35;&#125;#}
+    {#&#123;&#35;</button>&#35;&#125;#}
+
+    {#&#123;&#35;<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">&#35;&#125;#}
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-success" data-rel="tooltip" title="Approve">&#35;&#125;#}
+    {#&#123;&#35;<span class="green">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-check bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-warning" data-rel="tooltip" title="Reject">&#35;&#125;#}
+    {#&#123;&#35;<span class="orange">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-times bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">&#35;&#125;#}
+    {#&#123;&#35;<span class="red">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-trash-o bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;</ul>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv memberdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Jim Doe's avatar" src="/avatars/avatar.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Jim Doe</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">2 hour</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div>&#35;&#125;#}
+    {#&#123;&#35;<span class="label label-warning label-sm">pending</span>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="inline position-relative">&#35;&#125;#}
+    {#&#123;&#35;<button class="btn btn-minier btn-yellow btn-no-border dropdown-toggle" data-toggle="dropdown" data-position="auto">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>&#35;&#125;#}
+    {#&#123;&#35;</button>&#35;&#125;#}
+
+    {#&#123;&#35;<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">&#35;&#125;#}
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-success" data-rel="tooltip" title="Approve">&#35;&#125;#}
+    {#&#123;&#35;<span class="green">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-check bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-warning" data-rel="tooltip" title="Reject">&#35;&#125;#}
+    {#&#123;&#35;<span class="orange">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-times bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">&#35;&#125;#}
+    {#&#123;&#35;<span class="red">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-trash-o bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;</ul>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv memberdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Alex Doe's avatar" src="/avatars/avatar5.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Alex Doe</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">3 hour</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div>&#35;&#125;#}
+    {#&#123;&#35;<span class="label label-danger label-sm">blocked</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv memberdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Bob Doe's avatar" src="/avatars/avatar2.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Bob Doe</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">6 hour</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div>&#35;&#125;#}
+    {#&#123;&#35;<span class="label label-success label-sm arrowed-in">approved</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv memberdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Susan's avatar" src="/avatars/avatar3.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Susan</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">yesterday</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div>&#35;&#125;#}
+    {#&#123;&#35;<span class="label label-success label-sm arrowed-in">approved</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv memberdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Phil Doe's avatar" src="/avatars/avatar4.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Phil Doe</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">2 days ago</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div>&#35;&#125;#}
+    {#&#123;&#35;<span class="label label-info label-sm arrowed-in arrowed-in-right">online</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv memberdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Alexa Doe's avatar" src="/avatars/avatar1.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Alexa Doe</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">3 days ago</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div>&#35;&#125;#}
+    {#&#123;&#35;<span class="label label-success label-sm arrowed-in">approved</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="space-4"></div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="center">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-users fa-2x green middle"></i>&#35;&#125;#}
+
+    {#&#123;&#35;&nbsp;&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="btn btn-sm btn-white btn-info">&#35;&#125;#}
+    {#&#123;&#35;See all members &nbsp;&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-arrow-right"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="hr hr-double hr8"></div>&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.#member-tab -->&#35;&#125;#}
+
+    {#&#123;&#35;<div id="comment-tab" class="tab-pane">&#35;&#125;#}
+    {#&#123;&#35;<div class="comments">&#35;&#125;#}
+    {#&#123;&#35;<div class="itemdiv commentdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Bob Doe's Avatar" src="/avatars/avatar.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Bob Doe</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">6 min</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="text">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-quote-left"></i>&#35;&#125;#}
+    {#&#123;&#35;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis &hellip;&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="tools">&#35;&#125;#}
+    {#&#123;&#35;<div class="inline position-relative">&#35;&#125;#}
+    {#&#123;&#35;<button class="btn btn-minier bigger btn-yellow dropdown-toggle" data-toggle="dropdown">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-angle-down icon-only bigger-120"></i>&#35;&#125;#}
+    {#&#123;&#35;</button>&#35;&#125;#}
+
+    {#&#123;&#35;<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">&#35;&#125;#}
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-success" data-rel="tooltip" title="Approve">&#35;&#125;#}
+    {#&#123;&#35;<span class="green">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-check bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-warning" data-rel="tooltip" title="Reject">&#35;&#125;#}
+    {#&#123;&#35;<span class="orange">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-times bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+
+    {#&#123;&#35;<li>&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">&#35;&#125;#}
+    {#&#123;&#35;<span class="red">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-trash-o bigger-110"></i>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</li>&#35;&#125;#}
+    {#&#123;&#35;</ul>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv commentdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Jennifer's Avatar" src="/avatars/avatar1.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Jennifer</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="blue">15 min</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="text">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-quote-left"></i>&#35;&#125;#}
+    {#&#123;&#35;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis &hellip;&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="tools">&#35;&#125;#}
+    {#&#123;&#35;<div class="action-buttons bigger-125">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-pencil blue"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+
+    {#&#123;&#35;<a href="#">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-trash-o red"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv commentdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Joe's Avatar" src="/avatars/avatar2.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Joe</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="orange">22 min</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="text">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-quote-left"></i>&#35;&#125;#}
+    {#&#123;&#35;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis &hellip;&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="tools">&#35;&#125;#}
+    {#&#123;&#35;<div class="action-buttons bigger-125">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-pencil blue"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+
+    {#&#123;&#35;<a href="#">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-trash-o red"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv commentdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Rita's Avatar" src="/avatars/avatar3.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Rita</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="red">50 min</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="text">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-quote-left"></i>&#35;&#125;#}
+    {#&#123;&#35;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis &hellip;&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="tools">&#35;&#125;#}
+    {#&#123;&#35;<div class="action-buttons bigger-125">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-pencil blue"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+
+    {#&#123;&#35;<a href="#">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-trash-o red"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="hr hr8"></div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="center">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-comments-o fa-2x green middle"></i>&#35;&#125;#}
+
+    {#&#123;&#35;&nbsp;&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="btn btn-sm btn-white btn-info">&#35;&#125;#}
+    {#&#123;&#35;See all comments &nbsp;&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-arrow-right"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="hr hr-double hr8"></div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.widget-main -->&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.widget-body -->&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.widget-box -->&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.col -->&#35;&#125;#}
+
+    {#&#123;&#35;<div class="col-sm-6">&#35;&#125;#}
+    {#&#123;&#35;<div class="widget-box">&#35;&#125;#}
+    {#&#123;&#35;<div class="widget-header">&#35;&#125;#}
+    {#&#123;&#35;<h4 class="widget-title lighter smaller">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-comment blue"></i>&#35;&#125;#}
+    {#&#123;&#35;Conversation&#35;&#125;#}
+    {#&#123;&#35;</h4>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="widget-body">&#35;&#125;#}
+    {#&#123;&#35;<div class="widget-main no-padding">&#35;&#125;#}
+    {#&#123;&#35;<div class="dialogs">&#35;&#125;#}
+    {#&#123;&#35;<div class="itemdiv dialogdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Alexa's Avatar" src="/avatars/avatar1.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">4 sec</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Alexa</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;<div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis.</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="tools">&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="btn btn-minier btn-info">&#35;&#125;#}
+    {#&#123;&#35;<i class="icon-only ace-icon fa fa-share"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv dialogdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="John's Avatar" src="/avatars/avatar.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="blue">38 sec</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">John</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;<div class="text">Raw denim you probably haven&#39;t heard of them jean shorts Austin.</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="tools">&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="btn btn-minier btn-info">&#35;&#125;#}
+    {#&#123;&#35;<i class="icon-only ace-icon fa fa-share"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv dialogdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Bob's Avatar" src="/avatars/user.jpg" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="orange">2 min</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Bob</a>&#35;&#125;#}
+    {#&#123;&#35;<span class="label label-info arrowed arrowed-in-right">admin</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;<div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis.</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="tools">&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="btn btn-minier btn-info">&#35;&#125;#}
+    {#&#123;&#35;<i class="icon-only ace-icon fa fa-share"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv dialogdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Jim's Avatar" src="/avatars/avatar4.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="grey">3 min</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Jim</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;<div class="text">Raw denim you probably haven&#39;t heard of them jean shorts Austin.</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="tools">&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="btn btn-minier btn-info">&#35;&#125;#}
+    {#&#123;&#35;<i class="icon-only ace-icon fa fa-share"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="itemdiv dialogdiv">&#35;&#125;#}
+    {#&#123;&#35;<div class="user">&#35;&#125;#}
+    {#&#123;&#35;<img alt="Alexa's Avatar" src="/avatars/avatar1.png" />&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="body">&#35;&#125;#}
+    {#&#123;&#35;<div class="time">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-clock-o"></i>&#35;&#125;#}
+    {#&#123;&#35;<span class="green">4 min</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="name">&#35;&#125;#}
+    {#&#123;&#35;<a href="#">Alexa</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;<div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>&#35;&#125;#}
+
+    {#&#123;&#35;<div class="tools">&#35;&#125;#}
+    {#&#123;&#35;<a href="#" class="btn btn-minier btn-info">&#35;&#125;#}
+    {#&#123;&#35;<i class="icon-only ace-icon fa fa-share"></i>&#35;&#125;#}
+    {#&#123;&#35;</a>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+
+    {#&#123;&#35;<form>&#35;&#125;#}
+    {#&#123;&#35;<div class="form-actions">&#35;&#125;#}
+    {#&#123;&#35;<div class="input-group">&#35;&#125;#}
+    {#&#123;&#35;<input placeholder="Type your message here ..." type="text" class="form-control" name="message" />&#35;&#125;#}
+    {#&#123;&#35;<span class="input-group-btn">&#35;&#125;#}
+    {#&#123;&#35;<button class="btn btn-sm btn-info no-radius" type="button">&#35;&#125;#}
+    {#&#123;&#35;<i class="ace-icon fa fa-share"></i>&#35;&#125;#}
+    {#&#123;&#35;Send&#35;&#125;#}
+    {#&#123;&#35;</button>&#35;&#125;#}
+    {#&#123;&#35;</span>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</div>&#35;&#125;#}
+    {#&#123;&#35;</form>&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.widget-main -->&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.widget-body -->&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.widget-box -->&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.col -->&#35;&#125;#}
+    {#&#123;&#35;</div><!-- /.row -->&#35;&#125;#}
+
+    {#<!-- PAGE CONTENT ENDS -->#}
+    {#</div><!-- /.col -->#}
+    {#</div><!-- /.row -->#}
+    {#</div>#}
+    </div>
+{% endblock %}

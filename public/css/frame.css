@@ -1,0 +1,12 @@
+html {
+    -moz-box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+    padding: 116px 0 34px;/*163*/
+}
+
+.messageTip { position: absolute; margin: 0 auto; top: 36px; width: 97%; z-index: 100000; text-align: center; display: none; color: #fff; background: transparent;}
+.messageTip span { -moz-border-radius:5px; padding: 10px 15px; border: 1px solid #999; background: #999;}
+.messageTip span.success, .messageTip span.help {  border: 1px solid green; background: green;}
+.messageTip span.error {  border: 1px solid red; background: red;}
+.messageTip span.warning {  border: 1px solid goldenrod; background: goldenrod;}

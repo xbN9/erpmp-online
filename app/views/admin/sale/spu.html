@@ -1,0 +1,168 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+				<div class="col-xs-12">
+					<form id="form1" action="/admin_sale/spu" method="post" class="form-horizontal" enctype="multipart/form-data">
+						<div class="row">
+						<div class="col-md-12">
+							<div class="col-md-5">
+								<label class="control-label col-md-2 bolder">时间:</label>
+								<div class="col-md-5">
+									<input type="text" name="start" id="starts" value="{% if start %}{{start}}{% endif %}" class="form-control hasDatepicker datepicker input-sm" placeholder="{{ start }}">
+								</div>
+								<div class="col-md-5">
+									<input type="text" name="stop" id="stops" value="{% if stop %}{{stop}}{% endif %}" class="form-control hasDatepicker datepicker input-sm" placeholder="{{ stop }}">
+								</div>
+							</div>	
+							<div class="col-md-3">
+								<div class="control-group">
+									<label class="control-label bolder">套装类型:</label>
+									<select name="op_type">
+                                        <option value="0" {% if op_type==0 %} selected {% endif %}>全部</option>
+										<option value="1" {% if op_type==1 %} selected {% endif %}>境内自营</option>
+										<option value="6" {% if op_type==6 %} selected {% endif %}>境外自营</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="control-group">
+									<label class="control-label bolder">SPU:</label>
+									<textarea name="spu" rows="2" cols="10" class="input-sm"></textarea>
+								</div>
+							</div>
+							<input type="hidden" name="outputs" id="outputs">
+							<div class="col-md-2">
+								<button onclick="output(2)" class="btn btn-info btn-success btn-xs">查询</button>
+								<button onclick="output(1)" class="btn btn-info btn-success btn-xs">导出</button>
+							</div>
+						</div>			
+						</div>
+					</form>
+				</div>
+				<div class="col-xs-12">
+					<div class="col-xs-12" style="margin-top: 5px;">
+						<h3 class="header smaller lighter green">
+							<i class="ace-icon fa fa-bullhorn"></i>
+							SPU
+						</h3>
+						<div id="norm" class="tab-pane fade active in">
+							<div class="row">
+								<table id="table1" class="table table-striped table-bordered table-hover">
+									<tr>
+										{% for v in title %}
+											<th>{{ v }}</th>
+										{% endfor %}
+									</tr>
+									{% for tv in tab_data %}
+										<tr>
+											<td>{{tv.spu_id}}</td>
+											<td>{{tv.spu_name}}</td>
+											<td>{{tv.type_id}}</td>
+											<td>{{tv.nums|round}}</td>
+											<td>{{tv.sp|round}}</td>
+											<td>{{tv.user_id|round}}</td>
+											<td>{{tv.se|round}}</td>
+											<td>{{(tv.sl*100)|round(2,'floor')}}%</td>
+											<td>{{tv.ce|round}}</td>
+											<td>{{(tv.cl*100)|round(2,'floor')}}%</td>
+											<td>{{tv.ze|round}}</td>
+											<td>{{(tv.zl*100)|round(2,'floor')}}%</td>
+										</tr>
+									{% endfor %}
+									<tr>
+										<td id="tip_show" colspan="12" style="color: red;display: none">
+											最多展示10条数据，更多请导出查看！
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/jquery.dataTables.bootstrap.js"></script>
+<!--<script src="/js/dataTables.tableTools.js"></script>-->
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script src="/js/date-time/bootstrap-datepicker.min.js"></script>
+
+<script type="text/javascript">
+	jQuery(function($) {
+		$("#starts").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			format: "yyyy-mm-dd"
+		});
+
+		$("#stops").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			format: "yyyy-mm-dd"
+		});
+	});
+
+	//导出
+	function output(data){
+		$("#outputs").val(data);
+
+		var dimension = $('input:radio:checked').val();
+		var start = $("#starts").val(),stop=$("#stops").val();
+		var spu = $('#spu').val();
+
+		if(start=='' || stop==''){
+			alert('请选择时间');
+			$("#starts").val('');
+			$("#stops").val('');
+			return false;
+			//window.location.reload();
+		}else{
+			$("#form1").submit();
+		}
+
+	}
+
+	window.onload=function(){
+		var tr = document.getElementById("table1").rows[2];
+		if(tr){
+			document.getElementById("tip_show").style.display='';
+		}else{
+			document.getElementById("tip_show").style.display='none';
+		}
+	}
+</script>
+{% endblock %}

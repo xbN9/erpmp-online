@@ -1,0 +1,452 @@
+{% extends 'admin/layout/layout.html' %}
+{% block content %}
+<div class="page-content">
+	<div class="page-content-area">
+		<div class="row">
+			<div id="container">
+				<div class="col-xs-12">
+					<form id="form1" action="/admin_sale/miningreport" method="post" class="form-horizontal" enctype="multipart/form-data">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">模式：</label>
+								<select name="op_type" class="span2" id="op_type" >
+									<option value="0">全部</option>
+									<option value="1" {% if op_type==1 %} selected {% endif %}>境内自营</option>
+									<option value="6" {% if op_type==6 %} selected {% endif %}>境外自营</option>
+									<option value="3" {% if op_type==3 %} selected {% endif %}>境内POP</option>
+									<option value="5" {% if op_type==5 %} selected {% endif %}>跨境POP－直邮</option>
+									<option value="7" {% if op_type==7 %} selected {% endif %}>跨境POP－国外POP</option>
+									<option value="8" {% if op_type==8 %} selected {% endif %}>自有品牌</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<div class="col-md-6">
+								<label class="control-label">时间：</label>
+								<select name="time_type" class="span2" id="time_type" >
+									<option value="1" {% if time_type==1 %} selected {% endif %}>自然周</option>
+									<option value="2" {% if time_type==2 %} selected {% endif %}>自然月</option>
+								</select>
+								</div>	
+								<div class="col-md-6">
+									<input type="text" name="start" id="starts" value="{% if start %}{{start}}{% endif %}" class="form-control hasDatepicker datepicker input-sm" placeholder="{{ start }}">
+								</div>
+							</div>	
+							<!-- <input type="hidden" name="outputs" id="outputs"> -->
+							<div class="col-md-4">
+								<div class="span1">
+									<button onclick="output(2)" class="btn btn-info btn-success btn-xs" data-placement="查询" >查询</button>
+									 <!--<button onclick="loadexcel(1)" class="btn btn-info btn-success btn-xs">导出</button>-->
+								</div>			
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-xs-12">
+					<div class="col-xs-12" style="margin-top: 5px;">
+						<h3 class="header smaller lighter green">
+							<i class="ace-icon fa fa-bullhorn"></i>
+							报表统计
+						</h3>
+						<div class="tabbable">
+							<ul class="nav nav-tabs" id="myTab">
+								<li class="active">
+									<a data-toggle="tab" href="#model">
+										采销模式
+									</a>
+								</li>
+								<li class="">
+									<a data-toggle="tab" href="#cate">
+										一级分类
+									</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div id="model" class="tab-pane fade active in">
+									<table id="table1" class="table table-striped table-bordered table-hover">
+									<tr>
+										{% for title in title_model %}
+										<th>{{ title }}</th>
+										{% endfor %}
+									</tr>
+									<tr>
+										<td>公司整体</td>
+										<td>{{tab_data.total.model.gmv|number_format(0,3,',')}}</td>
+										<td>{{tab_data.total.model.egmv}}%</td>
+										<td>
+										{% if tab_data.total.model.c_p_tag==1 %}
+											<div style="color:red">
+											{{tab_data.total.model.c_p}}%<i class="ace-icon fa fa-arrow-up"></i>
+											</div>
+										{% else %}
+											<div style="color:green">
+											{{tab_data.total.model.c_p}}%<i class="ace-icon fa fa-arrow-down"></i>
+											</div>
+										{% endif %}
+										</td>
+										<td>{{tab_data.total.model.smao|number_format(0,3,',')}}</td>
+										<td>{{tab_data.total.model.smaop}}%</td>
+										<td>{{tab_data.total.model.dmao|number_format(0,3,',')}}</td>
+										<td>{{tab_data.total.model.dmaop}}%</td>
+										<td>-</td>
+									</tr>
+									{% for mode in tab_data.models %}
+									<tr>
+										<td>
+										{% if mode.procurement_type_id ==1 %}
+											境内自营
+										{% elseif mode.procurement_type_id ==6 %}
+											境外自营
+										{% elseif mode.procurement_type_id ==3 %}
+											境内POP
+										{% elseif mode.procurement_type_id ==5 %}
+											跨境POP－直邮
+										{% elseif mode.procurement_type_id ==7 %}
+											跨境POP－国外POP
+										{% elseif mode.procurement_type_id ==8 %}
+											自有品牌
+										{% endif %}	
+										</td>
+										<td>{{mode.sale_price|number_format(0,3,',')}}</td>
+										<td>{{mode.egmv}}%</td>
+										<td>
+										{% if mode.c_p_tag==1 %}
+											<div style="color:red">
+											{{mode.c_p}}%<i class="ace-icon fa fa-arrow-up"></i>
+											</div>
+										{% elseif mode.c_p_tag==2 %}
+											<div style="color:green">
+											{{mode.c_p}}%<i class="ace-icon fa fa-arrow-down"></i>
+											</div>
+										{% endif %}
+										</td>
+										<td>{{mode.salem|number_format(0,3,',')}}</td>
+										<td>{{mode.salep}}%</td>
+										<td>{{mode.pricem|number_format(0,3,',')}}</td>
+										<td>{{mode.pricep}}%</td>
+										<td>
+										{% if mode.warehouse %}
+										{{mode.warehouse}}
+										{% else %}
+											-
+										{% endif %}	
+										</td>
+									</tr>
+									{% endfor %}
+									</table>
+								</div>
+								<div id="cate" class="tab-pane fade">
+									<table class="table table-striped table-bordered table-hover">
+									<tr>
+										{% for title in title_cate %}
+											<th> 
+												{{ title }}
+											</th>
+										{% endfor %}
+									</tr>
+									<tr>
+										<td>总计</td>
+										<td>{{tab_data.total.cate.gmv|number_format(0,3,',')}}</td>
+										<td>{{tab_data.total.cate.egmv}}%</td>
+										<td>
+										{% if tab_data.total.cate.c_p_tag==1 %}
+											<div style="color:red">
+											{{tab_data.total.cate.c_p}}%<i class="ace-icon fa fa-arrow-up"></i>
+											</div>
+										{% else %}
+											<div style="color:green">
+											{{tab_data.total.cate.c_p}}%<i class="ace-icon fa fa-arrow-down"></i>
+											</div>
+										{% endif %}
+										</td>
+										<td>{{tab_data.total.cate.smao|number_format(0,3,',')}}</td>
+										<td>{{tab_data.total.cate.smaop}}%</td>
+										<td>{{tab_data.total.cate.dmao|number_format(0,3,',')}}</td>
+										<td>{{tab_data.total.cate.dmaop}}%</td>
+										<td>{{tab_data.total.cate.warehouse}}</td>
+										<td data-toggle="modal" data-target="#brand"> 
+											<a onclick="brand_top('all')">品牌榜</a>
+										</td>
+									</tr>
+									{% for cate in tab_data.cate %}
+									<tr>
+										<td>
+										{{cate.category_1st}}
+										</td>
+										<td>{{cate.sale_price|number_format(0,3,',')}}</td>
+										<td>{{cate.egmv}}%</td>
+										<td>
+										{% if cate.c_p_tag==1 %}
+											<div style="color:red">
+											{{cate.c_p}}%
+											<i class="ace-icon fa fa-arrow-up"></i>
+											</div>
+										{% elseif cate.c_p_tag==2 %}
+											<div style="color:green">
+											{{cate.c_p}}%<i class="ace-icon fa fa-arrow-down"></i>
+											</div>
+										{% endif %}
+										</td>
+										<td>{{cate.salem|number_format(0,3,',')}}</td>
+										<td>{{cate.salep}}%</td>
+										<td>{{cate.pricem|number_format(0,3,',')}}</td>
+										<td>{{cate.pricep}}%</td>
+										<td>{{cate.warehouse}}</td>
+										<td data-toggle="modal" data-target="#brand"> 
+											<a onclick="brand_top('{{cate.category_1st}}')">{{cate.category_1st}}品牌榜</a>
+										</td>
+									</tr>
+									{% endfor %}
+
+									</table>
+									<div id="brand" class="modal fade text-center" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" style="display: none;">
+									    <div class="modal-dialog" role="document" style="display: inline-block; width: auto;">
+									      <div class="modal-content">
+									        <div class="modal-header">
+									          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+									          <h4 class="modal-title" id="gridModalLabel">品牌销售</h4>
+									        </div>
+									        <div class="modal-body">
+									          <div class="container-fluid">
+									            <div class="row">
+									            	<small>TOP 10(有效GMV)</small>
+								              		<table class="table table-striped table-bordered table-hover">
+														<tr>
+															{% for title in title_brand %}
+															<th> {{ title }}</th>
+															{% endfor %}
+														</tr>
+														<tbody id="top_a"></tbody>
+													</table>
+									            </div>
+									            <hr>
+									            <div class="row">
+									            	<small>BOTTOM 10(有效GMV)</small>
+									            	<table class="table table-striped table-bordered table-hover">
+														<tr>
+															{% for title in title_brand %}
+															<th> {{ title }}</th>
+															{% endfor %}
+														</tr>
+														<tbody id="bottom_a"></tbody>
+													</table>  	
+									            </div>
+									            <div class="row">
+									            	<small>TOP 10(销售毛利率)</small>
+								              		<table class="table table-striped table-bordered table-hover">
+														<tr>
+															{% for title in title_brand %}
+															<th> {{ title }}</th>
+															{% endfor %}
+														</tr>
+														<tbody id="top_p_a"></tbody>
+													</table>
+									            </div>
+									            <hr>
+									            <div class="row">
+									            	<small>BOTTOM 10(销售毛利率)</small>
+									            	<table class="table table-striped table-bordered table-hover">
+														<tr>
+															{% for title in title_brand %}
+															<th> {{ title }}</th>
+															{% endfor %}
+														</tr>
+														<tbody id="bottom_p_a"></tbody>
+													</table>  	
+									            </div>
+									            <div class="row zt" id="zt" style="display:none">
+									            	<small>TOP 10(周转天数)</small>
+								              		<table id="table_brand_1" class="table table-striped table-bordered table-hover">
+														<tr>
+															{% for title in title_brand %}
+															<th> {{ title }}</th>
+															{% endfor %}
+														</tr>
+														<tbody id="top_w_a"></tbody>
+													</table>
+									            </div>
+									            <hr>
+									            <div class="row zt" style="display:none"> 
+									            	<small>BOTTOM 10(周转天数)</small>
+									            	<table id="table2" class="table table-striped table-bordered table-hover">
+														<tr>
+															{% for title in title_brand %}
+															<th> {{ title }}</th>
+															{% endfor %}
+														</tr>
+														<tbody id="bottom_w_a"></tbody>
+													</table>  	
+									            </div>
+									          </div>
+									        </div>
+									        <div class="modal-footer">
+									          <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+ -->									    </div>
+									      </div>
+									    </div>
+									  </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--[if !IE]> -->
+<script src="/js/jquery/jquery-2.1.1.min.js"></script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script src="/js/jquery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery.min.js'>"+"<"+"/script>");
+</script>
+<!-- <![endif]-->
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='/js/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/js/bootstrap/3.2.0/bootstrap.min.js"></script>
+<!--[if lte IE 8]>
+<script src="/js/excanvas.min.js"></script>
+<![endif]-->
+
+<script src="/js/jquery-ui.custom.min.js"></script>
+<script src="/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/js/jquery.dataTables.min.js"></script>
+<script src="/js/jquery.dataTables.bootstrap.js"></script>
+<!--<script src="/js/dataTables.tableTools.js"></script>-->
+
+<script src="/js/ace-elements.min.js"></script>
+<script src="/js/ace.min.js"></script>
+<script src="/js/date-time/bootstrap-datepicker.min.js"></script>
+
+<script type="text/javascript">
+	jQuery(function($) {
+		$("#starts").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: false,
+			format: "yyyy-mm-dd"
+		});
+	});
+
+	function brand_top(cate){
+		if(cate == 'all'){
+			$.post(
+			'/admin_sale/brandData',
+			{start:$('#starts').val(),time_type:$('#time_type').val(),op_type:$('#op_type').val(),cate:cate},
+			function(data){
+				var datas = $.parseJSON(data);
+				// console.log(datas.cate_p_bottom);
+				//total_p
+				putin(datas.t_p,'top_a');
+				//total_p
+				putin(datas.t_b,'bottom_a');
+				//毛利率
+				putin(datas.cate_p_top,'top_p_a');
+				putin(datas.cate_p_bottom,'bottom_p_a');
+				$(".zt").hide();
+			});
+		}else if($('#op_type').val() == 1 || $('#op_type').val() == 6 || $('#op_type').val() == 8){
+
+			$.post(
+			'/admin_sale/brandData',
+			{start:$('#starts').val(),time_type:$('#time_type').val(),op_type:$('#op_type').val(),cate:cate},
+			function(data){
+				var datas = $.parseJSON(data);
+				//top
+				putin(datas.top,'top_a');
+				//bottom
+				putin(datas.bottom,'bottom_a');
+				//毛利率
+				putin(datas.cate_p_top,'top_p_a');
+				putin(datas.cate_p_bottom,'bottom_p_a');
+				//周转天数
+				putin(datas.cate_warehouse_top,'top_w_a');
+				putin(datas.cate_warehouse_bottom,'bottom_w_a');
+				$(".zt").show();
+			});
+
+		}else{
+			$.post(
+			'/admin_sale/brandData',
+			{start:$('#starts').val(),time_type:$('#time_type').val(),op_type:$('#op_type').val(),cate:cate},
+			function(data){
+				var datas = $.parseJSON(data);
+				//top
+				putin(datas.top,'top_a');
+				//bottom
+				putin(datas.bottom,'bottom_a');
+				//毛利率
+				putin(datas.cate_p_top,'top_p_a');
+				putin(datas.cate_p_bottom,'bottom_p_a');
+				$(".zt").hide();	
+			});	
+		}
+	}
+
+	function putin(data,indom){
+		var tr = '';
+		for (key in data) {
+			var c_p = '',salem = '',salep='',pricem='',pricep='',warehouse='';
+			if(data[key].c_p!='' || data[key].c_p!='undefiend'){
+				if(data[key].c_p > 0){
+					c_p = "<div style='color:red'>"+data[key].c_p+"%<i class='ace-icon fa fa-arrow-up'></i></div>";
+				}else if(data[key].c_p < 0){
+					c_p = "<div style='color:green'>"+data[key].c_p+"%<i class='ace-icon fa fa-arrow-down'></i></div>";
+				}else if(data[key].c_p == 0){
+					c_p = '0%';
+				}
+			}else{
+				c_p = '-';
+			}
+			if(data[key].salem){
+				salem = data[key].salem;
+			}else{
+				salem = '-';
+			}
+			if(data[key].salep){
+				salep = data[key].salep+'%';
+			}else{
+				salep = '-';
+			}
+			if(data[key].pricem){
+				pricem = data[key].pricem;
+			}else{
+				pricem = '-';
+			}
+			if(data[key].pricep){
+				pricep = data[key].pricep+'%';
+			}else{
+				pricep = '-';
+			}
+			if(data[key].warehouse>=0){
+				warehouse = data[key].warehouse;
+			}else{
+				warehouse = '-';
+			}
+
+			tr += "<tr>"+
+			"<td>"+data[key].brand_name+"</td>"+
+			"<td>"+data[key].gmv+"</td>"+
+			"<td>"+data[key].egmv+"%</td>"+
+			"<td>"+c_p+"</td>"+
+			"<td>"+salem+"</td>"+
+			"<td>"+salep+"</td>"+
+			"<td>"+pricem+"</td>"+
+			"<td>"+pricep+"</td>"+
+			"<td>"+warehouse+"</td>"+
+			"</tr>";
+		}
+		$("#"+indom).empty().append(tr);
+	}
+
+</script>
+{% endblock %}
