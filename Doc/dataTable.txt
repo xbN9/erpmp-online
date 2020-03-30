@@ -1,0 +1,1454 @@
+//@translator codepiano
+//@blog codepiano 
+//@email codepiano.li@gmail.com
+//尝试着翻译了一下，难免有错误的地方，欢迎发邮件告知，多谢。
+$(document).ready( function (){
+  $('selector').dataTable( {
+    /*
+     *  默认为true
+     *  是否自动计算列宽，计算列宽会花费一些时间，如果列宽通过aoColumns传递，可以关闭该属性作为优化
+      */
+     "bAutoWidth":true,
+     /*
+      *  默认为false
+      *  是否延迟渲染，当用Ajax或者js方式加载数据时开启延迟渲染会带来很大的速度提升
+      *  当该属性设置为true时，表格每一行新增的元素只有在需要被画出来时才会被DataTable创建出来
+      */
+     "bDeferRender":false,
+     /*
+      * 默认为true
+      * 是否对数据进行过滤，数据过滤是十分灵活的，允许终端用户输入多个用空格分隔开的关键字
+      * 匹配包含这些关键字的行，即使关键字的顺序不是用户输入的顺序，过滤操作会跨列进行匹配，关键字可以分布在一行中不同的列
+        * 要注意的是如果你想在DataTable中使用过滤，该选项必须设置为true，如果想移除默认过滤输入框但是保留过滤功能，请设置为false(API没写，推测是false)
+      */
+     "bFilter":true,
+     /*
+      * 默认为true
+      * 是否显示表格信息，是指当前页面上显示的数据的信息，如果有过滤操作执行，也会显示过滤操作的信息
+      */
+     "bInfo":true,
+     /*
+      * 默认为fasle
+      * 是否开启jQuery UI ThemeRoller支持，需要一些ThemeRoller使用的标记，这些标记有些与DataTable传统使用的有轻微的差异，有些是额外附加的
+      */
+     "bJQueryUI":false,
+     /*
+      * 默认为true
+      * 是否允许终端用户从一个选择列表中选择分页的页数，页数为10，25，50和100，需要分页组件bPaginate的支持
+      */
+     "bLengthChange":false,
+     /*
+      * 默认为true
+      * 是否开启分页功能,即使设置为false,仍然会有一个默认的<前进,后退>分页组件
+      */
+     "bPaginage":true,
+     /*
+      * 默认为false
+      * 当表格在处理的时候（比如排序操作）是否显示“处理中...”
+      * 当表格的数据中的数据过多以至于对其中的记录进行排序时会消耗足以被察觉的时间的时候，该选项会有些用处
+      */
+     "bProcessing":false,
+     /*
+      * 默认为false
+      * 是否开启不限制长度的滚动条（和sScrollY属性结合使用），不限制长度的滚动条意味着当用户拖动滚动条的时候DataTable会不断加载数据
+      * 当数据集十分大的时候会有些用处，该选项无法和分页选项同时使用，分页选项会被自动禁止，注意，额外推荐的滚动条会优先与该选项
+      */
+     "bScrollInfinite":false,
+     /*
+      * 默认为false
+      * 配置DataTable使用服务器端处理，注意，sAjaxSource参数必须指定，以便给DataTable一个为每一行获取数据的数据源
+      */
+     "bServerSide":false,
+     /*
+      * 默认为true
+      * 是否开启列排序，对单独列的设置在每一列的bSortable选项中指定
+      */
+     "bSort":true,
+     /*
+      * 默认为true
+      * 是否在当前被排序的列上额外添加sorting_1,sorting_2,sorting_3三个class，当该列被排序的时候，可以切换其背景颜色
+      * 该选项作为一个来回切换的属性会增加执行时间（当class被移除和添加的时候）
+      * 当对大数据集进行排序的时候你或许希望关闭该选项
+      */
+     "bSortClasses":true,
+     /*
+      * 默认为false
+      * 是否开启状态保存，当选项开启的时候会使用一个cookie保存表格展示的信息的状态，例如分页信息，展示长度，过滤和排序等
+      * 这样当终端用户重新加载这个页面的时候可以使用以前的设置
+      */
+     "bStateSave":false,
+     /*
+      * 默认为空字符串，即：无效
+      * 是否开启水平滚动，当一个表格过于宽以至于无法放入一个布局的时候，或者表格有太多列的时候，你可以开启该选项
+      * 从而在一个可横向滚动的视图里面展示表格，该属性可以是css设置，或者一个数字（作为像素量度来使用）
+      */
+     "sScrollX":"100%",
+     /*
+      * 默认为空字符串，即：无效
+      * 是否开启垂直滚动，垂直滚动会驱使DataTable设置为给定的长度，任何溢出到当前视图之外的数据可以通过垂直滚动进行察看
+      * 当在小范围区域中显示大量数据的时候，可以在分页和垂直滚动中选择一种方式，该属性可以是css设置，或者一个数字（作为像素量度来使用）
+      */
+     "sScrollY":"100%",
+     /*
+      * 自定义语言设置
+      */
+     "oLanguage":{
+         "oAria":{
+         /*
+          * 默认值为activate to sort column ascending
+          * 当一列被按照升序排序的时候添加到表头的ARIA标签，注意列头是这个字符串的前缀（？）
+          */
+             "sSortAscending": " - click/return to sort ascending",
+         /*
+          * 默认值为activate to sort column ascending
+          * 当一列被按照升序降序的时候添加到表头的ARIA标签，注意列头是这个字符串的前缀（？）
+          */
+             "sSortDescending": " - click/return to sort descending"
+         },
+         "oPaginate": {
+             /*
+              * 默认值为First
+              * 当使用全数字类型的分页组件的时候，到第一页按钮上的文字
+              */
+             "sFirst": "First page",
+             /*
+              * 默认值为Last
+              * 当使用全数字类型的分页组件的时候，到最后一页按钮上的文字
+              */
+             "sLast": "Last page",
+             /*
+              * 默认值为Next
+              * 当使用全数字类型的分页组件的时候，到下一页按钮上的文字
+              */
+             "sNext": "Next page",
+             /*
+              * 默认值为Previous
+              * 当使用全数字类型的分页组件的时候，到前一页按钮上的文字
+              */
+             "sPrevious": "Previous page"
+         },
+         /*
+          * 默认值activate to sort column ascending为
+          * 当表格中没有数据（无视因为过滤导致的没有数据）时，该字符串年优先与sZeroRecords显示
+          * 注意这是个可选参数，如果没有指定，sZeroRecrods会被使用（既不是默认值也不是给定的值）
+          */
+         "sEmptyTable": "No data available in table",
+         /*
+          * 默认值为Showing _START_ to _END_ of _TOTAL_ entries 
+          * 该属性给终端用户提供当前页面的展示信息，字符串中的变量会随着表格的更新被动态替换，而且可以被任意移动和删除
+          */
+         "sInfo": "Got a total of _TOTAL_ entries to show (_START_ to _END_)",
+         /*
+          * 默认值为Showing 0 to 0 of 0 entries 
+          * 当表格中没有数据时展示的表格信息，通常情况下格式会符合sInfo的格式
+          */
+         "sInfoEmpty": "No entries to show",
+         /*
+          * 默认值为(filtered from _MAX_ total entries) 
+          * 当用户过滤表格中的信息的时候，该字符串会被附加到信息字符串的后面，从而给出过滤器强度的直观概念
+          */
+         "sInfoFiltered": " - filtering from _MAX_ records",
+         /*
+          * 默认值为空字符串
+          * 使用该属性可以很方便的向表格信息字符串中添加额外的信息，被添加的信息在任何时候都会被附加到表格信息组件的后面
+          * sInfoEmpty和sInfoFiltered可以以任何被使用的方式进行结合
+          */
+         "sInfoPostFix": "All records shown are derived from real information.",
+         /*
+          * 默认值为','
+          * DataTable有内建的格式化数字的工具，可以用来格式化表格信息中较大的数字
+          * 默认情况下会自动调用，可以使用该选项来自定义分割的字符 
+          */
+         "sInfoThousands": "'",
+         /*
+          * 默认值为Show _MENU_ entries 
+          * 描述当分页组件的下拉菜单的选项被改变的时候发生的动作，'_MENU_'变量会被替换为默认的10，25，50，100
+          * 如果需要的话可以被自定义的下拉组件替换
+          */
+         "sLengthMenu": "Display _MENU_ records",
+         /*
+          * 默认值为Loading...
+          * 当使用Ajax数据源和表格在第一次被加载搜集数据的时候显示的字符串，该信息在一个空行显示
+          * 向终端用户指明数据正在被加载，注意该参数在从服务器加载的时候无效，只有Ajax和客户端处理的时候有效
+          */
+         "sLoadingRecords": "Please wait - loading...",
+         /*
+          * 默认值为Processing...
+          * 当表格处理用户动作（例如排序或者类似行为）的时候显示的字符串
+          */
+         "sProcessing": "DataTables is currently busy",
+         /*
+          * 默认为Search:
+          * 描述用户在输入框输入过滤条件时的动作，变量'_INPUT_',如果用在字符串中
+          * DataTable会使用用户输入的过滤条件替换_INPUT_为HTML文本组件，从而可以支配它（即用户输入的过滤条件）出现在信息字符串中的位置 
+          * 如果变量没有指定，用户输入会自动添加到字符串后面
+          */
+         "sSearch": "Apply filter _INPUT_ to table",
+         /*
+          * 默认值为空字符串，即：无效
+          * 所有语言信息可以被存储在服务器端的文件中，DataTable可以根据该参数指定的URL去寻找
+          * 必须保存语言文件的URL信息，必须是JSON格式，对象和初始化中使用的oLanguage对象具有相同的属性
+          * 请参考示例文件来了解该参数是如何工作的
+          */
+         "sUrl": "http://www.sprymedia.co.uk/dataTables/lang.txt",
+         /*
+          * 默认值为No matching records found
+          * 当对数据进行过滤操作后，如果没有要显示的数据，会在表格记录中显示该字符串
+          * sEmptyTable只在表格中没有数据的时候显示，忽略过滤操作
+          */
+         "sZeroRecords": "No records to display"
+     }
+   });
+ });
+ 
+ /*------------------------------------------------Options------------------------------------------------*/
+ /*
+  * bDestroy
+  * 默认为false
+  * 使用传递的新的初始化对象中的属性构造一个新的表格，并替换一个匹配指定的选择器的表格
+  * 如果没有匹配到表格，新的表格会被作为一个普通表格被构建
+  */
+ $('selector').dataTable({
+     "bFilter": false,
+     "bDestroy": true
+ });
+ 
+ /*
+  * bRetrieve
+  * 默认为false
+  * 使用指定的选择器检索表格，注意，如果表格已经被初始化，该参数会直接返回已经被创建的对象
+  * 并不会顾及你传递进来的初始化参数对象的变化，将该参数设置为true说明你确认已经明白这一点
+  * 如果你需要的话，bDestroy可以用来重新初始化表格
+  */
+ $(document).ready(function(){
+   initTable();
+   tableActions();
+ });
+ 
+ function initTable()
+ {
+   return $('#example').dataTable( {
+     "sScrollY": "200px",
+     "bPaginate": false,
+     "bRetrieve": true
+   });
+ }
+ 
+ function tableActions()
+ {
+   var oTable = initTable();
+   // perform API operations with oTable 
+ }
+ 
+ /*
+  * bScrollAutoCss
+  * 默认为true
+  * 指明DataTable中滚动的标题元素是否被允许设置内边距和外边距等
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "bScrollAutoCss": false,
+     "sScrollY": "200px"
+   });
+ });
+ 
+ /*
+  * bScrollCollapse
+  * 默认为false
+  * 当垂直滚动被允许的时候，DataTable会强制表格视图在任何时候都是给定的高度（对布局有利）
+  * 不过，当把数据集过滤到十分小的时候看起来会很古怪，而且页脚会留在最下面
+  * 当结果集的高度比给定的高度小时该参数会使表格高度自适应
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "sScrollY": "200",
+     "bScrollCollapse": true
+   });
+ });
+ 
+ /*
+  * bSortCellsTop
+  * 默认为false
+  * 是否允许DataTable使用顶部（默认为true）的单元格，或者底部（默认为false）的单元格，当使用复合表头的时候会有些用处
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "bSortCellsTop": true
+   });
+ });
+ 
+ /*
+  * iCookieDuration
+  * 默认为7200秒（2个小时）
+  * 设置用来存储会话信息的cookie的持续时间，单位是秒
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "iCookieDuration": 60*60*24 // 1 day
+   });
+ })
+ 
+ /*
+  * iDeferLoading
+  * 默认为null
+  * 当选项被开启的时候，DataTable在非加载第一次的时候不会向服务器请求数据，而是会使用页面上的已有数据（不会应用排序等）
+  * 因此在加载的时候保留一个XmlHttpRequest，iDeferLoading被用来指明需要延迟加载，而且也用来通知DataTable一个满的表格有多少条数据
+  * 信息元素和分页会被正确保留
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "bServerSide": true,
+     "sAjaxSource": "scripts/server_processing.php",
+     "iDeferLoading": 57
+   });
+ });
+ 
+ /*
+  * iDisplayLength
+  * 默认为10
+  * 单页显示的数据的条数，如果bLengthChange属性被开启，终端用户可以通过一个弹出菜单重写该数值
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "bServerSide": true,
+     "sAjaxSource": "scripts/server_processing.php",
+     "iDeferLoading": 57
+   });
+ });
+ 
+ /*
+  * iDisplayStart
+  * 默认为0
+  * 当开启分页的时候，定义展示的记录的起始序号，不是页数，因此如果你每个分页有10条记录而且想从第三页开始
+  * 需要把该参数指定为20
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "iDisplayStart": 20
+   });
+ })
+ 
+ /*
+  * iScrollLoadGap
+  * 默认为100
+  * 滚动余界是指DataTable在当前页面还有多少条数据可供滚动时自动加载新的数据，你可能希望指定一个足够大的余界
+  * 以便滚动加载数据的操作对用户来说是平滑的，同时也不会大到加载比需要的多的多的数据
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "bScrollInfinite": true,
+     "bScrollCollapse": true,
+     "sScrollY": "200px",
+     "iScrollLoadGap": 50
+   });
+ });
+ 
+ /*
+  * iTabIndex
+  * 默认为0
+  * 默认情况下DataTable允许通过为需要键盘导航的元素添加tabindex属性来进行导航（排序、分页、过滤）
+  * 允许你通过tab键切换控制组件，使用回车键去激活他们，默认为0表示按照文档流来切换
+  * 如果需要的话，你可以使用该参数重写切换顺序，使用-1来禁止内建的键盘导航
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "iTabIndex": 1
+   });
+ });
+ 
+ /*
+  * oSearch
+  * 无默认值
+  * 该参数允许你在初始化的时候使用已经定义的全局过滤状态，sSearch对象必须被定义，但是所有的其它选项都是可选的
+  * 当bRegex为true的时候，搜索字符串会被当作正则表达式，当为false（默认）的时候，会被直接当作一个字符串
+  * 当bSmart为true的时候，DataTable会使用使用灵活过滤策略（匹配任何可能的数据），为false的时候不会这样做
+  */
+ $(document).ready(function(){
+     $('#example').dataTable( {
+         "oSearch": {"sSearch": "Initial search"}
+     });
+ })
+ 
+ /*
+  * sAjaxDataProp
+  * 默认为aaData
+  * 当使用Ajax数据源或者服务器端处理的时候，DataTable会默认搜索aaData属性作为数据源
+  * 该选项允许变更数据源的名称，你可以使用JavaScript的点号对象表示法去访问多级网状数据源
+  */
+ // Get data from { "data": [...] }
+ $(document).ready(function(){
+   var oTable = $('#example').dataTable( {
+     "sAjaxSource": "sources/data.txt",
+     "sAjaxDataProp": "data"
+   });
+ });
+ 
+ // Get data from { "data": { "inner": [...] } }
+ $(document).ready(function(){
+   var oTable = $('#example').dataTable( {
+     "sAjaxSource": "sources/data.txt",
+     "sAjaxDataProp": "data.inner"
+   });
+ });
+ 
+ /*
+  * sAjaxSource
+  * 默认为null
+  * 该参数用来向DataTable指定加载的外部数据源（如果想使用现有的数据，请使用aData）
+  * 可以简单的提供一个可以用来获得数据url或者JSON对象，该对象必须包含aaData，作为表格的数据源
+  */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "sAjaxSource": "http://www.sprymedia.co.uk/dataTables/json.php"
+   });
+ })
+ 
+ /*
+  * sCookiePrefix
+  * 默认为SpryMedia_DataTables_
+  * 该参数可以用来重写DataTable默认指定的用来存储状态信息的cookie的前缀
+ */
+ $(document).ready(function(){
+   $('#example').dataTable( {
+     "sCookiePrefix": "my_datatable_",
+   });
+ });
+ 
+ /*
+  * sDom
+  * 默认值为lfrtip (when bJQueryUI is false) or <"H"lfr>t<"F"ip> (when bJQueryUI is true)
+  * 该初始化属性用来指定你想把各种控制组件注入到dom节点的位置（比如你想把分页组件放到表格的顶部）
+  * DIV元素（带或者不带自定的class）可以添加目标样式，下列语法被使用
+  *  可供使用的选项
+  *      'l' - 长度改变
+  *      'f' - 过滤输入
+  *      't' - 表格
+  *      'i' - 信息
+  *      'p' - 分页
+  *      'r' - 处理
+  *  可供使用的常量
+  *      'H' - jQueryUI theme "header" classes('fg-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix')
+  *      'F' - jQueryUI theme "footer" classes ('fg-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix')
+  *  需要的语法
+  *      '<' 和 '>' - div元素
+  *      '<"class" and '>' - 带有class属性的div元素
+  *      '<"#id" and '>' - 带有id属性的div元素
+  *  例子
+  *      '<"wrapper"flipt>'
+  *      '<lf<t>ip>'
+ 440  */
+ 441 $(document).ready(function(){
+ 442   $('#example').dataTable( {
+ 443     "sDom": '<"top"i>rt<"bottom"flp><"clear"&lgt;'
+ 444   });
+ 445 });
+ 446 
+ 447 /*
+ 448  * sPaginationType
+ 449  * 默认为two_button
+ 450  * DataTable内建了两种交互式分页策略，两个按钮和全页数，展现给终端用户不同的控制方式
+ 451  * 可以通过API增加策略
+ 452  */
+ 453 $(document).ready(function(){
+ 454     $('#example').dataTable( {
+ 455         "sPaginationType": "full_numbers"
+ 456     });
+ 457 })
+ 458 
+ 459 /*
+ 460  * sScrollXInner
+ 461  * 默认为空字符串，即：无效
+ 462  * 当横向滚动可用的时候，该属性可以用来强制DataTable的宽度比需要的更长
+ 463  * 比如你需要表格彼此相隔适宜，该变量可以用来使表格变大，而且强制滚动
+ 464  * 该该属性可以是css设置，或者一个数字（作为像素量度来使用）
+ 465  */
+ 466 $(document).ready(function(){
+ 467     $('#example').dataTable( {
+ 468         "sScrollX": "100%",
+ 469         "sScrollXInner": "110%"
+ 470     });
+ 471 });
+ 472 
+ 473 /*
+ 474  * sServerMethod
+ 475  * 默认值为GET
+ 476  * 设置使用Ajax方式调用的服务器端的处理方法或者Ajax数据源的HTTP请求方式
+ 477  */
+ 478 $(document).ready(function(){
+ 479     $('#example').dataTable({
+ 480         "bServerSide": true,
+ 481         "sAjaxSource": "scripts/post.php",
+ 482         "sServerMethod": "POST"
+ 483     });
+ 484 });
+ 485 /*------------------------------------------------Callback------------------------------------------------*/
+ 486 /*
+ 487  * fnCookieCallback
+ 488  * 无默认值
+ 489  * 当DataTable的状态保留可用时，自定义被保存的cookie和参数。只要cookie被修改就会调用此方法
+ 490  * 该方法需要返回一个格式良好的cookie字符串，注意数据对象是以Javascript对象的形式传递进来的，必须转换成字符串，例如JSON格式
+ 491  */
+ 492 $(document).ready(function (){
+ 493   $('#example').dataTable({
+ 494     "fnCookieCallback": function (sName, oData, sExpires, sPath) {
+ 495       // Customise oData or sName or whatever else here
+ 496       return sName + "="+JSON.stringify(oData)+"; expires=" + sExpires +"; path=" + sPath;
+ 497     }
+ 498   });
+ 499 });
+ 500 
+ 501 /*
+ 502  * fnCreatedRow
+ 503  * 无默认值
+ 504  * 当一个新的TR元素（并且所有TD子元素被插入）被创建或者被作为一个DOM资源被注册时调用该函数
+ 505  * 允许操作该TR元素
+ 506  */
+ 507 $(document).ready(function(){
+ 508     $('#example').dataTable({
+ 509         "fnCreatedRow": function( nRow, aData, iDataIndex ){
+ 510             // Bold the grade for all 'A' grade browsers
+ 511             if ( aData[4] == "A" )
+ 512     {
+ 513         $('td:eq(4)', nRow).html( '<b>A</b>' );
+ 514     }
+ 515         }
+ 516     });
+ 517 });
+ 518 
+ 519 /*
+ 520  * fnDrawCallback
+ 521  * 无默认值
+ 522  * 每当draw事件发生时调用该函数，允许你动态编辑新建的dom对象的任何属性
+ 523  */
+ 524 $(document).ready( function(){
+ 525     $('#example').dataTable({
+ 526         "fnDrawCallback": function(){
+ 527             alert( 'DataTables has redrawn the table' );
+ 528         }
+ 529     });
+ 530 });
+ 531 
+ 532 /*
+ 533  * fnFooterCallback
+ 534  * 无默认值
+ 535  * 与fnHeaderCallback()完全相同，只是该函数允许你在每一个draw时间发生时修改页脚
+ 536  */
+ 537 $(document).ready( function(){
+ 538     $('#example').dataTable({
+ 539         "fnDrawCallback": function() {
+ 540             alert( 'DataTables has redrawn the table' );
+ 541         }
+ 542     });
+ 543 });
+ 544 
+ 545 /*
+ 546  * fnFormatNumber
+ 547  * 无默认值
+ 548  * 当渲染表格信息（例如：显示57条记录中的1-10条）中大的数字时
+ 549  * 为了方便用户，DataTable会使用逗号分割每千单位（例如1000000会被渲染为1,000,000）
+ 550  * 该函数会重写DataTable默认使用的策略
+ 551  */
+ 552 $(document).ready(function(){
+ 553   $('#example').dataTable({
+ 554     "fnFormatNumber": function ( iIn ) {
+ 555       if ( iIn < 1000 ) {
+ 556         return iIn;
+ 557       } else {
+ 558         var
+ 559           s=(iIn+""),
+ 560           a=s.split(""), out="",
+ 561           iLen=s.length;
+ 562 
+ 563         for ( var i=0 ; i<iLen ; i++ ) {
+ 564           if ( i%3 === 0 && i !== 0 ) {
+ 565             out = "'"+out;
+ 566           }
+ 567           out = a[iLen-i-1]+out;
+ 568         }
+ 569       }
+ 570       return out;
+ 571     };
+ 572   });
+ 573 });
+ 574 
+ 575 /*
+ 576  * fnHeaderCallback
+ 577  * 无默认值
+ 578  * 每当draw事件发生时调用该函数，允许你动态编辑表头行，可以用来计算和展示关于表格的有用的信息
+ 579  */
+ 580 $(document).ready(function(){
+ 581     $('#example').dataTable({
+ 582         "fnFormatNumber": function ( iIn ) {
+ 583             if ( iIn < 1000 ) {
+ 584                 return iIn;
+ 585             } else {
+ 586                 var
+ 587         s=(iIn+""),
+ 588         a=s.split(""), out="",
+ 589         iLen=s.length;
+ 590 
+ 591     for ( var i=0 ; i<iLen ; i++ ) {
+ 592         if ( i%3 === 0 && i !== 0 ) {
+ 593             out = "'"+out;
+ 594         }
+ 595         out = a[iLen-i-1]+out;
+ 596     }
+ 597             }
+ 598             return out;
+ 599         };
+ 600     });
+ 601 });
+ 602 
+ 603 /*
+ 604  * fnInfoCallback
+ 605  * 无默认值
+ 606  * 信息元素可以用来传输表格当前状态的信息，尽管DataTable提供的国际化的选项在处理大多数自定义情况时已经相当方便了
+ 607  * 或许你有时仍然希望自定义深层的字符串,该函数会满足你的需要
+ 608  */
+ 609 $('#example').dataTable( {
+ 610     "fnInfoCallback": function( oSettings, iStart, iEnd, iMax, iTotal, sPre ) {
+ 611         return iStart +" to "+ iEnd;
+ 612     }
+ 613 });
+ 614 
+ 615 /*
+ 616  * fnInitComplete
+ 617  * 无默认值
+ 618  * 当表格被初始化后调用该函数，通常DataTable会被持续初始化，并不需要该函数
+ 619  * 可是，当使用异步的XmlHttpRequest从外部获得语言信息时，初始化并不是持续的
+ 620  */
+ 621 $(document).ready( function(){
+ 622     $('#example').dataTable({
+ 623         "fnInitComplete": function(oSettings, json) {
+ 624             alert( 'DataTables has finished its initialisation.' );
+ 625         }
+ 626     });
+ 627 })
+ 628 
+ 629 /*
+ 630  * fnPreDrawCallback
+ 631  * 无默认值
+ 632  * 在每一个表格draw事件发生前调用该函数，通过返回false来取消draw事件
+ 633  * 其它任何的返回值，包括undefined都会导致draw事件的发生
+ 634  */
+ 635 $(document).ready( function(){
+ 636     $('#example').dataTable({
+ 637         "fnPreDrawCallback": function( oSettings ) {
+ 638             if ( $('#test').val() == 1 ) {
+ 639                 return false;
+ 640             }
+ 641         }
+ 642     });
+ 643 });
+ 644 
+ 645 /*
+ 646  * fnRowCallback
+ 647  * 无默认值
+ 648  * 你可以通过该函数在每一个表格绘制事件发生之后，渲染到屏幕上之前，向表格里的每一行传递'处理过程'
+ 649  * 该函数可以用来设置行的class名字等
+ 650  */
+ 651 $(document).ready(function(){
+ 652     $('#example').dataTable({
+ 653         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+ 654             // Bold the grade for all 'A' grade browsers
+ 655             if ( aData[4] == "A" )
+ 656     {
+ 657         $('td:eq(4)', nRow).html( '<b>A</b>' );
+ 658     }
+ 659         }
+ 660     });
+ 661 });
+ 662 
+ 663 /*
+ 664  * fnServerData
+ 665  * 无默认值
+ 666  * 你可以使用该参数重写从服务器获取数据的方法（$.getJSON）,从而使其更适合你的应用
+ 667  * 例如你可以使用POST方式提交，或者从Google Gears或者AIR数据库获取数据
+ 668  */
+ 669 // POST data to server
+ 670 $(document).ready(function(){
+ 671     $('#example').dataTable( {
+ 672         "bProcessing": true,
+ 673         "bServerSide": true,
+ 674         "sAjaxSource": "xhr.php",
+ 675         "fnServerData": function ( sSource, aoData, fnCallback ) {
+ 676             $.ajax( {
+ 677                 "dataType": 'json',
+ 678             "type": "POST",
+ 679             "url": sSource,
+ 680             "data": aoData,
+ 681             "success": fnCallback
+ 682             } );
+ 683         }
+ 684     });
+ 685 });
+ 686 
+ 687 /*
+ 688  * fnServerParams
+ 689  * 无默认值
+ 690  * 用来在向服务器发送Ajax请求时发送额外的数据，例如自定义的过滤信息，该函数使向服务器发送额外参数变得简单
+ 691  * 传递进来的参数是DataTable建立的数据集合，你可以根据需要添加或者修改该集合
+ 692  */
+ 693 $(document).ready(function(){
+ 694     $('#example').dataTable( {
+ 695         "bProcessing": true,
+ 696         "bServerSide": true,
+ 697         "sAjaxSource": "scripts/server_processing.php",
+ 698         "fnServerParams": function ( aoData ) {
+ 699             aoData.push( { "name": "more_data", "value": "my_value" } );
+ 700         }
+ 701     });
+ 702 });
+ 703 
+ 704 /*
+ 705  * fnStateLoad
+ 706  * 无默认值
+ 707  * 加载表格状态，使用该函数你可以定义状态信息加载的位置和方式，默认情况下DataTable会从cookie中加载
+ 708  * 不过你或许希望使用本地存储（HTML5支持），或者服务端数据库
+ 709  */
+ 710 $(document).ready(function(){
+ 711     $('#example').dataTable({
+ 712         "bStateSave": true,
+ 713         "fnStateSave": function (oSettings, oData) {
+ 714             var o;
+ 715 
+ 716             // Send an Ajax request to the server to get the data. Note that
+ 717             // this is a synchronous request.
+ 718             $.ajax( {
+ 719                 "url": "/state_load",
+ 720                 "async": false,
+ 721                 "dataType": "json",
+ 722                 "success": function (json) {
+ 723                     o = json;
+ 724                 }
+ 725             } );
+ 726             return o;
+ 727         }
+ 728     });
+ 729 });
+ 730 
+ 731 /*
+ 732  * fnStateLoadParams
+ 733  * 无默认值
+ 734  * 该回调可以用来在加载状态信息之前编辑状态信息
+ 735  * 函数在表格从存储的数据加载状态信息时调用，在表格<当前使用的设置对象>被<从保存信息中加载的设置对象>修改以前调用
+ 736  * 注意作为插件开发者，你应该使用'stateLoadParams'事件去加载plug-in的参数
+ 737  */
+ 738 // Remove a saved filter, so filtering is never loaded
+ 739 $(document).ready(function(){
+ 740     $('#example').dataTable({
+ 741         "bStateSave": true,
+ 742         "fnStateLoadParams": function (oSettings, oData) {
+ 743             oData.oFilter.sSearch = "";
+ 744         });
+ 745     });
+ 746 
+ 747 
+ 748 // Disallow state loading by returning false
+ 749 $(document).ready(function(){
+ 750     $('#example').dataTable({
+ 751         "bStateSave": true,
+ 752         "fnStateLoadParams": function (oSettings, oData) {
+ 753             return false;
+ 754         });
+ 755     });
+ 756 
+ 757 /*
+ 758  * fnStateLoaded
+ 759  * 无默认值
+ 760  * 在表格状态被状态存储方法读取和DataTable设置对象被修改时调用，作为被状态信息被加载的结果
+ 761  */
+ 762 // Show an alert with the filtering value that was saved
+ 763 $(document).ready(function(){
+ 764     $('#example').dataTable({
+ 765         "bStateSave": true,
+ 766         "fnStateLoaded": function (oSettings, oData) {
+ 767             alert( 'Saved filter was: '+oData.oFilter.sSearch );
+ 768         });
+ 769     });
+ 770 
+ 771 /*
+ 772  * fnStateSave
+ 773  * 无默认值
+ 774  * 保存表格状态，使用该函数你可以定义状态信息保存的位置和方式，默认情况下DataTable会保存在cookie中
+ 775  * 不过你或许希望使用本地存储（HTML5支持），或者服务端数据库
+ 776  */
+ 777 $(document).ready(function(){
+ 778     $('#example').dataTable({
+ 779         "bStateSave": true,
+ 780         "fnStateSave": function (oSettings, oData) {
+ 781             // Send an Ajax request to the server with the state object
+ 782             $.ajax( {
+ 783                 "url": "/state_save",
+ 784             "data": oData,
+ 785             "dataType": "json",
+ 786             "method": "POST"
+ 787                 "success": function () {}
+ 788             });
+ 789         }
+ 790     });
+ 791 });
+ 792 
+ 793 /*
+ 794  * fnStateSaveParams
+ 795  * 无默认值
+ 796  * 该回调允许你编辑被保存的状态信息，在表格改变了状态信息需要保存的时候调用
+ 797  * 可以使用该回调在保存状态信息的对象被保存以前对其进行修改，包括添加或者其它状态属性或者修改
+ 798  */
+ 799 // Remove a saved filter, so filtering is never saved
+ 800 $(document).ready(function(){
+ 801     $('#example').dataTable({
+ 802         "bStateSave": true,
+ 803         "fnStateLoadParams": function (oSettings, oData) {
+ 804             oData.oFilter.sSearch = "";
+ 805         });
+ 806     });
+ 807 /*------------------------------------------------Columns------------------------------------------------*/
+ 808 /*
+ 809  * aDataSort
+ 810  * 默认为null,自动使用列序号作为默认
+ 811  * 在排序一列的时候同时将其它几列也排序，例如名和姓作为多列排序
+ 812  */
+ 813 // Using aoColumnDefs
+ 814 $(document).ready(function(){
+ 815     $('#example').dataTable({
+ 816         "aoColumnDefs": [
+ 817     { "aDataSort": [ 0, 1 ], "aTargets": [ 0 ] },
+ 818         { "aDataSort": [ 1, 0 ], "aTargets": [ 1 ] },
+ 819         { "aDataSort": [ 2, 3, 4 ], "aTargets": [ 2 ] }
+ 820     ]
+ 821     });
+ 822 });
+ 823 
+ 824 
+ 825 // Using aoColumns
+ 826 $(document).ready(function(){
+ 827     $('#example').dataTable({
+ 828         "aoColumns": [
+ 829     { "aDataSort": [ 0, 1 ] },
+ 830         { "aDataSort": [ 1, 0 ] },
+ 831         { "aDataSort": [ 2, 3, 4 ] },
+ 832         null,
+ 833         null
+ 834         ]
+ 835     });
+ 836 });
+ 837 
+ 838 /*
+ 839  * asSorting
+ 840  * 默认为[ 'asc', 'desc' ] 
+ 841  * 你可以通过该参数控制默认排序的方向，甚至改变排序处理器的行为（例如：只允许升序排序）
+ 842  */
+ 843 // Using aoColumnDefs
+ 844 $(document).ready(function(){
+ 845     $('#example').dataTable({
+ 846         "aoColumnDefs": [
+ 847     { "asSorting": [ "asc" ], "aTargets": [ 1 ] },
+ 848         { "asSorting": [ "desc", "asc", "asc" ], "aTargets": [ 2 ] },
+ 849         { "asSorting": [ "desc" ], "aTargets": [ 3 ] }
+ 850     ]
+ 851     });
+ 852 });
+ 853 
+ 854 
+ 855 // Using aoColumns
+ 856 $(document).ready(function(){
+ 857     $('#example').dataTable( {
+ 858         "aoColumns": [
+ 859         null,
+ 860         { "asSorting": [ "asc" ] },
+ 861         { "asSorting": [ "desc", "asc", "asc" ] },
+ 862         { "asSorting": [ "desc" ] },
+ 863         null
+ 864         ]
+ 865     });
+ 866 });
+ 867 
+ 868 /*
+ 869  * bSearchable
+ 870  * 默认为true
+ 871  * 是否在列上应用过滤
+ 872  */
+ 873 // Using aoColumnDefs
+ 874 $(document).ready(function(){
+ 875     $('#example').dataTable({
+ 876         "aoColumnDefs": [
+ 877     { "bSearchable": false, "aTargets": [ 0 ] }
+ 878     ]} );
+ 879 });
+ 880 
+ 881 
+ 882 // Using aoColumns
+ 883 $(document).ready(function(){
+ 884     $('#example').dataTable({
+ 885         "aoColumns": [
+ 886     { "bSearchable": false },
+ 887         null,
+ 888         null,
+ 889         null,
+ 890         null
+ 891         ] });
+ 892 });
+ 893 
+ 894 /*
+ 895  * bSortable
+ 896  * 默认为true
+ 897  * 是否在某一列上开启排序
+ 898  */
+ 899 // Using aoColumnDefs
+ 900 $(document).ready(function(){
+ 901     $('#example').dataTable({
+ 902         "aoColumnDefs": [
+ 903     { "bSortable": false, "aTargets": [ 0 ] }
+ 904     ] });
+ 905 });
+ 906 
+ 907 
+ 908 // Using aoColumns
+ 909 $(document).ready(function(){
+ 910     $('#example').dataTable( {
+ 911         "aoColumns": [
+ 912     { "bSortable": false },
+ 913         null,
+ 914         null,
+ 915         null,
+ 916         null
+ 917         ] });
+ 918 });
+ 919 
+ 920 /*
+ 921  * bUseRendered
+ 922  * 默认为true
+ 923  * 当对一列使用使用fnRender时，你或许希望使用原始的数据（渲染以前）去排序或者过滤（默认是使用用户看到的渲染过的数据）
+ 924  * 或许对日期类型有些用处，注意，现在建议使用mDataProp作为函数并且使用该函数提供的type参数，来允许不同的数据被用来排序，过滤，展现和类型检测
+ 925  */
+ 926 // Using aoColumnDefs
+ 927 $(document).ready(function() {
+ 928     $('#example').dataTable( {
+ 929         "aoColumnDefs": [
+ 930     {
+ 931         "fnRender": function ( oObj ) {
+ 932             return oObj.aData[0] +' '+ oObj.aData[3];
+ 933         },
+ 934         "bUseRendered": false,
+ 935         "aTargets": [ 0 ]
+ 936     }
+ 937     ]
+ 938     } );
+ 939 } );
+ 940 
+ 941 // Using aoColumns
+ 942 $(document).ready(function() {
+ 943     $('#example').dataTable( {
+ 944         "aoColumns": [
+ 945     {
+ 946         "fnRender": function ( oObj ) {
+ 947             return oObj.aData[0] +' '+ oObj.aData[3];
+ 948         },
+ 949         "bUseRendered": false
+ 950     },
+ 951         null,
+ 952         null,
+ 953         null,
+ 954         null
+ 955         ]
+ 956     } );
+ 957 } );
+ 958 
+ 959 /*
+ 960  * bVisible
+ 961  * 默认值为true
+ 962  * 是否展示某一列
+ 963  */
+ 964 // Using aoColumnDefs
+ 965 $(document).ready(function() {
+ 966     $('#example').dataTable( {
+ 967         "aoColumnDefs": [
+ 968     { "bVisible": false, "aTargets": [ 0 ] }
+ 969     ] } );
+ 970 } );
+ 971 
+ 972 
+ 973 // Using aoColumns
+ 974 $(document).ready(function() {
+ 975     $('#example').dataTable( {
+ 976         "aoColumns": [
+ 977     { "bVisible": false },
+ 978         null,
+ 979         null,
+ 980         null,
+ 981         null
+ 982         ] } );
+ 983 } );
+ 984 
+ 985 /*
+ 986  * fnCreatedCell
+ 987  * 无默认值
+ 988  * 每当新的单元格被建立（Ajax源等）或者处理输入（DOM源）时，开发者可定义的函数会被调用
+ 989  * 该属性用作fnRender的补充来允许你修改在fnRender函数调用之后新建的DOM元素（例如增加背景颜色）
+ 990  */
+ 991 $(document).ready(function() {
+ 992     $('#example').dataTable( {
+ 993         "aoColumnDefs": [ {
+ 994             "aTargets": [3],
+ 995         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+ 996             if ( sData == "1.7" ) {
+ 997                 $(nTd).css('color', 'blue')
+ 998             }
+ 999         }
+1000         } ]
+1001     });
+1002 } );
+1003 
+1004 /*
+1005  * fnRender
+1006  * 无默认值
+1007  * 自定义列中每个单元格被展示的时候调用的展示函数
+1008  */
+1009 // Using aoColumnDefs
+1010 $(document).ready(function() {
+1011     $('#example').dataTable( {
+1012         "aoColumnDefs": [
+1013     {
+1014         "fnRender": function ( o, val ) {
+1015             return o.aData[0] +' '+ o.aData[3];
+1016         },
+1017         "aTargets": [ 0 ]
+1018     }
+1019     ]
+1020     } );
+1021 } );
+1022 
+1023 
+1024 // Using aoColumns
+1025 $(document).ready(function() {
+1026     $('#example').dataTable( {
+1027         "aoColumns": [
+1028     { "fnRender": function ( o, val ) {
+1029                                           return o.aData[0] +' '+ o.aData[3];
+1030                                       } },
+1031         null,
+1032         null,
+1033         null,
+1034         null
+1035         ]
+1036     } );
+1037 } );
+1038 
+1039 /*
+1040  * iDataSort
+1041  * 默认值为-1，使用自动计算的列标
+1042  * 当选择该列进行排序的时候，你希望调用排序操作的列的列号，该参数可以用来按隐藏列排序
+1043  */
+1044 // Using aoColumnDefs
+1045 $(document).ready(function() {
+1046     $('#example').dataTable( {
+1047         "aoColumnDefs": [
+1048     { "iDataSort": 1, "aTargets": [ 0 ] }
+1049     ]
+1050     } );
+1051 } );
+1052 
+1053 // Using aoColumns
+1054 $(document).ready(function() {
+1055     $('#example').dataTable( {
+1056         "aoColumns": [
+1057     { "iDataSort": 1 },
+1058         null,
+1059         null,
+1060         null,
+1061         null
+1062         ]
+1063     } );
+1064 } );
+1065 
+1066 /*
+1067  * mDataProp
+1068  * 默认为null,使用自动计算的列标
+1069  * 该属性可以从任何JSON格式数据源读取属性，包括深层网状的对象和属性，
+1070  * 有几种不同的传递方式可以影响mDataProp的行为
+1071  * 整型：被当作数据源的数组下表，是DataTable使用的默认行为（每列递增）
+1072  * 字符串类型：被当作从数据源获取的对象的属性名，注意你可以使用Javascript点号访问符去访问深层次的属性或数组
+1073  * null：sDafaultContent选项会被使用到单元格上，（默认是空字符串，当生成可编辑列、可删除列的时候可以使用该属性）
+1074  * 函数：当表格获取或者设置单元格时被调用的函数，函数有三个参数
+1075  *      {array|object}:该行的数据源
+1076  *      {string}:调用数据请求的类型，设置数据时是'set'，收集数据时是'filter','display','type','sort'
+1077  *      {*}:当第二个参数是set的时候，要被设置的数据
+1078  *      当类型是'set'的时候，该函数不需要返回一个值，除此之外，返回值是可以用来请求数据的
+1079  */
+1080 // Read table data from objects
+1081 $(document).ready(function() {
+1082     var oTable = $('#example').dataTable( {
+1083         "sAjaxSource": "sources/deep.txt",
+1084         "aoColumns": [
+1085     { "mDataProp": "engine" },
+1086         { "mDataProp": "browser" },
+1087         { "mDataProp": "platform.inner" },
+1088         { "mDataProp": "platform.details.0" },
+1089         { "mDataProp": "platform.details.1" }
+1090     ]
+1091     } );
+1092 } );
+1093 
+1094 
+1095 // Using mDataProp as a function to provide different information for
+1096 // sorting, filtering and display. In this case, currency (price)
+1097 $(document).ready(function() {
+1098     var oTable = $('#example').dataTable( {
+1099         "aoColumnDefs": [
+1100     {
+1101         "aTargets": [ 0 ],
+1102         "mDataProp": function ( source, type, val ) {
+1103             if (type === 'set') {
+1104                 source.price = val;
+1105                 // Store the computed dislay and filter values for efficiency
+1106                 source.price_display = val=="" ? "" : "$"+numberFormat(val);
+1107                 source.price_filter  = val=="" ? "" : "$"+numberFormat(val)+" "+val;
+1108                 return;
+1109             }
+1110             else if (type === 'display') {
+1111                 return source.price_display;
+1112             }
+1113             else if (type === 'filter') {
+1114                 return source.price_filter;
+1115             }
+1116     // 'sort' and 'type' both just use the integer
+1117     return source.price;
+1118         }
+1119     ]
+1120     } );
+1121     } );
+1122 
+1123 /*
+1124  * sClass
+1125  * 默认值为空字符串
+1126  * 该列的每一个单元格被赋予的class
+1127  */
+1128 // Using aoColumnDefs
+1129 $(document).ready(function() {
+1130     $('#example').dataTable( {
+1131         "aoColumnDefs": [
+1132     { "sClass": "my_class", "aTargets": [ 0 ] }
+1133     ]
+1134     } );
+1135 } );
+1136 
+1137 // Using aoColumns
+1138 $(document).ready(function() {
+1139     $('#example').dataTable( {
+1140         "aoColumns": [
+1141     { "sClass": "my_class" },
+1142         null,
+1143         null,
+1144         null,
+1145         null
+1146         ]
+1147     } );
+1148 } );
+1149 
+1150 /*
+1151  * sContentPadding
+1152  * 默认值为空字符串
+1153  * 当DataTable计算分配给每一列的列宽的时候，会寻找每一列中最长的字符串，然后构建一个临时表
+1154  * 从临时表中读取宽度，这样带来的问题是'mmm'会比'iiii'的长度长很多，但是后者的长度要大
+1155  * 这样计算值会出现偏差（正确的处理然后放入DOM对象再测量长度会相当的慢），我们提供了这个选项作为一个解决方法
+1156  * 它会把他的值添加到该列最长的值的后面来计算列宽，通常你不需要该属性，该属性也没有被写到DataTables.net的文档中
+1157  */
+1158 // Using aoColumns
+1159 $(document).ready(function() {
+1160   $('#example').dataTable( {
+1161     "aoColumns": [
+1162       null,
+1163       null,
+1164       null,
+1165       {
+1166         "sContentPadding": "mmm"
+1167       }
+1168     ]
+1169   } );
+1170 } );
+1171 
+1172 /*
+1173  * sDefaultContent
+1174  * 默认为空字符串
+1175  * 允许给列值一个默认值，只要发现null值就会显示默认值
+1176  * 可以由mDataProp设置为null或者数据源是null引起
+1177  */
+1178 // Using aoColumnDefs
+1179 $(document).ready(function() {
+1180     $('#example').dataTable( {
+1181         "aoColumnDefs": [
+1182     {
+1183         "mDataProp": null,
+1184         "sDefaultContent": "Edit",
+1185         "aTargets": [ -1 ]
+1186     }
+1187     ]
+1188     } );
+1189 } );
+1190 
+1191 
+1192 // Using aoColumns
+1193 $(document).ready(function() {
+1194     $('#example').dataTable( {
+1195         "aoColumns": [
+1196         null,
+1197         null,
+1198         null,
+1199         {
+1200             "mDataProp": null,
+1201         "sDefaultContent": "Edit"
+1202         }
+1203     ]
+1204     } );
+1205 } );
+1206 
+1207 /*
+1208  * sName
+1209  * 默认值为空字符串
+1210  * 该参数只有使用在服务器端处理的时候调用，在了解客户端展示了哪些列的时候十分有用
+1211  * 然后与数据库字段建立映射，当被定义时，如果服务器端返回的信息的顺序不是期望的顺序，也可以使用名字去区分
+1212  * 使用这种方式的好处是：用户在客户端交换了列，你的服务器端代码不用更新
+1213  */
+1214 // Using aoColumnDefs
+1215 $(document).ready(function() {
+1216     $('#example').dataTable( {
+1217         "aoColumnDefs": [
+1218     { "sName": "engine", "aTargets": [ 0 ] },
+1219         { "sName": "browser", "aTargets": [ 1 ] },
+1220         { "sName": "platform", "aTargets": [ 2 ] },
+1221         { "sName": "version", "aTargets": [ 3 ] },
+1222         { "sName": "grade", "aTargets": [ 4 ] }
+1223     ]
+1224     } );
+1225 } );
+1226 
+1227 
+1228 // Using aoColumns
+1229 $(document).ready(function() {
+1230     $('#example').dataTable( {
+1231         "aoColumns": [
+1232     { "sName": "engine" },
+1233         { "sName": "browser" },
+1234         { "sName": "platform" },
+1235         { "sName": "version" },
+1236         { "sName": "grade" }
+1237     ]
+1238     } );
+1239 } );
+1240 
+1241 /*
+1242  * sSortDataType
+1243  * 默认值为std
+1244  * 为排序操作定义可以用来在排序前读取实时表格信息（更新内部缓存版本）的数据源的类型
+1245  * 允许排序事件发生在用户可编辑的元素上，例如输入框
+1246  */
+1247 // Using aoColumnDefs
+1248 $(document).ready(function() {
+1249     $('#example').dataTable( {
+1250         "aoColumnDefs": [
+1251     { "sSortDataType": "dom-text", "aTargets": [ 2, 3 ] },
+1252         { "sType": "numeric", "aTargets": [ 3 ] },
+1253         { "sSortDataType": "dom-select", "aTargets": [ 4 ] },
+1254         { "sSortDataType": "dom-checkbox", "aTargets": [ 5 ] }
+1255     ]
+1256     } );
+1257 } );
+1258 
+1259 
+1260 // Using aoColumns
+1261 $(document).ready(function() {
+1262     $('#example').dataTable( {
+1263         "aoColumns": [
+1264         null,
+1265         null,
+1266         { "sSortDataType": "dom-text" },
+1267         { "sSortDataType": "dom-text", "sType": "numeric" },
+1268         { "sSortDataType": "dom-select" },
+1269         { "sSortDataType": "dom-checkbox" }
+1270     ]
+1271     } );
+1272 } );
+1273 
+1274 /*
+1275  * sTitle
+1276  * 默认值为null,从TH标签读取
+1277  * 列名
+1278  */
+1279 // Using aoColumnDefs
+1280 $(document).ready(function() {
+1281     $('#example').dataTable( {
+1282         "aoColumnDefs": [
+1283     { "sTitle": "My column title", "aTargets": [ 0 ] }
+1284     ]
+1285     } );
+1286 } );
+1287 
+1288 
+1289 // Using aoColumns
+1290 $(document).ready(function() {
+1291     $('#example').dataTable( {
+1292         "aoColumns": [
+1293     { "sTitle": "My column title" },
+1294         null,
+1295         null,
+1296         null,
+1297         null
+1298         ]
+1299     } );
+1300 } );
+1301 
+1302 /*
+1303  * sType
+1304  * 默认值为null,从弱引用数据中自动判断
+1305  * 允许你指定该列数据按什么类型来排序，目前有四种类型（字符串，数字，日期和html（在排序前会自动除去HTML标记））可选
+1306  * 注意只有能够被Javascript的Date对象接受的格式化日期字符串才会被当作日期类型接受，例如"Mar 26, 2008 5:03 PM"
+1307  * 默认是使用html类型，更多类型可以通过插件添加
+1308  */
+1309 // Using aoColumnDefs
+1310 $(document).ready(function() {
+1311     $('#example').dataTable( {
+1312         "aoColumnDefs": [
+1313     { "sType": "html", "aTargets": [ 0 ] }
+1314     ]
+1315     } );
+1316 } );
+1317 
+1318 
+1319 // Using aoColumns
+1320 $(document).ready(function() {
+1321     $('#example').dataTable( {
+1322         "aoColumns": [
+1323     { "sType": "html" },
+1324         null,
+1325         null,
+1326         null,
+1327         null
+1328         ]
+1329     } );
+1330 } );
+1331 
+1332 /*
+1333  * sWidth
+1334  * 默认值为null,自动的
+1335  * 定义列的宽度，该参数可以接受CSS定义（3em,20px等），DataTable对没有通过该接口指定宽度的列使用灵活宽度
+1336  * 从而保证表格是可被读的
+1337  */
+1338 // Using aoColumnDefs
+1339 $(document).ready(function() {
+1340     $('#example').dataTable( {
+1341         "aoColumnDefs": [
+1342     { "sWidth": "20%", "aTargets": [ 0 ] }
+1343     ]
+1344     } );
+1345 } );
+1346 
+1347 
+1348 // Using aoColumns
+1349 $(document).ready(function() {
+1350     $('#example').dataTable( {
+1351         "aoColumns": [
+1352     { "sWidth": "20%" },
+1353         null,
+1354         null,
+1355         null,
+1356         null
+1357         ]
+1358     } );
+1359 } );
+1360 /*------------------------------------------------ServerSide------------------------------------------------*/
+1361 /*
+1362  * bServerSide
+1363  * 默认值false
+1364  * 配置使用服务器端处理的DataTable，注意sAjaxSource参数必须指定，以便给DataTable一个获取每行数据的数据源
+1365  */
+1366 $(document).ready( function () {
+1367     $('#example').dataTable( {
+1368         "bServerSide": true,
+1369         "sAjaxSource": "xhr.php"
+1370     } );
+1371 } );
+1372 /*
+1373  * fnServerData
+1374  * 无默认值
+1375  * 你可以使用该参数重写从服务器获取数据的方法（$.getJSON）,从而使其更适合你的应用
+1376  * 例如你可以使用POST方式提交，或者从Google Gears或者AIR数据库获取数据
+1377  */
+1378 // POST data to server
+1379 $(document).ready(function() {
+1380     $('#example').dataTable( {
+1381         "bProcessing": true,
+1382         "bServerSide": true,
+1383         "sAjaxSource": "xhr.php",
+1384         "fnServerData": function ( sSource, aoData, fnCallback ) {
+1385             $.ajax( {
+1386                 "dataType": 'json',
+1387             "type": "POST",
+1388             "url": sSource,
+1389             "data": aoData,
+1390             "success": fnCallback
+1391             } );
+1392         }
+1393     } );
+1394 } );
+1395 /*
+1396  * fnServerParams
+1397  * 无默认值
+1398  * 用来在向服务器发送Ajax请求时发送额外的数据，例如自定义的过滤信息，该函数使向服务器发送额外参数变得简单
+1399  * 传递进来的参数是DataTable建立的数据集合，你可以根据需要添加或者修改该集合
+1400  */
+1401 $(document).ready(function() {
+1402     $('#example').dataTable( {
+1403         "bProcessing": true,
+1404         "bServerSide": true,
+1405         "sAjaxSource": "scripts/server_processing.php",
+1406         "fnServerParams": function ( aoData ) {
+1407             aoData.push( { "name": "more_data", "value": "my_value" } );
+1408         }
+1409     } );
+1410 } );
+1411 /*
+1412  * sAjaxDataProp
+1413  * 默认为aaData
+1414  * 当使用Ajax数据源或者服务器端处理的时候，DataTable会默认搜索aaData属性作为数据源
+1415  * 该选项允许变更数据源的名称，你可以使用JavaScript的点号对象表示法去访问多级网状数据源
+1416  */
+1417 // Get data from { "data": [...] }
+1418 $(document).ready(function() {
+1419     var oTable = $('#example').dataTable( {
+1420         "sAjaxSource": "sources/data.txt",
+1421         "sAjaxDataProp": "data"
+1422     } );
+1423 } );
+1424 
+1425 
+1426 // Get data from { "data": { "inner": [...] } }
+1427 $(document).ready(function() {
+1428     var oTable = $('#example').dataTable( {
+1429         "sAjaxSource": "sources/data.txt",
+1430         "sAjaxDataProp": "data.inner"
+1431     } );
+1432 } );
+1433 /*
+1434  * sAjaxSource
+1435  * 默认为null
+1436  * 该参数用来向DataTable指定加载的外部数据源（如果想使用现有的数据，请使用aData）
+1437  * 可以简单的提供一个可以用来获得数据url或者JSON对象，该对象必须包含aaData，作为表格的数据源
+1438  */
+1439 $(document).ready(function(){
+1440   $('#example').dataTable( {
+1441     "sAjaxSource": "http://www.sprymedia.co.uk/dataTables/json.php"
+1442   });
+1443 })
+1444 /*
+1445  * sServerMethod
+1446  * 默认值为GET
+1447  * 设置使用Ajax方式调用的服务器端的处理方法或者Ajax数据源的HTTP请求方式
+1448  */
+1449 $(document).ready(function(){
+1450     $('#example').dataTable({
+1451         "bServerSide": true,
+1452         "sAjaxSource": "scripts/post.php",
+1453         "sServerMethod": "POST"
+1454     });
+1455 });

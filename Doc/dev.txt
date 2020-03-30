@@ -1,0 +1,30 @@
+
+;顺序很重要  
+;index.php/list/test/abc--->index.php/index/index/index/name/test/value/abc  
+routes.regex.type="regex"  
+routes.regex.match="#^list/([^/]*)/([^/]*)#"  
+routes.regex.route.controller=Index  
+routes.regex.route.action=action  
+routes.regex.map.1=name  
+routes.regex.map.2=value  
+  
+  ;index.php?m=m&c=c&a=a&test=555--->index.php/m/c/a/test/555  
+  routes.simple.type="simple"  
+  routes.simple.module=m  
+  routes.simple.controller=c  
+  routes.simple.action=a  
+    
+    ;index.php?r=m/c/a&test=555--->index.php/m/c/a/test/555  
+    routes.supervar.type="supervar"  
+    routes.supervar.varname=r  
+    ;默认的Yaf_Application  
+    ;将会读取此节配置  
+      
+      ;补充路由定义  
+      ;index.php/product/test/555--->index.php/index/product/info/name/test/value/555  
+      routes.rewrite.type="rewrite"  
+      ;routes.rewrite.match="/product/:name/:value"  
+      routes.rewrite.match="/product/:ident/*"  
+      routes.rewrite.route.module=user  
+      routes.rewrite.route.controller=index  
+      routes.rewrite.route.action=index  

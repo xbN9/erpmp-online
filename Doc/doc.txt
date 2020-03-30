@@ -1,0 +1,28 @@
+doctrine
+
+    /*
+    1 使用EntityManager直接进行find查询
+    2 使用DQL进行createQuery($dql)进行查询
+    3 使用QueryBuilder进行拼装dql查询
+    4 使用Repository进行查询
+    5 使用原生的sql进行createNativeQuery($sql)进行查询
+     */
+
+    //我们不免调试的时候要取出sql和dql语句。我们可以使用
+    //$query->getDQL()
+    //$query->getSQL()
+
+
+返回结果可选择结果集
+    $result = $query->getResult();
+    $single = $query->getSingleResult();
+    $array = $query->getArrayResult();
+    $scalar = $query->getScalarResult();
+    $singleScalar = $query->getSingleScalarResult();
+
+设置多个参数绑定
+
+$query->setParameters(['sgrade' => $id,]);
+
+设置单个参数绑定
+$query->setParameters('sgrade',$id);

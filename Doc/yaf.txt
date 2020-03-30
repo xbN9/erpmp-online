@@ -1,0 +1,55 @@
+所有的实例全在  $this->getRequest()  中
+获取服务器及环境信息
+
+getServer() //获取服务器变量信息，类似$_SERVER
+getEvn() //获取环境变量信息，类似$_ENV
+getLanguage() //获取客户端的语言信息，返回类似 "zh-CN"
+
+获取请求参数
+
+get('name') //获取参数(不仅仅是get方法，也可以是post方法)，没有返回NULL,需要传入一个参数名，字符串形式，也只能获取到单个的参数
+getPost() //获取post参数，
+getQuery() //获取url地址及参数,不需要传入参数 /User/User/index/name/huyouheng/age/23
+getParam('name') //得到指定的参数
+getParams() //得到传入的所有参数
+getRequestUri() //得到请求的url,其实得到的和 getQuery()一致的
+getMethod() //得到请求的方法
+getFiles() //上传的文件
+
+请求类型相关
+
+isCli() //是否是命令行
+isGet() //是否get请求，返回bool
+isPost()
+isPut()
+isHead()
+isOptions
+isXmlHttpRequest() //是否是ajax请求
+
+请求分发相关
+
+getModuleName:获取当前模块名称
+getControllerName:获取当前控制器名称
+getActionName:获取当前操作名称
+getException:获取当前请求异常对象
+isDispatched:是否已经分发请求
+isRouted:是否已经将路由规则进行匹配
+————
+
+响应 全在 $this->getResponse()中
+设置响应信息
+
+setHeader:设置响应头信息
+setAllHeaders:批量设置响应头
+setBody:设置响应体信息
+appendBody:在现在的body后面添加新的响应体
+prependBody:在现在的body前面添加新的响应体
+clearHeaders:清除头部的设置
+clearBody:清除响应体的设置
+setRedirect('http://www.baidu.com') //设置重定向
+
+获取响应信息：获取设置的响应信息
+
+getHeader:获取某个响应头信息
+getBody:获取响应体信息
+
